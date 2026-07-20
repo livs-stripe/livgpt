@@ -22,20 +22,23 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { formatPrice } from "@/lib/parse-product"
+import { getSellerPublishableKey } from "@/lib/seller-keys"
 import type { ProductResult } from "@/lib/types"
 
-const SELLER_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_SELLER_PUBLISHABLE_KEY
-
-// Initialize Stripe.js with the SELLER's publishable key + the required beta flag.
-let stripePromise: Promise<Stripe | null> | null = null
-function getStripePromise() {
-  if (!SELLER_PUBLISHABLE_KEY) return null
-  if (!stripePromise) {
-    stripePromise = loadStripe(SELLER_PUBLISHABLE_KEY, {
+// Initialize Stripe.js with the SELLER's publishable key + the required beta
+// flag. Cached per publishable key so each connected merchant gets its own
+// Stripe instance (a product's seller determines which key is used).
+const stripePromises = new Map<string, Promise<Stripe | null>>()
+function getStripePromise(publishableKey: string | undefined) {
+  if (!publishableKey) return null
+  let promise = stripePromises.get(publishableKey)
+  if (!promise) {
+    promise = loadStripe(publishableKey, {
       betas: ["prepare_payment_method_beta_1"],
     } as never)
+    stripePromises.set(publishableKey, promise)
   }
-  return stripePromise
+  return promise
 }
 
 type CheckoutPanelProps = {
@@ -59,7 +62,8 @@ export function CheckoutPanel({
     if (open) setQuantity(1)
   }, [open, product?.id])
 
-  const stripe = getStripePromise()
+  const publishableKey = getSellerPublishableKey(product?.sellerId)
+  const stripe = getStripePromise(publishableKey)
   const subtotal = product ? product.price * quantity : 0
 
   const elementsOptions = useMemo(
@@ -143,7 +147,11 @@ function MissingKeyNotice() {
       <Lock className="mx-auto mb-3 size-6" />
       <p className="font-medium text-foreground">Stripe is not configured</p>
       <p className="mt-1">
-        Set{" "}
+        No publishable key found for this seller. Set{" "}
+        <code className="rounded bg-muted px-1 py-0.5 text-xs">
+          NEXT_PUBLIC_SELLER_PUBLISHABLE_KEYS
+        </code>{" "}
+        (a JSON map of seller profile id → key) or{" "}
         <code className="rounded bg-muted px-1 py-0.5 text-xs">
           NEXT_PUBLIC_SELLER_PUBLISHABLE_KEY
         </code>{" "}

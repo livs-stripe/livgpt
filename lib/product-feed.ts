@@ -193,9 +193,43 @@ async function getBuffer(sftp: SftpClient, path: string): Promise<Buffer> {
   return Buffer.from(data as unknown as Uint8Array)
 }
 
+/** Downloads + parses CSV shards, stamping each product with the given seller. */
+async function ingestShards(
+  sftp: SftpClient,
+  shardPaths: string[],
+  sellerProfileId: string,
+  products: CatalogProduct[],
+  seen: Set<string>,
+): Promise<void> {
+  for (const path of shardPaths) {
+    const raw = await getBuffer(sftp, path)
+    const csvText = path.endsWith(".gz")
+      ? gunzipSync(raw).toString("utf8")
+      : raw.toString("utf8")
+
+    const rows = parseCsv(csvText, {
+      columns: true,
+      skip_empty_lines: true,
+      relax_column_count: true,
+      trim: true,
+    }) as Record<string, string>[]
+
+    for (const row of rows) {
+      const product = rowToProduct(row, sellerProfileId)
+      // Dedupe per seller so two merchants can reuse the same feed id.
+      const key = `${product?.sellerId ?? ""}:${product?.id ?? ""}`
+      if (product && !seen.has(key)) {
+        seen.add(key)
+        products.push(product)
+      }
+    }
+  }
+}
+
 async function downloadFeed(config: FeedConfig): Promise<CatalogProduct[]> {
   const sftp = new SftpClient()
-  const sellerProfileId = process.env.SELLER_PROFILE_ID ?? ""
+  // Used only when a feed has no manifest (raw CSVs) to attribute a seller.
+  const fallbackSellerId = process.env.SELLER_PROFILE_ID ?? ""
 
   try {
     await sftp.connect({
@@ -234,52 +268,49 @@ async function downloadFeed(config: FeedConfig): Promise<CatalogProduct[]> {
   try {
     const files = await listFiles(sftp, config.remotePath)
 
-    // Prefer the most recent manifest; fall back to raw .csv(.gz) files.
-    const manifests = files
+    // Each seller's feed arrives as its own manifest carrying that seller's
+    // stripe_profile_id. Process every manifest (newest batch per seller wins)
+    // so products from all connected merchants are ingested and correctly
+    // attributed. Fall back to raw .csv(.gz) files if no manifests exist.
+    const manifestFiles = files
       .filter((f) => /manifest.*\.json$|\.manifest\.json$/i.test(f.path))
       .sort((a, b) => b.modified - a.modified)
 
-    let shardPaths: string[] = []
+    const products: CatalogProduct[] = []
+    const seen = new Set<string>()
+    const processedSellers = new Set<string>()
+    let usedManifest = false
 
-    if (manifests.length > 0) {
-      const manifestBuf = await getBuffer(sftp, manifests[0].path)
-      const manifest = JSON.parse(manifestBuf.toString("utf8")) as Manifest
-      const dir = manifests[0].path.replace(/\/[^/]+$/, "")
-      shardPaths = (manifest.files ?? []).map((f) =>
+    for (const manifestFile of manifestFiles) {
+      let manifest: Manifest
+      try {
+        const manifestBuf = await getBuffer(sftp, manifestFile.path)
+        manifest = JSON.parse(manifestBuf.toString("utf8")) as Manifest
+      } catch {
+        continue
+      }
+
+      const sellerId = manifest.stripe_profile_id || fallbackSellerId
+      // Skip older batches for a seller we've already loaded (newest wins).
+      if (sellerId && processedSellers.has(sellerId)) continue
+
+      const dir = manifestFile.path.replace(/\/[^/]+$/, "")
+      const shardPaths = (manifest.files ?? []).map((f) =>
         f.name.includes("/") ? f.name : `${dir}/${f.name}`,
       )
+      if (shardPaths.length === 0) continue
+
+      await ingestShards(sftp, shardPaths, sellerId, products, seen)
+      if (sellerId) processedSellers.add(sellerId)
+      usedManifest = true
     }
 
-    if (shardPaths.length === 0) {
-      shardPaths = files
+    if (!usedManifest) {
+      const shardPaths = files
         .filter((f) => /\.csv\.gz$|\.csv$/i.test(f.path))
         .sort((a, b) => b.modified - a.modified)
         .map((f) => f.path)
-    }
-
-    const products: CatalogProduct[] = []
-    const seen = new Set<string>()
-
-    for (const path of shardPaths) {
-      const raw = await getBuffer(sftp, path)
-      const csvText = path.endsWith(".gz")
-        ? gunzipSync(raw).toString("utf8")
-        : raw.toString("utf8")
-
-      const rows = parseCsv(csvText, {
-        columns: true,
-        skip_empty_lines: true,
-        relax_column_count: true,
-        trim: true,
-      }) as Record<string, string>[]
-
-      for (const row of rows) {
-        const product = rowToProduct(row, sellerProfileId)
-        if (product && !seen.has(product.id)) {
-          seen.add(product.id)
-          products.push(product)
-        }
-      }
+      await ingestShards(sftp, shardPaths, fallbackSellerId, products, seen)
     }
 
     return products
