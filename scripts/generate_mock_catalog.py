@@ -63,6 +63,20 @@ COLORS = [
     "Sky Blue", "Burgundy", "Olive", "Blush Pink", "Cream", "Terracotta",
 ]
 
+# Colors used to vary the 3 generated images within a sub-category.
+IMAGE_COLORS = [
+    "black", "white", "sand beige", "forest green", "navy", "terracotta",
+    "slate gray", "cream", "olive", "blush pink",
+]
+
+# Composition / camera direction rotated across a sub-category's 3 variants so
+# they read as different catalog shots rather than duplicates.
+COMPOSITIONS = [
+    "centered straight-on hero shot, seamless studio backdrop, even softbox lighting",
+    "dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow",
+    "tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture",
+]
+
 
 # ---------------------------------------------------------------------------
 # Sub-category definitions. `noun` values combine with adjectives to make names.
@@ -92,7 +106,7 @@ MERCHANTS = [
         "name": "Northwind Apparel",
         "profile_id": "profile_northwind_apparel",
         "brands": ["Northwind", "Northwind Studio", "NW Active"],
-        "style": "clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop",
+        "style": "premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling",
         "subcats": [
             subcat("tshirts", "T-Shirts & Tops", "Apparel & Accessories > Clothing > Shirts & Tops", "Apparel > Tops > T-Shirts", (18, 42), ["Crew Tee", "V-Neck Tee", "Pocket Tee", "Long-Sleeve Tee", "Henley"], ["Organic Cotton", "Cotton Blend", "Linen"], sized=True, theme="wardrobe basics"),
             subcat("hoodies", "Hoodies & Sweatshirts", "Apparel & Accessories > Clothing > Outerwear", "Apparel > Tops > Hoodies", (48, 98), ["Pullover Hoodie", "Zip Hoodie", "Crewneck Sweatshirt", "Fleece Hoodie"], ["French Terry", "Brushed Fleece", "Cotton Blend"], sized=True, theme="cozy streetwear"),
@@ -111,7 +125,7 @@ MERCHANTS = [
         "name": "Harbor & Home",
         "profile_id": "profile_harbor_and_home",
         "brands": ["Harbor & Home", "Harbor Living", "Hearthstone"],
-        "style": "warm cozy home goods photography, styled interior, soft window light, hygge aesthetic",
+        "style": "warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette",
         "subcats": [
             subcat("candles", "Candles", "Home & Garden > Decor > Home Fragrances > Candles", "Home > Fragrance > Candles", (18, 52), ["Soy Candle", "3-Wick Candle", "Travel Tin Candle", "Wood-Wick Candle"], ["Soy Wax", "Coconut Wax"], has_color=False, overlap=True, theme="scented home fragrance"),
             subcat("mugs", "Mugs & Drinkware", "Home & Garden > Kitchen & Dining > Tableware > Drinkware", "Drinkware > Mugs", (14, 44), ["Ceramic Mug", "Stoneware Mug Set", "Espresso Cup Set", "Enamel Mug"], ["Stoneware", "Ceramic"], overlap=True, theme="handmade drinkware"),
@@ -130,7 +144,7 @@ MERCHANTS = [
         "name": "VoltEdge Electronics",
         "profile_id": "profile_voltedge_electronics",
         "brands": ["VoltEdge", "VoltEdge Pro", "Edge Audio"],
-        "style": "sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget",
+        "style": "sleek premium consumer-tech brand aesthetic, dark charcoal gradient backdrop with cool cyan accent lighting, glossy reflective surface, crisp high-contrast studio lighting, futuristic flagship-product mood",
         "subcats": [
             subcat("earbuds", "Wireless Earbuds", "Electronics > Audio > Audio Components > Headphones", "Audio > Earbuds", (49, 199), ["Wireless Earbuds", "Noise-Cancelling Earbuds", "Open-Ear Buds", "Sport Earbuds"], ["Matte Polymer"], overlap=True, theme="true wireless audio"),
             subcat("headphones", "Headphones", "Electronics > Audio > Audio Components > Headphones", "Audio > Headphones", (79, 349), ["Over-Ear Headphones", "Studio Headphones", "ANC Headphones"], ["Aluminum & Leather"], overlap=True, theme="over-ear audio"),
@@ -149,7 +163,7 @@ MERCHANTS = [
         "name": "Lumen Beauty",
         "profile_id": "profile_lumen_beauty",
         "brands": ["Lumen", "Lumen Skin", "Lumen Ritual"],
-        "style": "elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics",
+        "style": "elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood",
         "subcats": [
             subcat("skincare", "Skincare", "Health & Beauty > Personal Care > Cosmetics > Skin Care", "Beauty > Skincare", (18, 92), ["Vitamin C Serum", "Hydrating Moisturizer", "Retinol Night Cream", "Gentle Cleanser", "Eye Cream"], ["Formula"], has_color=False, theme="glass-bottle skincare"),
             subcat("sunscreen", "Sunscreen", "Health & Beauty > Personal Care > Cosmetics > Skin Care > Sunscreen", "Beauty > Sunscreen", (16, 44), ["SPF 50 Daily Fluid", "Mineral Sunscreen", "Tinted SPF Cream", "Sport Sunscreen Stick"], ["Formula"], has_color=False, overlap=True, theme="sun care"),
@@ -168,7 +182,7 @@ MERCHANTS = [
         "name": "Summit Outdoors",
         "profile_id": "profile_summit_outdoors",
         "brands": ["Summit", "Summit Trail", "Summit Peak"],
-        "style": "rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight",
+        "style": "rugged premium outdoor-gear brand aesthetic, natural granite rock and weathered wood surfaces with soft blurred mountain-trail background, crisp golden-hour daylight, adventurous authentic mood",
         "subcats": [
             subcat("bottles", "Water Bottles & Hydration", "Home & Garden > Kitchen & Dining > Food & Beverage Carriers > Water Bottles", "Drinkware > Water Bottles", (24, 58), ["Insulated Bottle", "Hydration Flask", "Collapsible Bottle", "Wide-Mouth Bottle"], ["Stainless Steel", "BPA-Free Plastic"], overlap=True, theme="trail hydration"),
             subcat("backpacks", "Backpacks & Daypacks", "Luggage & Bags > Backpacks", "Bags > Daypacks", (58, 219), ["Hiking Daypack", "Hydration Pack", "Summit Backpack", "Travel Pack"], ["Ripstop Nylon"], overlap=True, theme="hiking packs"),
@@ -263,10 +277,21 @@ def gen_merchant(m):
     remainder = PRODUCTS_PER_MERCHANT - per_subcat * len(m["subcats"])
     mprefix = "".join(w[0] for w in m["slug"].split("-")).upper()
 
-    # Pre-register the 3 images per sub-category.
+    # Pre-register the 3 images per sub-category, each a distinct product /
+    # color / composition so the variants don't look duplicated.
     for sc in m["subcats"]:
         for k in range(1, IMAGES_PER_SUBCAT + 1):
             fname = f"{sc['slug']}-{k}.png"
+            noun = sc["nouns"][(k - 1) % len(sc["nouns"])]
+            comp = COMPOSITIONS[(k - 1) % len(COMPOSITIONS)]
+            material = sc["materials"][(k - 1) % len(sc["materials"])]
+            mat_bit = ""
+            if material not in ("Standard", "Formula", "Blend", "Assorted"):
+                mat_bit = f" in {material.lower()}"
+            color = ""
+            if sc["has_color"]:
+                color = IMAGE_COLORS[(hash(sc["slug"]) + k) % len(IMAGE_COLORS)]
+            color_bit = f"{color.lower()} " if color else ""
             image_specs.append({
                 "merchant": m["slug"],
                 "subcategory": sc["slug"],
@@ -274,9 +299,12 @@ def gen_merchant(m):
                 "path": f"public/mock-catalog/images/{m['slug']}/{fname}",
                 "web_path": f"{IMAGE_WEB_BASE}/{m['slug']}/{fname}",
                 "prompt": (
-                    f"Product photo of a {sc['name'].lower()} item ({sc['theme']}) "
-                    f"for the brand {m['name']}. {m['style']}. "
-                    f"Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+                    f"Professional studio product photograph of a single {color_bit}"
+                    f"{noun.lower()}{mat_bit}, styled for the brand {m['name']} "
+                    f"({sc['theme']}). {m['style']}. {comp}. "
+                    f"Photorealistic, high-end e-commerce catalog photography, "
+                    f"tack-sharp focus, natural material texture, subtle soft shadow, "
+                    f"no text, no brand logos, no watermark, no people."
                 ),
             })
 
