@@ -25,6 +25,33 @@ type CatalogResponse = {
   products: CatalogProduct[]
 }
 
+type FeedNotice = { tone: "info" | "error"; message: string }
+
+/**
+ * Explains *why* the catalog is empty using the fields the API already returns,
+ * instead of always showing the generic "still syncing" message. This surfaces
+ * misconfiguration and connection errors that were previously swallowed.
+ */
+function getFeedNotice(catalog: CatalogResponse): FeedNotice | null {
+  if (catalog.count > 0) return null
+  if (!catalog.configured) {
+    return {
+      tone: "error",
+      message:
+        catalog.error ??
+        "The product feed isn't configured. Set the SFTP_* environment variables in the Vercel project.",
+    }
+  }
+  if (catalog.error) {
+    return { tone: "error", message: catalog.error }
+  }
+  return {
+    tone: "info",
+    message:
+      "The store catalog is still syncing from the seller's Stripe product feed. Check back shortly once products arrive.",
+  }
+}
+
 /** Builds friendly starter prompts from whatever the seller actually sells. */
 function buildSuggestions(products: CatalogProduct[]): string[] {
   if (products.length === 0) return FALLBACK_SUGGESTIONS
@@ -59,6 +86,7 @@ export function ChatThread({
   })
   const suggestions = buildSuggestions(catalog?.products ?? [])
   const feedEmpty = catalog ? catalog.count === 0 : false
+  const feedNotice = catalog ? getFeedNotice(catalog) : null
 
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({ api: "/api/chat" }),
@@ -104,13 +132,16 @@ export function ChatThread({
                   catalog and help you check out.
                 </p>
               </div>
-              {feedEmpty ? (
-                <div className="flex max-w-md items-start gap-2 rounded-lg border border-border bg-card px-3 py-2.5 text-left text-sm text-muted-foreground">
-                  <AlertCircle className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
-                  <span>
-                    The store catalog is still syncing from the seller&apos;s
-                    Stripe product feed. Check back shortly once products arrive.
-                  </span>
+              {feedEmpty && feedNotice ? (
+                <div
+                  className={`flex max-w-md items-start gap-2 rounded-lg border px-3 py-2.5 text-left text-sm ${
+                    feedNotice.tone === "error"
+                      ? "border-destructive/40 bg-destructive/10 text-destructive"
+                      : "border-border bg-card text-muted-foreground"
+                  }`}
+                >
+                  <AlertCircle className="mt-0.5 size-4 shrink-0" />
+                  <span>{feedNotice.message}</span>
                 </div>
               ) : (
                 <div className="grid w-full max-w-md grid-cols-1 gap-2 sm:grid-cols-2">
