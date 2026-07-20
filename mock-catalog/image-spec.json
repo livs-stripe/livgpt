@@ -1,0 +1,1202 @@
+[
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "tshirts",
+    "filename": "tshirts-1.png",
+    "path": "public/mock-catalog/images/northwind-apparel/tshirts-1.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/tshirts-1.png",
+    "prompt": "Product photo of a t-shirts & tops item (wardrobe basics) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "tshirts",
+    "filename": "tshirts-2.png",
+    "path": "public/mock-catalog/images/northwind-apparel/tshirts-2.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/tshirts-2.png",
+    "prompt": "Product photo of a t-shirts & tops item (wardrobe basics) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "tshirts",
+    "filename": "tshirts-3.png",
+    "path": "public/mock-catalog/images/northwind-apparel/tshirts-3.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/tshirts-3.png",
+    "prompt": "Product photo of a t-shirts & tops item (wardrobe basics) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "hoodies",
+    "filename": "hoodies-1.png",
+    "path": "public/mock-catalog/images/northwind-apparel/hoodies-1.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/hoodies-1.png",
+    "prompt": "Product photo of a hoodies & sweatshirts item (cozy streetwear) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "hoodies",
+    "filename": "hoodies-2.png",
+    "path": "public/mock-catalog/images/northwind-apparel/hoodies-2.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/hoodies-2.png",
+    "prompt": "Product photo of a hoodies & sweatshirts item (cozy streetwear) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "hoodies",
+    "filename": "hoodies-3.png",
+    "path": "public/mock-catalog/images/northwind-apparel/hoodies-3.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/hoodies-3.png",
+    "prompt": "Product photo of a hoodies & sweatshirts item (cozy streetwear) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "activewear",
+    "filename": "activewear-1.png",
+    "path": "public/mock-catalog/images/northwind-apparel/activewear-1.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/activewear-1.png",
+    "prompt": "Product photo of a activewear item (athleisure) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "activewear",
+    "filename": "activewear-2.png",
+    "path": "public/mock-catalog/images/northwind-apparel/activewear-2.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/activewear-2.png",
+    "prompt": "Product photo of a activewear item (athleisure) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "activewear",
+    "filename": "activewear-3.png",
+    "path": "public/mock-catalog/images/northwind-apparel/activewear-3.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/activewear-3.png",
+    "prompt": "Product photo of a activewear item (athleisure) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "hats",
+    "filename": "hats-1.png",
+    "path": "public/mock-catalog/images/northwind-apparel/hats-1.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/hats-1.png",
+    "prompt": "Product photo of a hats & caps item (everyday headwear) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "hats",
+    "filename": "hats-2.png",
+    "path": "public/mock-catalog/images/northwind-apparel/hats-2.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/hats-2.png",
+    "prompt": "Product photo of a hats & caps item (everyday headwear) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "hats",
+    "filename": "hats-3.png",
+    "path": "public/mock-catalog/images/northwind-apparel/hats-3.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/hats-3.png",
+    "prompt": "Product photo of a hats & caps item (everyday headwear) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "sunglasses",
+    "filename": "sunglasses-1.png",
+    "path": "public/mock-catalog/images/northwind-apparel/sunglasses-1.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/sunglasses-1.png",
+    "prompt": "Product photo of a sunglasses item (lifestyle eyewear) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "sunglasses",
+    "filename": "sunglasses-2.png",
+    "path": "public/mock-catalog/images/northwind-apparel/sunglasses-2.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/sunglasses-2.png",
+    "prompt": "Product photo of a sunglasses item (lifestyle eyewear) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "sunglasses",
+    "filename": "sunglasses-3.png",
+    "path": "public/mock-catalog/images/northwind-apparel/sunglasses-3.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/sunglasses-3.png",
+    "prompt": "Product photo of a sunglasses item (lifestyle eyewear) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "backpacks",
+    "filename": "backpacks-1.png",
+    "path": "public/mock-catalog/images/northwind-apparel/backpacks-1.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/backpacks-1.png",
+    "prompt": "Product photo of a backpacks & bags item (commuter bags) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "backpacks",
+    "filename": "backpacks-2.png",
+    "path": "public/mock-catalog/images/northwind-apparel/backpacks-2.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/backpacks-2.png",
+    "prompt": "Product photo of a backpacks & bags item (commuter bags) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "backpacks",
+    "filename": "backpacks-3.png",
+    "path": "public/mock-catalog/images/northwind-apparel/backpacks-3.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/backpacks-3.png",
+    "prompt": "Product photo of a backpacks & bags item (commuter bags) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "bottles",
+    "filename": "bottles-1.png",
+    "path": "public/mock-catalog/images/northwind-apparel/bottles-1.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/bottles-1.png",
+    "prompt": "Product photo of a water bottles item (branded hydration) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "bottles",
+    "filename": "bottles-2.png",
+    "path": "public/mock-catalog/images/northwind-apparel/bottles-2.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/bottles-2.png",
+    "prompt": "Product photo of a water bottles item (branded hydration) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "bottles",
+    "filename": "bottles-3.png",
+    "path": "public/mock-catalog/images/northwind-apparel/bottles-3.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/bottles-3.png",
+    "prompt": "Product photo of a water bottles item (branded hydration) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "socks",
+    "filename": "socks-1.png",
+    "path": "public/mock-catalog/images/northwind-apparel/socks-1.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/socks-1.png",
+    "prompt": "Product photo of a socks & accessories item (everyday accessories) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "socks",
+    "filename": "socks-2.png",
+    "path": "public/mock-catalog/images/northwind-apparel/socks-2.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/socks-2.png",
+    "prompt": "Product photo of a socks & accessories item (everyday accessories) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "socks",
+    "filename": "socks-3.png",
+    "path": "public/mock-catalog/images/northwind-apparel/socks-3.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/socks-3.png",
+    "prompt": "Product photo of a socks & accessories item (everyday accessories) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "jackets",
+    "filename": "jackets-1.png",
+    "path": "public/mock-catalog/images/northwind-apparel/jackets-1.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/jackets-1.png",
+    "prompt": "Product photo of a jackets item (seasonal outerwear) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "jackets",
+    "filename": "jackets-2.png",
+    "path": "public/mock-catalog/images/northwind-apparel/jackets-2.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/jackets-2.png",
+    "prompt": "Product photo of a jackets item (seasonal outerwear) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "jackets",
+    "filename": "jackets-3.png",
+    "path": "public/mock-catalog/images/northwind-apparel/jackets-3.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/jackets-3.png",
+    "prompt": "Product photo of a jackets item (seasonal outerwear) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "wallets",
+    "filename": "wallets-1.png",
+    "path": "public/mock-catalog/images/northwind-apparel/wallets-1.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/wallets-1.png",
+    "prompt": "Product photo of a belts & wallets item (leather goods) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "wallets",
+    "filename": "wallets-2.png",
+    "path": "public/mock-catalog/images/northwind-apparel/wallets-2.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/wallets-2.png",
+    "prompt": "Product photo of a belts & wallets item (leather goods) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "northwind-apparel",
+    "subcategory": "wallets",
+    "filename": "wallets-3.png",
+    "path": "public/mock-catalog/images/northwind-apparel/wallets-3.png",
+    "web_path": "/mock-catalog/images/northwind-apparel/wallets-3.png",
+    "prompt": "Product photo of a belts & wallets item (leather goods) for the brand Northwind Apparel. clean lifestyle apparel brand photography, soft natural light, neutral studio backdrop. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "candles",
+    "filename": "candles-1.png",
+    "path": "public/mock-catalog/images/harbor-and-home/candles-1.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/candles-1.png",
+    "prompt": "Product photo of a candles item (scented home fragrance) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "candles",
+    "filename": "candles-2.png",
+    "path": "public/mock-catalog/images/harbor-and-home/candles-2.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/candles-2.png",
+    "prompt": "Product photo of a candles item (scented home fragrance) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "candles",
+    "filename": "candles-3.png",
+    "path": "public/mock-catalog/images/harbor-and-home/candles-3.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/candles-3.png",
+    "prompt": "Product photo of a candles item (scented home fragrance) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "mugs",
+    "filename": "mugs-1.png",
+    "path": "public/mock-catalog/images/harbor-and-home/mugs-1.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/mugs-1.png",
+    "prompt": "Product photo of a mugs & drinkware item (handmade drinkware) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "mugs",
+    "filename": "mugs-2.png",
+    "path": "public/mock-catalog/images/harbor-and-home/mugs-2.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/mugs-2.png",
+    "prompt": "Product photo of a mugs & drinkware item (handmade drinkware) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "mugs",
+    "filename": "mugs-3.png",
+    "path": "public/mock-catalog/images/harbor-and-home/mugs-3.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/mugs-3.png",
+    "prompt": "Product photo of a mugs & drinkware item (handmade drinkware) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "cookware",
+    "filename": "cookware-1.png",
+    "path": "public/mock-catalog/images/harbor-and-home/cookware-1.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/cookware-1.png",
+    "prompt": "Product photo of a cookware item (kitchen cookware) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "cookware",
+    "filename": "cookware-2.png",
+    "path": "public/mock-catalog/images/harbor-and-home/cookware-2.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/cookware-2.png",
+    "prompt": "Product photo of a cookware item (kitchen cookware) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "cookware",
+    "filename": "cookware-3.png",
+    "path": "public/mock-catalog/images/harbor-and-home/cookware-3.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/cookware-3.png",
+    "prompt": "Product photo of a cookware item (kitchen cookware) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "bedding",
+    "filename": "bedding-1.png",
+    "path": "public/mock-catalog/images/harbor-and-home/bedding-1.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/bedding-1.png",
+    "prompt": "Product photo of a bedding & throws item (soft bedding textiles) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "bedding",
+    "filename": "bedding-2.png",
+    "path": "public/mock-catalog/images/harbor-and-home/bedding-2.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/bedding-2.png",
+    "prompt": "Product photo of a bedding & throws item (soft bedding textiles) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "bedding",
+    "filename": "bedding-3.png",
+    "path": "public/mock-catalog/images/harbor-and-home/bedding-3.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/bedding-3.png",
+    "prompt": "Product photo of a bedding & throws item (soft bedding textiles) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "loungewear",
+    "filename": "loungewear-1.png",
+    "path": "public/mock-catalog/images/harbor-and-home/loungewear-1.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/loungewear-1.png",
+    "prompt": "Product photo of a loungewear item (cozy loungewear) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "loungewear",
+    "filename": "loungewear-2.png",
+    "path": "public/mock-catalog/images/harbor-and-home/loungewear-2.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/loungewear-2.png",
+    "prompt": "Product photo of a loungewear item (cozy loungewear) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "loungewear",
+    "filename": "loungewear-3.png",
+    "path": "public/mock-catalog/images/harbor-and-home/loungewear-3.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/loungewear-3.png",
+    "prompt": "Product photo of a loungewear item (cozy loungewear) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "wellness",
+    "filename": "wellness-1.png",
+    "path": "public/mock-catalog/images/harbor-and-home/wellness-1.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/wellness-1.png",
+    "prompt": "Product photo of a wellness item (home wellness) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "wellness",
+    "filename": "wellness-2.png",
+    "path": "public/mock-catalog/images/harbor-and-home/wellness-2.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/wellness-2.png",
+    "prompt": "Product photo of a wellness item (home wellness) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "wellness",
+    "filename": "wellness-3.png",
+    "path": "public/mock-catalog/images/harbor-and-home/wellness-3.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/wellness-3.png",
+    "prompt": "Product photo of a wellness item (home wellness) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "tumblers",
+    "filename": "tumblers-1.png",
+    "path": "public/mock-catalog/images/harbor-and-home/tumblers-1.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/tumblers-1.png",
+    "prompt": "Product photo of a tumblers & bottles item (insulated drinkware) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "tumblers",
+    "filename": "tumblers-2.png",
+    "path": "public/mock-catalog/images/harbor-and-home/tumblers-2.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/tumblers-2.png",
+    "prompt": "Product photo of a tumblers & bottles item (insulated drinkware) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "tumblers",
+    "filename": "tumblers-3.png",
+    "path": "public/mock-catalog/images/harbor-and-home/tumblers-3.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/tumblers-3.png",
+    "prompt": "Product photo of a tumblers & bottles item (insulated drinkware) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "kitchentools",
+    "filename": "kitchentools-1.png",
+    "path": "public/mock-catalog/images/harbor-and-home/kitchentools-1.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/kitchentools-1.png",
+    "prompt": "Product photo of a kitchen tools item (kitchen essentials) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "kitchentools",
+    "filename": "kitchentools-2.png",
+    "path": "public/mock-catalog/images/harbor-and-home/kitchentools-2.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/kitchentools-2.png",
+    "prompt": "Product photo of a kitchen tools item (kitchen essentials) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "kitchentools",
+    "filename": "kitchentools-3.png",
+    "path": "public/mock-catalog/images/harbor-and-home/kitchentools-3.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/kitchentools-3.png",
+    "prompt": "Product photo of a kitchen tools item (kitchen essentials) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "storage",
+    "filename": "storage-1.png",
+    "path": "public/mock-catalog/images/harbor-and-home/storage-1.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/storage-1.png",
+    "prompt": "Product photo of a storage & organization item (home organization) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "storage",
+    "filename": "storage-2.png",
+    "path": "public/mock-catalog/images/harbor-and-home/storage-2.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/storage-2.png",
+    "prompt": "Product photo of a storage & organization item (home organization) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "storage",
+    "filename": "storage-3.png",
+    "path": "public/mock-catalog/images/harbor-and-home/storage-3.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/storage-3.png",
+    "prompt": "Product photo of a storage & organization item (home organization) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "linens",
+    "filename": "linens-1.png",
+    "path": "public/mock-catalog/images/harbor-and-home/linens-1.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/linens-1.png",
+    "prompt": "Product photo of a table linens item (dining textiles) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "linens",
+    "filename": "linens-2.png",
+    "path": "public/mock-catalog/images/harbor-and-home/linens-2.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/linens-2.png",
+    "prompt": "Product photo of a table linens item (dining textiles) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "harbor-and-home",
+    "subcategory": "linens",
+    "filename": "linens-3.png",
+    "path": "public/mock-catalog/images/harbor-and-home/linens-3.png",
+    "web_path": "/mock-catalog/images/harbor-and-home/linens-3.png",
+    "prompt": "Product photo of a table linens item (dining textiles) for the brand Harbor & Home. warm cozy home goods photography, styled interior, soft window light, hygge aesthetic. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "earbuds",
+    "filename": "earbuds-1.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/earbuds-1.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/earbuds-1.png",
+    "prompt": "Product photo of a wireless earbuds item (true wireless audio) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "earbuds",
+    "filename": "earbuds-2.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/earbuds-2.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/earbuds-2.png",
+    "prompt": "Product photo of a wireless earbuds item (true wireless audio) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "earbuds",
+    "filename": "earbuds-3.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/earbuds-3.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/earbuds-3.png",
+    "prompt": "Product photo of a wireless earbuds item (true wireless audio) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "headphones",
+    "filename": "headphones-1.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/headphones-1.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/headphones-1.png",
+    "prompt": "Product photo of a headphones item (over-ear audio) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "headphones",
+    "filename": "headphones-2.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/headphones-2.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/headphones-2.png",
+    "prompt": "Product photo of a headphones item (over-ear audio) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "headphones",
+    "filename": "headphones-3.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/headphones-3.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/headphones-3.png",
+    "prompt": "Product photo of a headphones item (over-ear audio) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "smartwatches",
+    "filename": "smartwatches-1.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/smartwatches-1.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/smartwatches-1.png",
+    "prompt": "Product photo of a smartwatches & trackers item (wearable tech) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "smartwatches",
+    "filename": "smartwatches-2.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/smartwatches-2.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/smartwatches-2.png",
+    "prompt": "Product photo of a smartwatches & trackers item (wearable tech) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "smartwatches",
+    "filename": "smartwatches-3.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/smartwatches-3.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/smartwatches-3.png",
+    "prompt": "Product photo of a smartwatches & trackers item (wearable tech) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "speakers",
+    "filename": "speakers-1.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/speakers-1.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/speakers-1.png",
+    "prompt": "Product photo of a portable speakers item (portable audio) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "speakers",
+    "filename": "speakers-2.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/speakers-2.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/speakers-2.png",
+    "prompt": "Product photo of a portable speakers item (portable audio) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "speakers",
+    "filename": "speakers-3.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/speakers-3.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/speakers-3.png",
+    "prompt": "Product photo of a portable speakers item (portable audio) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "phoneacc",
+    "filename": "phoneacc-1.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/phoneacc-1.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/phoneacc-1.png",
+    "prompt": "Product photo of a phone accessories item (phone accessories) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "phoneacc",
+    "filename": "phoneacc-2.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/phoneacc-2.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/phoneacc-2.png",
+    "prompt": "Product photo of a phone accessories item (phone accessories) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "phoneacc",
+    "filename": "phoneacc-3.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/phoneacc-3.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/phoneacc-3.png",
+    "prompt": "Product photo of a phone accessories item (phone accessories) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "techbags",
+    "filename": "techbags-1.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/techbags-1.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/techbags-1.png",
+    "prompt": "Product photo of a tech backpacks item (laptop bags) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "techbags",
+    "filename": "techbags-2.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/techbags-2.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/techbags-2.png",
+    "prompt": "Product photo of a tech backpacks item (laptop bags) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "techbags",
+    "filename": "techbags-3.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/techbags-3.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/techbags-3.png",
+    "prompt": "Product photo of a tech backpacks item (laptop bags) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "powerbanks",
+    "filename": "powerbanks-1.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/powerbanks-1.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/powerbanks-1.png",
+    "prompt": "Product photo of a power banks item (portable power) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "powerbanks",
+    "filename": "powerbanks-2.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/powerbanks-2.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/powerbanks-2.png",
+    "prompt": "Product photo of a power banks item (portable power) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "powerbanks",
+    "filename": "powerbanks-3.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/powerbanks-3.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/powerbanks-3.png",
+    "prompt": "Product photo of a power banks item (portable power) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "keyboards",
+    "filename": "keyboards-1.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/keyboards-1.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/keyboards-1.png",
+    "prompt": "Product photo of a keyboards & mice item (desk peripherals) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "keyboards",
+    "filename": "keyboards-2.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/keyboards-2.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/keyboards-2.png",
+    "prompt": "Product photo of a keyboards & mice item (desk peripherals) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "keyboards",
+    "filename": "keyboards-3.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/keyboards-3.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/keyboards-3.png",
+    "prompt": "Product photo of a keyboards & mice item (desk peripherals) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "streaming",
+    "filename": "streaming-1.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/streaming-1.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/streaming-1.png",
+    "prompt": "Product photo of a webcams & streaming item (streaming gear) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "streaming",
+    "filename": "streaming-2.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/streaming-2.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/streaming-2.png",
+    "prompt": "Product photo of a webcams & streaming item (streaming gear) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "streaming",
+    "filename": "streaming-3.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/streaming-3.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/streaming-3.png",
+    "prompt": "Product photo of a webcams & streaming item (streaming gear) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "cables",
+    "filename": "cables-1.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/cables-1.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/cables-1.png",
+    "prompt": "Product photo of a cables & adapters item (connectivity) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "cables",
+    "filename": "cables-2.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/cables-2.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/cables-2.png",
+    "prompt": "Product photo of a cables & adapters item (connectivity) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "voltedge-electronics",
+    "subcategory": "cables",
+    "filename": "cables-3.png",
+    "path": "public/mock-catalog/images/voltedge-electronics/cables-3.png",
+    "web_path": "/mock-catalog/images/voltedge-electronics/cables-3.png",
+    "prompt": "Product photo of a cables & adapters item (connectivity) for the brand VoltEdge Electronics. sleek modern tech product photography, dark gradient backdrop, crisp studio lighting, premium gadget. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "skincare",
+    "filename": "skincare-1.png",
+    "path": "public/mock-catalog/images/lumen-beauty/skincare-1.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/skincare-1.png",
+    "prompt": "Product photo of a skincare item (glass-bottle skincare) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "skincare",
+    "filename": "skincare-2.png",
+    "path": "public/mock-catalog/images/lumen-beauty/skincare-2.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/skincare-2.png",
+    "prompt": "Product photo of a skincare item (glass-bottle skincare) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "skincare",
+    "filename": "skincare-3.png",
+    "path": "public/mock-catalog/images/lumen-beauty/skincare-3.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/skincare-3.png",
+    "prompt": "Product photo of a skincare item (glass-bottle skincare) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "sunscreen",
+    "filename": "sunscreen-1.png",
+    "path": "public/mock-catalog/images/lumen-beauty/sunscreen-1.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/sunscreen-1.png",
+    "prompt": "Product photo of a sunscreen item (sun care) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "sunscreen",
+    "filename": "sunscreen-2.png",
+    "path": "public/mock-catalog/images/lumen-beauty/sunscreen-2.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/sunscreen-2.png",
+    "prompt": "Product photo of a sunscreen item (sun care) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "sunscreen",
+    "filename": "sunscreen-3.png",
+    "path": "public/mock-catalog/images/lumen-beauty/sunscreen-3.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/sunscreen-3.png",
+    "prompt": "Product photo of a sunscreen item (sun care) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "candles",
+    "filename": "candles-1.png",
+    "path": "public/mock-catalog/images/lumen-beauty/candles-1.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/candles-1.png",
+    "prompt": "Product photo of a candles & aromatherapy item (luxury fragrance) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "candles",
+    "filename": "candles-2.png",
+    "path": "public/mock-catalog/images/lumen-beauty/candles-2.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/candles-2.png",
+    "prompt": "Product photo of a candles & aromatherapy item (luxury fragrance) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "candles",
+    "filename": "candles-3.png",
+    "path": "public/mock-catalog/images/lumen-beauty/candles-3.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/candles-3.png",
+    "prompt": "Product photo of a candles & aromatherapy item (luxury fragrance) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "haircare",
+    "filename": "haircare-1.png",
+    "path": "public/mock-catalog/images/lumen-beauty/haircare-1.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/haircare-1.png",
+    "prompt": "Product photo of a hair care & accessories item (hair care) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "haircare",
+    "filename": "haircare-2.png",
+    "path": "public/mock-catalog/images/lumen-beauty/haircare-2.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/haircare-2.png",
+    "prompt": "Product photo of a hair care & accessories item (hair care) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "haircare",
+    "filename": "haircare-3.png",
+    "path": "public/mock-catalog/images/lumen-beauty/haircare-3.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/haircare-3.png",
+    "prompt": "Product photo of a hair care & accessories item (hair care) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "bath",
+    "filename": "bath-1.png",
+    "path": "public/mock-catalog/images/lumen-beauty/bath-1.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/bath-1.png",
+    "prompt": "Product photo of a bath & body item (bath and body) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "bath",
+    "filename": "bath-2.png",
+    "path": "public/mock-catalog/images/lumen-beauty/bath-2.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/bath-2.png",
+    "prompt": "Product photo of a bath & body item (bath and body) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "bath",
+    "filename": "bath-3.png",
+    "path": "public/mock-catalog/images/lumen-beauty/bath-3.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/bath-3.png",
+    "prompt": "Product photo of a bath & body item (bath and body) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "makeup",
+    "filename": "makeup-1.png",
+    "path": "public/mock-catalog/images/lumen-beauty/makeup-1.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/makeup-1.png",
+    "prompt": "Product photo of a makeup item (clean makeup) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "makeup",
+    "filename": "makeup-2.png",
+    "path": "public/mock-catalog/images/lumen-beauty/makeup-2.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/makeup-2.png",
+    "prompt": "Product photo of a makeup item (clean makeup) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "makeup",
+    "filename": "makeup-3.png",
+    "path": "public/mock-catalog/images/lumen-beauty/makeup-3.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/makeup-3.png",
+    "prompt": "Product photo of a makeup item (clean makeup) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "wellness",
+    "filename": "wellness-1.png",
+    "path": "public/mock-catalog/images/lumen-beauty/wellness-1.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/wellness-1.png",
+    "prompt": "Product photo of a wellness item (beauty wellness) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "wellness",
+    "filename": "wellness-2.png",
+    "path": "public/mock-catalog/images/lumen-beauty/wellness-2.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/wellness-2.png",
+    "prompt": "Product photo of a wellness item (beauty wellness) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "wellness",
+    "filename": "wellness-3.png",
+    "path": "public/mock-catalog/images/lumen-beauty/wellness-3.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/wellness-3.png",
+    "prompt": "Product photo of a wellness item (beauty wellness) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "fragrance",
+    "filename": "fragrance-1.png",
+    "path": "public/mock-catalog/images/lumen-beauty/fragrance-1.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/fragrance-1.png",
+    "prompt": "Product photo of a fragrance item (perfume) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "fragrance",
+    "filename": "fragrance-2.png",
+    "path": "public/mock-catalog/images/lumen-beauty/fragrance-2.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/fragrance-2.png",
+    "prompt": "Product photo of a fragrance item (perfume) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "fragrance",
+    "filename": "fragrance-3.png",
+    "path": "public/mock-catalog/images/lumen-beauty/fragrance-3.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/fragrance-3.png",
+    "prompt": "Product photo of a fragrance item (perfume) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "tools",
+    "filename": "tools-1.png",
+    "path": "public/mock-catalog/images/lumen-beauty/tools-1.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/tools-1.png",
+    "prompt": "Product photo of a beauty tools item (beauty tools) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "tools",
+    "filename": "tools-2.png",
+    "path": "public/mock-catalog/images/lumen-beauty/tools-2.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/tools-2.png",
+    "prompt": "Product photo of a beauty tools item (beauty tools) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "tools",
+    "filename": "tools-3.png",
+    "path": "public/mock-catalog/images/lumen-beauty/tools-3.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/tools-3.png",
+    "prompt": "Product photo of a beauty tools item (beauty tools) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "giftsets",
+    "filename": "giftsets-1.png",
+    "path": "public/mock-catalog/images/lumen-beauty/giftsets-1.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/giftsets-1.png",
+    "prompt": "Product photo of a gift sets item (curated gift set) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "giftsets",
+    "filename": "giftsets-2.png",
+    "path": "public/mock-catalog/images/lumen-beauty/giftsets-2.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/giftsets-2.png",
+    "prompt": "Product photo of a gift sets item (curated gift set) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "lumen-beauty",
+    "subcategory": "giftsets",
+    "filename": "giftsets-3.png",
+    "path": "public/mock-catalog/images/lumen-beauty/giftsets-3.png",
+    "web_path": "/mock-catalog/images/lumen-beauty/giftsets-3.png",
+    "prompt": "Product photo of a gift sets item (curated gift set) for the brand Lumen Beauty. elegant minimalist beauty product photography, soft pastel backdrop, dewy glow, clean cosmetics. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "bottles",
+    "filename": "bottles-1.png",
+    "path": "public/mock-catalog/images/summit-outdoors/bottles-1.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/bottles-1.png",
+    "prompt": "Product photo of a water bottles & hydration item (trail hydration) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "bottles",
+    "filename": "bottles-2.png",
+    "path": "public/mock-catalog/images/summit-outdoors/bottles-2.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/bottles-2.png",
+    "prompt": "Product photo of a water bottles & hydration item (trail hydration) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "bottles",
+    "filename": "bottles-3.png",
+    "path": "public/mock-catalog/images/summit-outdoors/bottles-3.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/bottles-3.png",
+    "prompt": "Product photo of a water bottles & hydration item (trail hydration) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "backpacks",
+    "filename": "backpacks-1.png",
+    "path": "public/mock-catalog/images/summit-outdoors/backpacks-1.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/backpacks-1.png",
+    "prompt": "Product photo of a backpacks & daypacks item (hiking packs) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "backpacks",
+    "filename": "backpacks-2.png",
+    "path": "public/mock-catalog/images/summit-outdoors/backpacks-2.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/backpacks-2.png",
+    "prompt": "Product photo of a backpacks & daypacks item (hiking packs) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "backpacks",
+    "filename": "backpacks-3.png",
+    "path": "public/mock-catalog/images/summit-outdoors/backpacks-3.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/backpacks-3.png",
+    "prompt": "Product photo of a backpacks & daypacks item (hiking packs) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "activewear",
+    "filename": "activewear-1.png",
+    "path": "public/mock-catalog/images/summit-outdoors/activewear-1.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/activewear-1.png",
+    "prompt": "Product photo of a activewear item (performance apparel) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "activewear",
+    "filename": "activewear-2.png",
+    "path": "public/mock-catalog/images/summit-outdoors/activewear-2.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/activewear-2.png",
+    "prompt": "Product photo of a activewear item (performance apparel) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "activewear",
+    "filename": "activewear-3.png",
+    "path": "public/mock-catalog/images/summit-outdoors/activewear-3.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/activewear-3.png",
+    "prompt": "Product photo of a activewear item (performance apparel) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "earbuds",
+    "filename": "earbuds-1.png",
+    "path": "public/mock-catalog/images/summit-outdoors/earbuds-1.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/earbuds-1.png",
+    "prompt": "Product photo of a sport earbuds item (workout audio) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "earbuds",
+    "filename": "earbuds-2.png",
+    "path": "public/mock-catalog/images/summit-outdoors/earbuds-2.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/earbuds-2.png",
+    "prompt": "Product photo of a sport earbuds item (workout audio) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "earbuds",
+    "filename": "earbuds-3.png",
+    "path": "public/mock-catalog/images/summit-outdoors/earbuds-3.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/earbuds-3.png",
+    "prompt": "Product photo of a sport earbuds item (workout audio) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "sunglasses",
+    "filename": "sunglasses-1.png",
+    "path": "public/mock-catalog/images/summit-outdoors/sunglasses-1.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/sunglasses-1.png",
+    "prompt": "Product photo of a sunglasses item (sport eyewear) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "sunglasses",
+    "filename": "sunglasses-2.png",
+    "path": "public/mock-catalog/images/summit-outdoors/sunglasses-2.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/sunglasses-2.png",
+    "prompt": "Product photo of a sunglasses item (sport eyewear) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "sunglasses",
+    "filename": "sunglasses-3.png",
+    "path": "public/mock-catalog/images/summit-outdoors/sunglasses-3.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/sunglasses-3.png",
+    "prompt": "Product photo of a sunglasses item (sport eyewear) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "yoga",
+    "filename": "yoga-1.png",
+    "path": "public/mock-catalog/images/summit-outdoors/yoga-1.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/yoga-1.png",
+    "prompt": "Product photo of a yoga & recovery item (recovery gear) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "yoga",
+    "filename": "yoga-2.png",
+    "path": "public/mock-catalog/images/summit-outdoors/yoga-2.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/yoga-2.png",
+    "prompt": "Product photo of a yoga & recovery item (recovery gear) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "yoga",
+    "filename": "yoga-3.png",
+    "path": "public/mock-catalog/images/summit-outdoors/yoga-3.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/yoga-3.png",
+    "prompt": "Product photo of a yoga & recovery item (recovery gear) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "trackers",
+    "filename": "trackers-1.png",
+    "path": "public/mock-catalog/images/summit-outdoors/trackers-1.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/trackers-1.png",
+    "prompt": "Product photo of a fitness trackers item (outdoor wearables) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "trackers",
+    "filename": "trackers-2.png",
+    "path": "public/mock-catalog/images/summit-outdoors/trackers-2.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/trackers-2.png",
+    "prompt": "Product photo of a fitness trackers item (outdoor wearables) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "trackers",
+    "filename": "trackers-3.png",
+    "path": "public/mock-catalog/images/summit-outdoors/trackers-3.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/trackers-3.png",
+    "prompt": "Product photo of a fitness trackers item (outdoor wearables) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "camping",
+    "filename": "camping-1.png",
+    "path": "public/mock-catalog/images/summit-outdoors/camping-1.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/camping-1.png",
+    "prompt": "Product photo of a camping accessories item (camp gear) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "camping",
+    "filename": "camping-2.png",
+    "path": "public/mock-catalog/images/summit-outdoors/camping-2.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/camping-2.png",
+    "prompt": "Product photo of a camping accessories item (camp gear) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "camping",
+    "filename": "camping-3.png",
+    "path": "public/mock-catalog/images/summit-outdoors/camping-3.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/camping-3.png",
+    "prompt": "Product photo of a camping accessories item (camp gear) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "footwear",
+    "filename": "footwear-1.png",
+    "path": "public/mock-catalog/images/summit-outdoors/footwear-1.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/footwear-1.png",
+    "prompt": "Product photo of a trail footwear item (trail shoes) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "footwear",
+    "filename": "footwear-2.png",
+    "path": "public/mock-catalog/images/summit-outdoors/footwear-2.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/footwear-2.png",
+    "prompt": "Product photo of a trail footwear item (trail shoes) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "footwear",
+    "filename": "footwear-3.png",
+    "path": "public/mock-catalog/images/summit-outdoors/footwear-3.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/footwear-3.png",
+    "prompt": "Product photo of a trail footwear item (trail shoes) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "tumblers",
+    "filename": "tumblers-1.png",
+    "path": "public/mock-catalog/images/summit-outdoors/tumblers-1.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/tumblers-1.png",
+    "prompt": "Product photo of a insulated tumblers item (insulated drinkware) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "tumblers",
+    "filename": "tumblers-2.png",
+    "path": "public/mock-catalog/images/summit-outdoors/tumblers-2.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/tumblers-2.png",
+    "prompt": "Product photo of a insulated tumblers item (insulated drinkware) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  },
+  {
+    "merchant": "summit-outdoors",
+    "subcategory": "tumblers",
+    "filename": "tumblers-3.png",
+    "path": "public/mock-catalog/images/summit-outdoors/tumblers-3.png",
+    "web_path": "/mock-catalog/images/summit-outdoors/tumblers-3.png",
+    "prompt": "Product photo of a insulated tumblers item (insulated drinkware) for the brand Summit Outdoors. rugged outdoor gear product photography, natural rock and trail setting, adventurous, crisp daylight. Single centered product, no text, no watermark, e-commerce catalog style, high detail."
+  }
+]

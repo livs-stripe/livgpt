@@ -1,0 +1,11 @@
+{
+  "stripe_profile_id": "profile_summit_outdoors",
+  "batch_timestamp": "2026-07-20T10:55:23Z",
+  "feed_type": "products",
+  "total_shards": 1,
+  "files": [
+    {
+      "name": "products.csv"
+    }
+  ]
+}
