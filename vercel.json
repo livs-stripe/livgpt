@@ -1,0 +1,6 @@
+{
+  "functions": {
+    "app/api/webhooks/**": { "maxDuration": 10 },
+    "app/api/checkout/**": { "maxDuration": 30 }
+  }
+}
