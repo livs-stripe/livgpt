@@ -45,13 +45,20 @@ Copy `.env.local.example` to `.env.local` and fill in the values:
 | Variable | Description |
 | --- | --- |
 | `STRIPE_SECRET_KEY` | Agent account secret key (Delegated Checkout API) |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Agent account publishable key |
-| `NEXT_PUBLIC_SELLER_PUBLISHABLE_KEY` | Seller account publishable key (used by Elements) |
-| `SELLER_PROFILE_ID` | The seller profile the agent transacts against |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Agent account publishable key (used by Stripe Elements; the SPT is scoped to the seller at confirm time, so no per-seller key is needed) |
+| `SELLER_PROFILE_IDS` | JSON map of catalog seller id → real Stripe profile id. **Demo shim only** — in production the real `stripe_profile_id` arrives in each SFTP feed manifest, so leave this empty. |
+| `SELLER_PROFILE_ID` | Single-seller fallback profile id (used for feeds without a manifest). Leave empty in production. |
 | `STRIPE_WEBHOOK_SECRET` | Agent webhook signing secret |
 | `STRIPE_SELLER_WEBHOOK_SECRET` | Seller webhook signing secret (optional) |
 | `STRIPE_API_VERSION` | Must be `2026-04-22.preview` |
-| `OPENAI_API_KEY` | OpenAI API key for GPT-5 |
+| `SFTP_HOST` | SFTP endpoint Stripe delivers feeds to (the SFTPGo server in `sftp-server/`, deployed to Fly.io — use its dedicated IPv4). Any SFTP host works. |
+| `SFTP_PORT` | SFTP port (default `22`) |
+| `SFTP_USERNAME` | Read-only reader user on the SFTP host (the `app` user; `APP_SFTP_USERNAME`) |
+| `SFTP_PRIVATE_KEY` | Private key for the reader user (`sftp-server/app_key`, BEGIN/END included). Provide this **or** `SFTP_PASSWORD`. |
+| `SFTP_PASSWORD` | Password for the reader user (alternative to `SFTP_PRIVATE_KEY`) |
+| `SFTP_FEED_PATH` | Remote directory Stripe drops feeds into (default `/`, the SFTP root) |
+| `MOCK_CATALOG` | `on` (default) serves the bundled demo catalog when SFTP is unset/empty; set to `off` in production to force the real feed / empty state |
+| `OPENAI_API_KEY` | OpenAI API key for the chat model (`gpt-5.5` via the AI SDK) |
 | `NEXT_PUBLIC_BASE_URL` | Public base URL of the deployment |
 
 ## API routes

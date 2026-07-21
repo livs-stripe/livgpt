@@ -9,8 +9,8 @@ type ConnectOptions = Parameters<SftpClient["connect"]>[0]
 
 /**
  * Reads the product catalog from the Stripe Agentic Commerce product feeds that
- * Stripe delivers to your SFTP host (AWS Transfer Family, whose home directory
- * is an S3 bucket).
+ * Stripe delivers to your SFTP endpoint. In this repo that endpoint is the
+ * SFTPGo server under ./sftp-server (deployed to Fly.io); any SFTP host works.
  *
  * Flow:
  *   Seller publishes catalog -> Stripe -> delivers feed files to your SFTP host.
@@ -109,7 +109,9 @@ function readConfig(): FeedConfig | null {
   }
 }
 
-/** SSH algorithms compatible with AWS Transfer Family security policies. */
+/** SSH algorithms offered to the host. `ssh-ed25519` matches the SFTPGo host
+ * key our sftp-server ships; the rest keep broad compatibility with other
+ * SFTP hosts (e.g. AWS Transfer Family security policies). */
 const SSH_ALGORITHMS: NonNullable<ConnectOptions["algorithms"]> = {
   serverHostKey: [
     "ssh-ed25519",
@@ -249,8 +251,8 @@ async function downloadFeed(config: FeedConfig): Promise<CatalogProduct[]> {
     if (code === "ECONNRESET" || /reset/i.test(msg)) {
       throw new Error(
         "SFTP connection was reset during the SSH handshake. In the v0 preview this is expected " +
-          "(outbound port 22 is blocked); deploy to Vercel to use SFTP. Otherwise verify the AWS " +
-          "Transfer Family user, attached public key, and that the endpoint is publicly reachable.",
+          "(outbound port 22 is blocked); deploy to Vercel to use SFTP. Otherwise verify the SFTP " +
+          "user, its attached public key, and that the endpoint is publicly reachable on port 22.",
       )
     }
     if (code === "ETIMEDOUT" || /timed? ?out/i.test(msg)) {
@@ -260,7 +262,7 @@ async function downloadFeed(config: FeedConfig): Promise<CatalogProduct[]> {
     }
     if (/All configured authentication methods failed/i.test(msg)) {
       throw new Error(
-        "SFTP authentication failed. Check that SFTP_USERNAME matches your Transfer Family user and that the public key for SFTP_PRIVATE_KEY is attached to that user.",
+        "SFTP authentication failed. Check that SFTP_USERNAME matches the reader user on your SFTP host and that the public key for SFTP_PRIVATE_KEY is attached to that user.",
       )
     }
     throw new Error(`SFTP connection failed: ${msg}`)
