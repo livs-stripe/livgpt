@@ -37,14 +37,15 @@ FREE_SHIPPING_THRESHOLD = "US:ALL:Standard:50.00 USD"
 TAX_CODE = "txcd_99999999"
 TAX_BEHAVIOR = "exclusive"
 
-# Only the 5 original merchants. The 2 new brands (meridian-travel, fern-and-field)
-# are being built by a separate agent, so we leave them untouched.
+# All 7 merchants, including the 2 newer brands (meridian-travel, fern-and-field).
 MERCHANTS = [
     "harbor-and-home",
     "lumen-beauty",
     "northwind-apparel",
     "summit-outdoors",
     "voltedge-electronics",
+    "meridian-travel",
+    "fern-and-field",
 ]
 
 # (length_in, width_in, height_in, weight_lb) keyed by a keyword found in the

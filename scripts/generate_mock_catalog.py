@@ -196,6 +196,46 @@ MERCHANTS = [
             subcat("tumblers", "Insulated Tumblers", "Home & Garden > Kitchen & Dining > Food & Beverage Carriers > Water Bottles", "Drinkware > Tumblers", (22, 52), ["Insulated Tumbler", "Camp Mug", "Coffee Flask"], ["Stainless Steel"], overlap=True, theme="insulated drinkware"),
         ],
     },
+    {
+        "slug": "meridian-travel",
+        "name": "Meridian Travel Co.",
+        "profile_id": "profile_meridian_travel",
+        "brands": ["Meridian", "Meridian Journey", "Meridian Carry"],
+        "style": "modern premium travel-gear brand aesthetic, warm sunlit surfaces of pale linen and light stone with a softly blurred airport-lounge backdrop, muted sand and slate palette, elevated editorial catalog styling",
+        "images_per_subcat": 5,
+        "subcats": [
+            subcat("carryons", "Carry-On Luggage", "Luggage & Bags > Suitcases", "Luggage > Carry-On", (98, 349), ["Hardshell Carry-On", "Spinner Suitcase", "Softside Carry-On", "Underseat Bag"], ["Polycarbonate", "Ballistic Nylon"], theme="carry-on travel"),
+            subcat("backpacks", "Travel Backpacks", "Luggage & Bags > Backpacks", "Bags > Backpacks", (58, 189), ["Travel Backpack", "Daypack", "Anti-Theft Backpack", "Convertible Pack"], ["Recycled Nylon", "Waxed Canvas"], overlap=True, theme="commuter bags"),
+            subcat("packing", "Packing Organizers", "Luggage & Bags > Travel Accessories", "Travel > Packing Cubes", (14, 68), ["Packing Cube Set", "Compression Cubes", "Toiletry Roll", "Shoe Bag Set"], ["Ripstop Nylon"], theme="packing organization"),
+            subcat("bottles", "Travel Water Bottles", "Home & Garden > Kitchen & Dining > Food & Beverage Carriers > Water Bottles", "Drinkware > Water Bottles", (22, 48), ["Insulated Bottle", "Collapsible Bottle", "Filtered Bottle"], ["Stainless Steel", "BPA-Free Plastic"], overlap=True, theme="branded hydration"),
+            subcat("tumblers", "Travel Tumblers", "Home & Garden > Kitchen & Dining > Food & Beverage Carriers > Water Bottles", "Drinkware > Tumblers", (22, 46), ["Insulated Tumbler", "Travel Mug", "Spill-Proof Tumbler"], ["Stainless Steel"], overlap=True, theme="insulated drinkware"),
+            subcat("sunglasses", "Sunglasses", "Apparel & Accessories > Clothing Accessories > Sunglasses", "Accessories > Eyewear > Sunglasses", (45, 155), ["Wayfarer Sunglasses", "Aviator Sunglasses", "Polarized Sunglasses", "Folding Sunglasses"], ["Acetate", "Recycled Frame"], overlap=True, theme="lifestyle eyewear"),
+            subcat("earbuds", "Travel Earbuds", "Electronics > Audio > Audio Components > Headphones", "Audio > Earbuds", (49, 179), ["Wireless Earbuds", "Noise-Cancelling Earbuds", "Sleep Earbuds"], ["Matte Polymer"], overlap=True, theme="true wireless audio"),
+            subcat("powerbanks", "Travel Power", "Electronics > Electronics Accessories > Power > Batteries", "Power > Power Banks", (24, 98), ["10K Power Bank", "20K Power Bank", "Universal Travel Adapter", "MagSafe Power Bank"], ["Aluminum"], theme="portable power"),
+            subcat("wallets", "Travel Wallets", "Apparel & Accessories > Clothing Accessories", "Accessories > Small Leather Goods", (24, 88), ["Passport Wallet", "RFID Card Holder", "Travel Organizer", "Leather Passport Cover"], ["Full-Grain Leather", "Vegan Leather"], overlap=True, theme="leather goods"),
+            subcat("beautykits", "Travel Beauty Kits", "Health & Beauty > Personal Care > Cosmetics > Cosmetic Sets", "Beauty > Gift Sets", (28, 118), ["Travel Beauty Kit", "Toiletry Bag Set", "Mini Skincare Set", "Travel Grooming Kit"], ["Assorted"], has_color=False, overlap=True, theme="curated gift set"),
+        ],
+    },
+    {
+        "slug": "fern-and-field",
+        "name": "Fern & Field",
+        "profile_id": "profile_fern_and_field",
+        "brands": ["Fern & Field", "Fernwood", "Field & Co."],
+        "style": "sustainable natural home-and-wellness brand aesthetic, soft morning light on pale oak and stoneware surfaces with eucalyptus and dried-grass accents, earthy botanical palette, calm organic editorial mood",
+        "images_per_subcat": 5,
+        "subcats": [
+            subcat("candles", "Candles", "Home & Garden > Decor > Home Fragrances > Candles", "Home > Fragrance > Candles", (18, 54), ["Soy Candle", "3-Wick Candle", "Beeswax Candle", "Wood-Wick Candle"], ["Soy Wax", "Beeswax"], has_color=False, overlap=True, theme="scented home fragrance"),
+            subcat("aromatherapy", "Aromatherapy", "Health & Beauty > Health Care", "Wellness > Aromatherapy", (22, 88), ["Essential Oil Diffuser", "Essential Oil Set", "Reed Diffuser", "Pillow Mist"], ["Bamboo", "Ceramic"], has_color=True, overlap=True, theme="home wellness"),
+            subcat("yoga", "Yoga & Recovery", "Sporting Goods > Exercise & Fitness > Yoga & Pilates", "Fitness > Yoga & Recovery", (18, 98), ["Cork Yoga Mat", "Yoga Block Set", "Bolster Cushion", "Foam Roller"], ["Natural Rubber", "Cork"], has_color=True, overlap=True, theme="recovery gear"),
+            subcat("mugs", "Mugs & Drinkware", "Home & Garden > Kitchen & Dining > Tableware > Drinkware", "Drinkware > Mugs", (14, 46), ["Stoneware Mug", "Handmade Mug Set", "Latte Cup Set", "Speckled Mug"], ["Stoneware", "Ceramic"], overlap=True, theme="handmade drinkware"),
+            subcat("tumblers", "Tumblers", "Home & Garden > Kitchen & Dining > Food & Beverage Carriers > Water Bottles", "Drinkware > Tumblers", (22, 48), ["Insulated Tumbler", "Bamboo Travel Cup", "Glass Tumbler Set"], ["Stainless Steel", "Bamboo"], overlap=True, theme="insulated drinkware"),
+            subcat("skincare", "Natural Skincare", "Health & Beauty > Personal Care > Cosmetics > Skin Care", "Beauty > Skincare", (16, 78), ["Botanical Face Oil", "Hydrating Moisturizer", "Gentle Cleanser", "Clay Mask"], ["Formula"], has_color=False, overlap=True, theme="glass-bottle skincare"),
+            subcat("bath", "Bath & Body", "Health & Beauty > Personal Care > Bath & Body", "Beauty > Bath & Body", (12, 56), ["Body Wash", "Whipped Body Butter", "Bath Salts", "Botanical Soap Bar"], ["Formula"], has_color=False, overlap=True, theme="bath and body"),
+            subcat("storage", "Storage & Organization", "Home & Garden > Household Supplies > Storage & Organization", "Home > Storage", (16, 78), ["Woven Basket", "Seagrass Bin Set", "Glass Jar Set", "Shelf Organizer"], ["Seagrass", "Bamboo"], has_color=True, overlap=True, theme="home organization"),
+            subcat("loungewear", "Organic Loungewear", "Apparel & Accessories > Clothing > Sleepwear & Loungewear", "Apparel > Loungewear", (32, 98), ["Organic Robe", "Lounge Pants", "Knit Cardigan", "Waffle Set"], ["Organic Cotton", "Waffle Knit"], sized=True, overlap=True, theme="cozy loungewear"),
+            subcat("supplements", "Wellness Supplements", "Health & Beauty > Health Care > Vitamins & Supplements", "Wellness > Supplements", (16, 72), ["Adaptogen Blend", "Calming Tea", "Greens Powder", "Magnesium Drink Mix"], ["Blend"], has_color=False, overlap=True, theme="beauty wellness"),
+        ],
+    },
 ]
 
 
@@ -265,6 +305,8 @@ def make_description(merchant, sc, adj, noun, material, color) -> str:
         "recovery gear": "ease tension and recover faster after training.",
         "camp gear": "compact, dependable gear for basecamp and beyond.",
         "trail shoes": "grippy, cushioned, and ready for any terrain.",
+        "carry-on travel": "cabin-sized, durable, and built for frequent flyers.",
+        "packing organization": "keeps your bag tidy with everything easy to find.",
     }.get(sc["theme"], "made for everyday use.")
     color_bit = f" Shown in {color}." if color else ""
     return f"{lead}, {bits[1]}, {detail}{color_bit}"
@@ -273,14 +315,15 @@ def make_description(merchant, sc, adj, noun, material, color) -> str:
 def gen_merchant(m):
     rows = []
     image_specs = []
+    ipsc = m.get("images_per_subcat", IMAGES_PER_SUBCAT)
     per_subcat = PRODUCTS_PER_MERCHANT // len(m["subcats"])
     remainder = PRODUCTS_PER_MERCHANT - per_subcat * len(m["subcats"])
     mprefix = "".join(w[0] for w in m["slug"].split("-")).upper()
 
-    # Pre-register the 3 images per sub-category, each a distinct product /
+    # Pre-register `ipsc` images per sub-category, each a distinct product /
     # color / composition so the variants don't look duplicated.
     for sc in m["subcats"]:
-        for k in range(1, IMAGES_PER_SUBCAT + 1):
+        for k in range(1, ipsc + 1):
             fname = f"{sc['slug']}-{k}.png"
             noun = sc["nouns"][(k - 1) % len(sc["nouns"])]
             comp = COMPOSITIONS[(k - 1) % len(COMPOSITIONS)]
@@ -337,7 +380,7 @@ def gen_merchant(m):
             price, sale = price_str(*sc["price"])
             brand = random.choice(m["brands"])
             size = random.choice(SIZES) if sc["sized"] else ""
-            img_k = (j % IMAGES_PER_SUBCAT) + 1
+            img_k = (j % ipsc) + 1
             image_link = f"{IMAGE_WEB_BASE}/{m['slug']}/{sc['slug']}-{img_k}.png"
             item_group = f"{mprefix}-{sc['slug'][:4].upper()}-GRP-{(j // 2) + 1:03d}"
 
@@ -366,15 +409,47 @@ def gen_merchant(m):
     return rows, image_specs
 
 
+def price_to_cents(raw: str) -> tuple[int, str]:
+    """Mirror rowToProduct/parsePrice in lib/product-feed.ts."""
+    token = (raw or "").strip().split()
+    value = float(token[0].replace(",", "")) if token else 0.0
+    currency = token[1].lower() if len(token) > 1 else "usd"
+    return round(value * 100), currency
+
+
+def row_to_catalog_product(row: dict, profile_id: str) -> dict:
+    price_raw = row["price"] or row["sale_price"]
+    amount, currency = price_to_cents(price_raw)
+    availability = row["availability"]
+    available = (
+        not availability
+        or "in_stock" in availability.replace(" ", "_").lower()
+        or availability.lower() == "available"
+    )
+    return {
+        "id": row["id"],
+        "name": row["title"],
+        "price": amount,
+        "currency": currency,
+        "imageUrl": row["image_link"],
+        "description": row["description"],
+        "category": row["product_type"] or row["google_product_category"] or "general",
+        "sellerId": profile_id,
+        "available": available,
+    }
+
+
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
     all_image_specs = []
+    catalog_products = []
     summary = []
     batch_ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     for m in MERCHANTS:
         rows, image_specs = gen_merchant(m)
         all_image_specs.extend(image_specs)
+        catalog_products.extend(row_to_catalog_product(r, m["profile_id"]) for r in rows)
         mdir = os.path.join(OUT_DIR, m["slug"])
         os.makedirs(mdir, exist_ok=True)
 
@@ -401,12 +476,18 @@ def main():
     with open(os.path.join(OUT_DIR, "image-spec.json"), "w", encoding="utf-8") as f:
         json.dump(all_image_specs, f, indent=2)
 
+    # Runtime bundle consumed by lib/mock-catalog.ts (imported into the app).
+    catalog_path = os.path.join(ROOT, "lib", "mock-catalog-data.json")
+    with open(catalog_path, "w", encoding="utf-8") as f:
+        json.dump(catalog_products, f, indent=0)
+        f.write("\n")
+
     with open(os.path.join(OUT_DIR, "README.md"), "w", encoding="utf-8") as f:
         f.write(build_readme(summary, len(all_image_specs)))
 
     print(f"\nTotal products: {sum(s['products'] for s in summary)}")
-    print(f"Image specs:    {len(all_image_specs)} "
-          f"({IMAGES_PER_SUBCAT} per merchant x sub-category)")
+    print(f"Image specs:    {len(all_image_specs)}")
+    print(f"Runtime catalog: {len(catalog_products)} products -> lib/mock-catalog-data.json")
 
 
 def build_readme(summary, n_images) -> str:
@@ -426,7 +507,8 @@ def build_readme(summary, n_images) -> str:
     lines += [
         "",
         f"Images: `image-spec.json` lists {n_images} images to generate",
-        "(3 per merchant x sub-category). Product `image_link` values point to",
+        "(3 per sub-category for most merchants, 5 for meridian-travel and",
+        "fern-and-field). Product `image_link` values point to",
         "`/mock-catalog/images/<merchant>/<subcategory>-<k>.png`; place generated",
         "images under `public/mock-catalog/images/` so the app can serve them.",
         "",

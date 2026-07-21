@@ -45,6 +45,7 @@ type FeedConfig = {
   username: string
   password?: string
   privateKey?: string
+  passphrase?: string
   remotePath: string
 }
 
@@ -96,6 +97,9 @@ function readConfig(): FeedConfig | null {
   const password = process.env.SFTP_PASSWORD
   const rawKey = process.env.SFTP_PRIVATE_KEY?.trim()
   const privateKey = rawKey ? normalizePrivateKey(rawKey) : undefined
+  // Passphrase for an encrypted private key (optional). ssh2 requires this
+  // when SFTP_PRIVATE_KEY is passphrase-protected.
+  const passphrase = process.env.SFTP_PASSPHRASE || undefined
 
   if (!host || !username || (!password && !privateKey)) return null
 
@@ -105,6 +109,7 @@ function readConfig(): FeedConfig | null {
     username,
     password,
     privateKey,
+    passphrase,
     remotePath: process.env.SFTP_FEED_PATH ?? "/",
   }
 }
@@ -241,6 +246,7 @@ async function downloadFeed(config: FeedConfig): Promise<CatalogProduct[]> {
       username: config.username,
       password: config.password,
       privateKey: config.privateKey,
+      ...(config.privateKey && config.passphrase ? { passphrase: config.passphrase } : {}),
       readyTimeout: 25000,
       algorithms: SSH_ALGORITHMS,
     })

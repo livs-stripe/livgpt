@@ -22,6 +22,7 @@ export async function GET() {
   const username = process.env.SFTP_USERNAME ?? ""
   const password = process.env.SFTP_PASSWORD
   const privateKeyRaw = process.env.SFTP_PRIVATE_KEY
+  const passphrase = process.env.SFTP_PASSPHRASE || undefined
   const feedPath = process.env.SFTP_FEED_PATH ?? "/"
 
   const presence = {
@@ -30,6 +31,7 @@ export async function GET() {
     port,
     username: username || null,
     authMethod: privateKeyRaw ? "privateKey" : password ? "password" : "none",
+    hasPassphrase: Boolean(passphrase),
     feedPath,
     mockCatalog: process.env.MOCK_CATALOG ?? "on (default)",
   }
@@ -50,6 +52,7 @@ export async function GET() {
       port,
       username,
       ...(privateKeyRaw ? { privateKey: normalizePrivateKey(privateKeyRaw) } : {}),
+      ...(privateKeyRaw && passphrase ? { passphrase } : {}),
       ...(password ? { password } : {}),
       readyTimeout: 20000,
       algorithms: {

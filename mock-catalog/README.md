@@ -12,9 +12,12 @@ Each merchant folder contains a Google Merchant / Stripe style
 | VoltEdge Electronics | `profile_voltedge_electronics` | 150 |
 | Lumen Beauty | `profile_lumen_beauty` | 150 |
 | Summit Outdoors | `profile_summit_outdoors` | 150 |
+| Meridian Travel Co. | `profile_meridian_travel` | 150 |
+| Fern & Field | `profile_fern_and_field` | 150 |
 
-Images: `image-spec.json` lists 150 images to generate
-(3 per merchant x sub-category). Product `image_link` values point to
+Images: `image-spec.json` lists 250 images to generate
+(3 per sub-category for most merchants, 5 for meridian-travel and
+fern-and-field). Product `image_link` values point to
 `/mock-catalog/images/<merchant>/<subcategory>-<k>.png`; place generated
 images under `public/mock-catalog/images/` so the app can serve them.
 

@@ -56,6 +56,7 @@ Copy `.env.local.example` to `.env.local` and fill in the values:
 | `SFTP_USERNAME` | Read-only reader user on the SFTP host (the `app` user; `APP_SFTP_USERNAME`) |
 | `SFTP_PRIVATE_KEY` | Private key for the reader user (`sftp-server/app_key`, BEGIN/END included). Provide this **or** `SFTP_PASSWORD`. |
 | `SFTP_PASSWORD` | Password for the reader user (alternative to `SFTP_PRIVATE_KEY`) |
+| `SFTP_PASSPHRASE` | Passphrase for `SFTP_PRIVATE_KEY`, only if the key is encrypted (optional) |
 | `SFTP_FEED_PATH` | Remote directory Stripe drops feeds into (default `/`, the SFTP root) |
 | `MOCK_CATALOG` | `on` (default) serves the bundled demo catalog when SFTP is unset/empty; set to `off` in production to force the real feed / empty state |
 | `OPENAI_API_KEY` | OpenAI API key for the chat model (`gpt-5.5` via the AI SDK) |
