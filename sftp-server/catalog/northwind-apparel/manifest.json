@@ -1,0 +1,10 @@
+{
+  "stripe_profile_id": "profile_test_61V4s3wzOLA0Xsg2jA6V4s3wU4SQc5wYyQkQKKCngHku",
+  "feed_type": "products",
+  "total_shards": 1,
+  "files": [
+    {
+      "name": "products.csv"
+    }
+  ]
+}

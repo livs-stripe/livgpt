@@ -1,0 +1,15 @@
+app = "livgpt-sftp"
+primary_region = "iad"
+
+[build]
+
+[[services]]
+  internal_port = 22
+  protocol = "tcp"
+  [[services.ports]]
+    port = 22
+
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1
