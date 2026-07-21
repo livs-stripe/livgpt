@@ -4,6 +4,40 @@ export const STRIPE_API_VERSION = process.env.STRIPE_API_VERSION ?? "2025-12-15.
 export const SELLER_PROFILE_ID = process.env.SELLER_PROFILE_ID ?? ""
 
 /**
+ * Maps a catalog product's `sellerId` to the real Stripe *seller profile id*
+ * the agent transacts against, so Delegated Checkout charges settle on that
+ * merchant's account (and show up in their Dashboard).
+ *
+ * The demo catalog ships with placeholder seller ids (e.g. "profile_lumen_beauty").
+ * To run a live sandbox demo, set SELLER_PROFILE_IDS to a JSON map of
+ * { "<catalog_seller_id>": "<real_sandbox_profile_id>" }. Unmapped sellers fall
+ * back to SELLER_PROFILE_ID. Keep this keyed the same way as
+ * NEXT_PUBLIC_SELLER_PUBLISHABLE_KEYS so profile id + publishable key line up.
+ */
+let cachedProfileMap: Record<string, string> | null = null
+function profileIdMap(): Record<string, string> {
+  if (cachedProfileMap) return cachedProfileMap
+  const raw = process.env.SELLER_PROFILE_IDS
+  if (!raw) return (cachedProfileMap = {})
+  try {
+    const parsed = JSON.parse(raw)
+    cachedProfileMap =
+      parsed && typeof parsed === "object" && !Array.isArray(parsed)
+        ? (parsed as Record<string, string>)
+        : {}
+  } catch {
+    cachedProfileMap = {}
+  }
+  return cachedProfileMap
+}
+
+/** Resolves a catalog seller id to the real Stripe seller profile id to charge. */
+export function resolveSellerProfileId(catalogSellerId?: string): string {
+  const mapped = catalogSellerId ? profileIdMap()[catalogSellerId] : undefined
+  return mapped || SELLER_PROFILE_ID || catalogSellerId || ""
+}
+
+/**
  * Stripe Node SDK instance (used for webhook signature verification and
  * standard API access). The Delegated Checkout preview endpoints are called
  * directly via `stripeFetch` below since they are not yet typed in the SDK.

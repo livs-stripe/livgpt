@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { getProductById } from "@/lib/product-feed"
-import { SELLER_PROFILE_ID, stripeFetch } from "@/lib/stripe-server"
+import { resolveSellerProfileId, stripeFetch } from "@/lib/stripe-server"
 
 export const maxDuration = 30
 
@@ -25,8 +25,18 @@ export async function POST(req: Request) {
 
     const qty = Math.min(5, Math.max(1, quantity))
     const cur = (currency || product.currency).toLowerCase()
-    // Prefer the seller this product's feed came from; fall back to the env default.
-    const sellerProfileId = product.sellerId || SELLER_PROFILE_ID
+    // Map the catalog seller to the real sandbox profile id we charge against
+    // (so the transaction lands in that merchant's Stripe Dashboard).
+    const sellerProfileId = resolveSellerProfileId(product.sellerId)
+    if (!sellerProfileId) {
+      return NextResponse.json(
+        {
+          error:
+            "No seller profile id configured for this product. Set SELLER_PROFILE_IDS (map of catalog seller id -> real Stripe profile id) or SELLER_PROFILE_ID.",
+        },
+        { status: 400 },
+      )
+    }
 
     // Create a Delegated Checkout RequestedSession with the seller's profile.
     const { ok, status, data } = await stripeFetch<{
