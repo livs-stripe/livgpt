@@ -3,6 +3,7 @@ import { gunzipSync } from "node:zlib"
 import { parse as parseCsv } from "csv-parse/sync"
 import SftpClient from "ssh2-sftp-client"
 import type { CatalogProduct } from "./types"
+import { loadMockCatalog, mockCatalogEnabled } from "./mock-catalog"
 
 type ConnectOptions = Parameters<SftpClient["connect"]>[0]
 
@@ -341,7 +342,12 @@ export async function loadCatalog(forceRefresh = false): Promise<CatalogState> {
     }
   }
 
+  // No SFTP feed configured. Serve the bundled multi-merchant demo catalog so
+  // the deployed app works out of the box; real feeds take over once SFTP is set.
   if (!config) {
+    if (mockCatalogEnabled()) {
+      return { products: loadMockCatalog(), configured: true, error: null }
+    }
     return {
       products: [],
       configured: false,
@@ -356,6 +362,11 @@ export async function loadCatalog(forceRefresh = false): Promise<CatalogState> {
 
   try {
     const products = await downloadFeed(config)
+    // An SFTP feed that returns nothing (e.g. still syncing) falls back to the
+    // demo catalog rather than showing an empty store.
+    if (products.length === 0 && mockCatalogEnabled()) {
+      return { products: loadMockCatalog(), configured: true, error: null }
+    }
     cache = { products, at: Date.now() }
     return { products, configured: true, error: null }
   } catch (err) {
@@ -363,6 +374,10 @@ export async function loadCatalog(forceRefresh = false): Promise<CatalogState> {
     // Serve stale cache on transient errors if we have one.
     if (cache) {
       return { products: cache.products, configured: true, error: message }
+    }
+    // Otherwise fall back to the bundled demo catalog so the app stays usable.
+    if (mockCatalogEnabled()) {
+      return { products: loadMockCatalog(), configured: true, error: null }
     }
     return { products: [], configured: true, error: message }
   }
