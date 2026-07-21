@@ -1,6 +1,6 @@
 import Stripe from "stripe"
 
-export const STRIPE_API_VERSION = process.env.STRIPE_API_VERSION ?? "2025-09-30.preview"
+export const STRIPE_API_VERSION = process.env.STRIPE_API_VERSION ?? "2026-04-22.preview"
 export const SELLER_PROFILE_ID = process.env.SELLER_PROFILE_ID ?? ""
 
 /**

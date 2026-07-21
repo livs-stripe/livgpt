@@ -29,8 +29,10 @@ Elements, and Tailwind CSS + shadcn/ui.
    seller accounts:
    - Agent → `/api/webhooks/agent` (OCA lifecycle events)
    - Seller → `/api/webhooks/seller` (`checkout.session.completed`)
-6. The **API version must be a preview version** — set
-   `STRIPE_API_VERSION=2025-12-15.preview`.
+6. The **API version must be the preview version the Delegated Checkout
+   (Agentic Commerce) API is served under** — set
+   `STRIPE_API_VERSION=2026-04-22.preview`. A different preview date makes the
+   `requested_sessions` endpoints return "Unrecognized request URL".
 7. For local testing, use the Stripe CLI:
    ```bash
    stripe listen --forward-to localhost:3000/api/webhooks/agent
@@ -48,7 +50,7 @@ Copy `.env.local.example` to `.env.local` and fill in the values:
 | `SELLER_PROFILE_ID` | The seller profile the agent transacts against |
 | `STRIPE_WEBHOOK_SECRET` | Agent webhook signing secret |
 | `STRIPE_SELLER_WEBHOOK_SECRET` | Seller webhook signing secret (optional) |
-| `STRIPE_API_VERSION` | Must be `2025-12-15.preview` |
+| `STRIPE_API_VERSION` | Must be `2026-04-22.preview` |
 | `OPENAI_API_KEY` | OpenAI API key for GPT-5 |
 | `NEXT_PUBLIC_BASE_URL` | Public base URL of the deployment |
 
