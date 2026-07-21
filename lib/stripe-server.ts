@@ -11,8 +11,9 @@ export const SELLER_PROFILE_ID = process.env.SELLER_PROFILE_ID ?? ""
  * The demo catalog ships with placeholder seller ids (e.g. "profile_lumen_beauty").
  * To run a live sandbox demo, set SELLER_PROFILE_IDS to a JSON map of
  * { "<catalog_seller_id>": "<real_sandbox_profile_id>" }. Unmapped sellers fall
- * back to SELLER_PROFILE_ID. Keep this keyed the same way as
- * NEXT_PUBLIC_SELLER_PUBLISHABLE_KEYS so profile id + publishable key line up.
+ * back to SELLER_PROFILE_ID. No per-seller publishable key is needed: the client
+ * collects the card with the agent's key and Stripe scopes the resulting Shared
+ * Payment Token to this profile id at confirm time.
  */
 let cachedProfileMap: Record<string, string> | null = null
 function profileIdMap(): Record<string, string> {

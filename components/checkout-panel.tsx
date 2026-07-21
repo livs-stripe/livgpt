@@ -22,12 +22,17 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { formatPrice } from "@/lib/parse-product"
-import { getSellerPublishableKey } from "@/lib/seller-keys"
 import type { ProductResult } from "@/lib/types"
 
-// Initialize Stripe.js with the SELLER's publishable key + the required beta
-// flag. Cached per publishable key so each connected merchant gets its own
-// Stripe instance (a product's seller determines which key is used).
+// Agentic Commerce / Delegated Checkout: the agent collects the payment method
+// with its OWN publishable key. When the RequestedSession is confirmed, Stripe
+// mints a Shared Payment Token scoped to the seller (seller_profile_id) and
+// routes the charge to that merchant — so no per-seller publishable keys are
+// needed here. This mirrors the production model.
+const AGENT_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+
+// Initialize Stripe.js with the agent's publishable key + the required beta
+// flag. Cached per key so the instance is reused across renders.
 const stripePromises = new Map<string, Promise<Stripe | null>>()
 function getStripePromise(publishableKey: string | undefined) {
   if (!publishableKey) return null
@@ -62,8 +67,7 @@ export function CheckoutPanel({
     if (open) setQuantity(1)
   }, [open, product?.id])
 
-  const publishableKey = getSellerPublishableKey(product?.sellerId)
-  const stripe = getStripePromise(publishableKey)
+  const stripe = getStripePromise(AGENT_PUBLISHABLE_KEY)
   const subtotal = product ? product.price * quantity : 0
 
   const elementsOptions = useMemo(
@@ -147,15 +151,12 @@ function MissingKeyNotice() {
       <Lock className="mx-auto mb-3 size-6" />
       <p className="font-medium text-foreground">Stripe is not configured</p>
       <p className="mt-1">
-        No publishable key found for this seller. Set{" "}
+        No agent publishable key found. Set{" "}
         <code className="rounded bg-muted px-1 py-0.5 text-xs">
-          NEXT_PUBLIC_SELLER_PUBLISHABLE_KEYS
+          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
         </code>{" "}
-        (a JSON map of seller profile id → key) or{" "}
-        <code className="rounded bg-muted px-1 py-0.5 text-xs">
-          NEXT_PUBLIC_SELLER_PUBLISHABLE_KEY
-        </code>{" "}
-        to enable the embedded payment form.
+        (your agent account&apos;s publishable key) to enable the embedded
+        payment form.
       </p>
     </div>
   )
