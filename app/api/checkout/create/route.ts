@@ -4,30 +4,87 @@ import { resolveSellerProfileId, stripeFetch } from "@/lib/stripe-server"
 
 export const maxDuration = 30
 
+type CartItem = {
+  productId?: string
+  quantity?: number
+}
+
+/**
+ * Request payload contract:
+ *
+ * Multi-item (preferred):
+ *   { "items": [{ "productId": "...", "quantity": 2 }, ...], "currency"?: "usd" }
+ *
+ * Single-item (backwards compatible):
+ *   { "productId": "...", "quantity": 1, "currency"?: "usd" }
+ *
+ * All products in a single request MUST belong to the same seller — a Delegated
+ * Checkout RequestedSession targets exactly one seller network profile.
+ */
 type Body = {
+  items?: CartItem[]
   productId?: string
   quantity?: number
   currency?: string
 }
 
+function clampQty(q: unknown): number {
+  const n = typeof q === "number" ? q : 1
+  return Math.min(5, Math.max(1, Math.floor(n)))
+}
+
 export async function POST(req: Request) {
   try {
-    const { productId, quantity = 1, currency }: Body = await req.json()
+    const { items, productId, quantity, currency }: Body = await req.json()
 
-    if (!productId) {
-      return NextResponse.json({ error: "Missing productId" }, { status: 400 })
+    // Normalize single-item and multi-item payloads into one cart shape.
+    const cart: CartItem[] =
+      Array.isArray(items) && items.length > 0
+        ? items
+        : productId
+          ? [{ productId, quantity }]
+          : []
+
+    if (cart.length === 0) {
+      return NextResponse.json(
+        { error: "Missing items (provide `items: [{ productId, quantity }]` or `productId`)" },
+        { status: 400 },
+      )
     }
 
-    const product = await getProductById(productId)
-    if (!product) {
-      return NextResponse.json({ error: "Product not found" }, { status: 404 })
+    // Resolve every product from the catalog.
+    const resolved = await Promise.all(
+      cart.map(async (item) => {
+        if (!item.productId) return { item, product: undefined }
+        const product = await getProductById(item.productId)
+        return { item, product }
+      }),
+    )
+
+    const missing = resolved.find((r) => !r.product)
+    if (missing) {
+      return NextResponse.json(
+        { error: `Product not found: ${missing.item.productId ?? "(missing productId)"}` },
+        { status: 404 },
+      )
     }
 
-    const qty = Math.min(5, Math.max(1, quantity))
-    const cur = (currency || product.currency).toLowerCase()
-    // Map the catalog seller to the real sandbox profile id we charge against
-    // (so the transaction lands in that merchant's Stripe Dashboard).
-    const sellerProfileId = resolveSellerProfileId(product.sellerId)
+    // Enforce one-seller-per-session: all products must share the same seller
+    // network profile, since a RequestedSession targets a single seller.
+    const sellerProfileIds = new Set(
+      resolved.map((r) => resolveSellerProfileId(r.product!.sellerId)),
+    )
+    if (sellerProfileIds.size > 1) {
+      return NextResponse.json(
+        {
+          error:
+            "All items in a checkout session must belong to the same seller. Create a separate session per seller.",
+        },
+        { status: 400 },
+      )
+    }
+
+    const sellerProfileId = [...sellerProfileIds][0]
     if (!sellerProfileId) {
       return NextResponse.json(
         {
@@ -38,7 +95,15 @@ export async function POST(req: Request) {
       )
     }
 
-    // Create a Delegated Checkout RequestedSession with the seller's profile.
+    const cur = (currency || resolved[0].product!.currency).toLowerCase()
+
+    // Stripe computes the cart total from the seller's catalog, so we only send
+    // the SKU (the catalog product id) and quantity per line item.
+    const lineItemDetails = resolved.map((r) => ({
+      sku_id: r.product!.id,
+      quantity: clampQty(r.item.quantity),
+    }))
+
     const { ok, status, data } = await stripeFetch<{
       id: string
       client_secret?: string
@@ -46,16 +111,9 @@ export async function POST(req: Request) {
     }>("/v1/delegated_checkout/requested_sessions", {
       method: "POST",
       body: {
-        seller_profile_id: sellerProfileId,
+        seller_details: { network_profile: sellerProfileId },
         currency: cur,
-        line_items: [
-          {
-            name: product.name,
-            amount: product.price,
-            currency: product.currency,
-            quantity: qty,
-          },
-        ],
+        line_item_details: lineItemDetails,
       },
     })
 

@@ -35,8 +35,7 @@ export async function POST(req: Request) {
     const { ok, status, data } = await stripeFetch<{
       id: string
       status?: string
-      order?: { id?: string; status_url?: string }
-      order_status_url?: string
+      order_details?: { order_status_url?: string }
       error?: { message: string }
     }>(`/v1/delegated_checkout/requested_sessions/${sessionId}/confirm`, {
       method: "POST",
@@ -51,8 +50,8 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({
-      orderId: data.order?.id ?? data.id,
-      orderStatusUrl: data.order?.status_url ?? data.order_status_url ?? null,
+      orderId: data.id,
+      orderStatusUrl: data.order_details?.order_status_url ?? null,
       status: "completed",
     })
   } catch (err) {
