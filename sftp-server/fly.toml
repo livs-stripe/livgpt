@@ -3,13 +3,51 @@ primary_region = "iad"
 
 [build]
 
+# Raw TCP:22 for SFTP. Stripe (and the agent app) connect here over SSH.
+# NOTE: Fly's shared IPv4 only routes HTTP/TLS, so a DEDICATED IPv4 is required
+# for raw TCP:22 to be reachable — see the README (`fly ips allocate-v4`).
 [[services]]
   internal_port = 22
   protocol = "tcp"
+  # No handlers: pass raw TCP straight through to sshd (do NOT add "tls"/"http").
   [[services.ports]]
     port = 22
 
+# Persistent volume for everything Stripe delivers, plus host keys and the user
+# DB, so uploaded catalogs and the server identity survive restarts/redeploys.
+# Create it once with: fly volumes create sftp_data --region iad --size 3
+[mounts]
+  source = "sftp_data"
+  destination = "/srv/sftpgo"
+
+[env]
+  # Serve SFTP on 22; disable every other SFTPGo listener (HTTP admin/REST, FTP,
+  # WebDAV) so the only exposed surface is SFTP.
+  SFTPGO_SFTPD__BINDINGS__0__PORT = "22"
+  SFTPGO_HTTPD__BINDINGS__0__PORT = "0"
+  SFTPGO_FTPD__BINDINGS__0__PORT = "0"
+  SFTPGO_WEBDAVD__BINDINGS__0__PORT = "0"
+
+  # Stable host keys on the volume -> clients don't see a changed host key after
+  # a redeploy. SFTPGo generates them on first boot if missing.
+  SFTPGO_SFTPD__HOST_KEYS = "/srv/sftpgo/host_keys/id_ed25519,/srv/sftpgo/host_keys/id_ecdsa,/srv/sftpgo/host_keys/id_rsa"
+
+  # User store on the persistent volume.
+  SFTPGO_DATA_PROVIDER__DRIVER = "sqlite"
+  SFTPGO_DATA_PROVIDER__NAME = "/srv/sftpgo/sftpgo.db"
+
+  # Re-import users from the generated loaddata file on every boot; mode 0 adds
+  # new users and updates existing ones (this is how key rotation applies).
+  SFTPGO_LOADDATA_MODE = "0"
+
+# Secrets (set with `fly secrets set ...`, NOT committed here):
+#   STRIPE_SFTP_PUBLIC_KEY    Stripe's generated public key (from onboarding)
+#   STRIPE_VERIFICATION_TOKEN Stripe's one-time challenge token
+#   APP_SFTP_PASSWORD  (or APP_SFTP_PUBLIC_KEY)  credential for the app read user
+# Optional overrides: STRIPE_SFTP_USERNAME (default "stripe"),
+#   APP_SFTP_USERNAME (default "app"), DEMO_MODE (default off).
+
 [[vm]]
-  memory = "256mb"
+  memory = "512mb"
   cpu_kind = "shared"
   cpus = 1
