@@ -118,10 +118,32 @@ export async function POST(req: Request) {
     })
 
     if (!ok) {
-      const message =
+      const rawMessage =
         (data as { error?: { message: string } })?.error?.message ||
         "Failed to create checkout session"
-      return NextResponse.json({ error: message }, { status })
+
+      // Keep the raw Stripe error for debugging, but never surface the opaque
+      // "Unrecognized request URL" to shoppers. That specific 404 means this
+      // Stripe account isn't enrolled in the (waitlist-gated, private preview)
+      // embedded Delegated Checkout API — verified: the account's key is valid
+      // and the API version is applied, yet /v1/delegated_checkout/... 404s
+      // while sibling preview endpoints resolve. It's an account entitlement
+      // gap, not a bug in this request.
+      console.error("[checkout/create] Stripe error", {
+        status,
+        raw: data,
+      })
+
+      const notEnrolled =
+        status === 404 && /Unrecognized request URL/i.test(rawMessage)
+      const message = notEnrolled
+        ? "Checkout isn't available yet — this store's agent account needs Delegated Checkout access enabled in Stripe (Agentic Commerce onboarding is still pending)."
+        : rawMessage
+
+      return NextResponse.json(
+        { error: message, code: notEnrolled ? "delegated_checkout_not_enabled" : undefined },
+        { status },
+      )
     }
 
     return NextResponse.json({
