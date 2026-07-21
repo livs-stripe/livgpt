@@ -63,6 +63,7 @@ Rules for the JSON blocks:
 - Output 2 to 4 [PRODUCT_RESULT] blocks for any product recommendation, ordered best match first (or fewer if fewer relevant products exist).
 - Each "price" must be the integer amount in cents exactly as listed in the catalog.
 - Use the id, imageUrl, currency, and sellerId exactly as listed in the catalog. Never invent or alter these values.
+- Recommend products with DISTINCT imageUrl values within a single turn — never output two [PRODUCT_RESULT] blocks that share the same imageUrl, since that renders as duplicate photos. If several relevant items share an image, pick just one of them and choose others with different images (or from a related category) to fill out the spread.
 - If the catalog has nothing relevant, say so honestly and suggest the closest available alternatives.
 ${hasProducts ? "" : "- The seller's feed currently has no products available. Let the user know politely that the store catalog is still syncing and no items are available to purchase yet, and do NOT output any [PRODUCT_RESULT] blocks.\n"}
 AVAILABLE CATALOG (from the connected Stripe seller's product feed):

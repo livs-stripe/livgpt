@@ -80,6 +80,10 @@ export function parseProductResult(text: string): {
 
   const products: ProductResult[] = []
   const seen = new Set<string>()
+  // The mock catalog only has a few images per sub-category, so distinct
+  // products can share the same photo. Skip any product whose image was already
+  // used in this message so no two cards render the identical picture.
+  const seenImages = new Set<string>()
   let cursor = firstOpen
 
   while (cursor !== -1) {
@@ -87,8 +91,10 @@ export function parseProductResult(text: string): {
     if (!jsonStr) break // Next block not complete yet (still streaming).
     try {
       const parsed = JSON.parse(jsonStr)
-      if (isValidProduct(parsed) && !seen.has(parsed.id)) {
+      const image = typeof parsed?.imageUrl === "string" ? parsed.imageUrl.trim() : ""
+      if (isValidProduct(parsed) && !seen.has(parsed.id) && !(image && seenImages.has(image))) {
         seen.add(parsed.id)
+        if (image) seenImages.add(image)
         products.push({ ...parsed, currency: normalizeCurrency(parsed.currency) })
       }
     } catch {
