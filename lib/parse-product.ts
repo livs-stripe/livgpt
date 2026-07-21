@@ -40,6 +40,26 @@ function isValidProduct(value: unknown): value is ProductResult {
 }
 
 /**
+ * Normalizes a model-supplied currency into a value that is always safe to pass
+ * to `Intl.NumberFormat`. The model is instructed to copy the currency verbatim
+ * from the catalog, but LLMs occasionally emit an invalid code (e.g. "US", "$",
+ * "dollars", or an empty string). An invalid code makes `Intl.NumberFormat`
+ * throw a `RangeError`, which — with no error boundary — unmounts the whole
+ * React tree and makes the chat "disappear". Falling back to USD keeps the UI
+ * alive instead of crashing.
+ */
+function normalizeCurrency(currency: unknown): string {
+  if (typeof currency !== "string" || currency.trim() === "") return "usd"
+  const code = currency.trim().toUpperCase()
+  try {
+    new Intl.NumberFormat("en-US", { style: "currency", currency: code })
+    return currency
+  } catch {
+    return "usd"
+  }
+}
+
+/**
  * Extracts every [PRODUCT_RESULT] JSON block from an assistant message and
  * returns the parsed products along with the message text with all blocks
  * removed.
@@ -69,7 +89,7 @@ export function parseProductResult(text: string): {
       const parsed = JSON.parse(jsonStr)
       if (isValidProduct(parsed) && !seen.has(parsed.id)) {
         seen.add(parsed.id)
-        products.push(parsed)
+        products.push({ ...parsed, currency: normalizeCurrency(parsed.currency) })
       }
     } catch {
       // Ignore malformed block and continue scanning.
@@ -98,8 +118,17 @@ export function sellerNameFromId(sellerId?: string): string {
 }
 
 export function formatPrice(amount: number, currency = "usd"): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: currency.toUpperCase(),
-  }).format(amount / 100)
+  const value = Number.isFinite(amount) ? amount / 100 : 0
+  const code = typeof currency === "string" && currency.trim() ? currency.trim() : "usd"
+  // `Intl.NumberFormat` throws a `RangeError` for invalid currency codes. Guard
+  // it so a malformed value (e.g. from a model-generated product block) can
+  // never crash the render tree; fall back to a plain formatted amount.
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: code.toUpperCase(),
+    }).format(value)
+  } catch {
+    return `${value.toFixed(2)} ${code.toUpperCase()}`
+  }
 }

@@ -7,6 +7,7 @@ import { ArrowUp, Loader2, ShoppingBag, AlertCircle } from "lucide-react"
 import useSWR from "swr"
 import { Button } from "@/components/ui/button"
 import { ChatMessage } from "@/components/chat-message"
+import { ErrorBoundary } from "@/components/error-boundary"
 import type { CatalogProduct, ProductResult } from "@/lib/types"
 
 const FALLBACK_SUGGESTIONS = [
@@ -176,13 +177,14 @@ export function ChatThread({
             </div>
           ) : (
             messages.map((m) => (
-              <ChatMessage
-                key={m.id}
-                message={m}
-                onAddToCart={onAddToCart}
-                onBuyNow={onBuyNow}
-                getCartQty={getCartQty}
-              />
+              <ErrorBoundary key={m.id}>
+                <ChatMessage
+                  message={m}
+                  onAddToCart={onAddToCart}
+                  onBuyNow={onBuyNow}
+                  getCartQty={getCartQty}
+                />
+              </ErrorBoundary>
             ))
           )}
 
