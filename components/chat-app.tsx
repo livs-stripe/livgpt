@@ -238,7 +238,7 @@ export function ChatApp() {
         />
       </div>
 
-      <main className="flex h-full flex-1 flex-col">
+      <main className="flex h-full min-h-0 flex-1 flex-col">
         <header className="flex items-center justify-between border-b border-border px-4 py-3">
           <div className="flex flex-col leading-tight">
             <span className="text-sm font-semibold">LivGPT</span>
