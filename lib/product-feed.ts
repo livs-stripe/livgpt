@@ -388,15 +388,119 @@ export async function getProductById(id: string): Promise<CatalogProduct | undef
   return products.find((p) => p.id === id)
 }
 
-/** A compact, model-friendly representation of the catalog for the system prompt. */
-export function catalogForPrompt(products: CatalogProduct[]): string {
+// The bundled multi-merchant demo catalog holds ~750 products. Dumping every
+// row into the system prompt was ~65k tokens PER request, which made responses
+// slow and expensive. We instead send a bounded, relevance-filtered slice.
+const PROMPT_PRODUCT_LIMIT = 40
+const MAX_DESCRIPTION_CHARS = 160
+
+const STOPWORDS = new Set([
+  "the", "and", "for", "you", "your", "with", "have", "has", "are", "want",
+  "need", "looking", "look", "show", "some", "any", "can", "please", "find",
+  "buy", "get", "would", "like", "that", "this", "what", "which", "under",
+  "about", "from", "into", "out", "gift", "gifts", "something", "help", "them",
+])
+
+/** Splits a free-text query into meaningful lowercase search terms. */
+function queryTerms(query: string): string[] {
+  const matches = query.toLowerCase().match(/[a-z0-9]+/g) ?? []
+  return Array.from(
+    new Set(matches.filter((t) => t.length >= 3 && !STOPWORDS.has(t))),
+  )
+}
+
+/** Lightweight keyword score of a product against the user's query terms. */
+function scoreProduct(p: CatalogProduct, terms: string[]): number {
+  const name = p.name.toLowerCase()
+  const category = (p.category ?? "").toLowerCase()
+  const description = (p.description ?? "").toLowerCase()
+  let score = 0
+  for (const t of terms) {
+    if (name.includes(t)) score += 3
+    if (category.includes(t)) score += 2
+    if (description.includes(t)) score += 1
+  }
+  return score
+}
+
+/**
+ * Round-robins across sellers so a truncated catalog still spans every merchant
+ * (keeps cross-merchant recommendations possible for generic queries).
+ */
+function diverseSample(products: CatalogProduct[], limit: number): CatalogProduct[] {
+  const bySeller = new Map<string, CatalogProduct[]>()
+  for (const p of products) {
+    const key = p.sellerId ?? ""
+    const bucket = bySeller.get(key)
+    if (bucket) bucket.push(p)
+    else bySeller.set(key, [p])
+  }
+  const buckets = Array.from(bySeller.values())
+  const out: CatalogProduct[] = []
+  let i = 0
+  while (out.length < limit && buckets.some((b) => b.length > 0)) {
+    const bucket = buckets[i % buckets.length]
+    const next = bucket.shift()
+    if (next) out.push(next)
+    i++
+  }
+  return out
+}
+
+/**
+ * Picks the most relevant subset of the catalog to include in the prompt.
+ * Prefers keyword matches against the latest user message, then backfills with
+ * a merchant-diverse sample so the model can still cross-sell for broad queries.
+ */
+export function selectProductsForPrompt(
+  products: CatalogProduct[],
+  query = "",
+  limit = PROMPT_PRODUCT_LIMIT,
+): CatalogProduct[] {
+  if (products.length <= limit) return products
+
+  const terms = queryTerms(query)
+  if (terms.length === 0) return diverseSample(products, limit)
+
+  const matched = products
+    .map((p) => ({ p, score: scoreProduct(p, terms) }))
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map((x) => x.p)
+
+  if (matched.length >= limit) return matched.slice(0, limit)
+
+  // Backfill with a diverse sample of the remaining products so we always send
+  // a full, varied slate even when the query matched only a handful of items.
+  const chosen = new Set(matched.map((p) => `${p.sellerId ?? ""}:${p.id}`))
+  const rest = products.filter((p) => !chosen.has(`${p.sellerId ?? ""}:${p.id}`))
+  return [...matched, ...diverseSample(rest, limit - matched.length)]
+}
+
+/**
+ * A compact, model-friendly representation of the catalog for the system prompt.
+ *
+ * Pass the latest user message as `query` to include only the most relevant
+ * products (bounded by `limit`) instead of the entire feed. Descriptions are
+ * truncated to keep the prompt small while preserving the id/price/imageUrl/
+ * sellerId fields the [PRODUCT_RESULT] contract depends on.
+ */
+export function catalogForPrompt(
+  products: CatalogProduct[],
+  query = "",
+  limit = PROMPT_PRODUCT_LIMIT,
+): string {
   if (products.length === 0) {
     return "(No products are currently available from the connected seller's feed.)"
   }
-  return products
-    .map(
-      (p) =>
-        `- id=${p.id} | name=${p.name} | price=${p.price} ${p.currency} | category=${p.category ?? "general"} | available=${p.available !== false} | imageUrl=${p.imageUrl} | sellerId=${p.sellerId ?? ""} | description=${p.description}`,
-    )
-    .join("\n")
+  const selected = selectProductsForPrompt(products, query, limit)
+  const lines = selected.map((p) => {
+    const description = (p.description ?? "").slice(0, MAX_DESCRIPTION_CHARS)
+    return `- id=${p.id} | name=${p.name} | price=${p.price} ${p.currency} | category=${p.category ?? "general"} | available=${p.available !== false} | imageUrl=${p.imageUrl} | sellerId=${p.sellerId ?? ""} | description=${description}`
+  })
+  const note =
+    selected.length < products.length
+      ? `\n(Showing ${selected.length} of ${products.length} catalog items most relevant to the request. If nothing here fits, tell the user and suggest they refine what they're looking for.)`
+      : ""
+  return lines.join("\n") + note
 }

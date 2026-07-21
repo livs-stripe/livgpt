@@ -29,6 +29,20 @@ AVAILABLE CATALOG (from the connected Stripe seller's product feed):
 ${catalogText}`
 }
 
+/** Extracts the text of the most recent user message for relevance filtering. */
+function latestUserText(messages: UIMessage[]): string {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const message = messages[i]
+    if (message.role !== "user") continue
+    if (!message.parts) return ""
+    return message.parts
+      .filter((p): p is { type: "text"; text: string } => p.type === "text")
+      .map((p) => p.text)
+      .join(" ")
+  }
+  return ""
+}
+
 export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json()
 
@@ -36,8 +50,11 @@ export async function POST(req: Request) {
   if (error) {
     console.error("Product feed load error:", error)
   }
+  // Only include the products most relevant to the latest user message instead
+  // of the entire ~750-item feed. This keeps the system prompt small so the
+  // model streams the first token quickly (previously ~65k catalog tokens/turn).
   const systemPrompt = buildSystemPrompt(
-    catalogForPrompt(products),
+    catalogForPrompt(products, latestUserText(messages)),
     products.length > 0,
   )
 

@@ -88,9 +88,22 @@ export function ChatThread({
   const feedEmpty = catalog ? catalog.count === 0 : false
   const feedNotice = catalog ? getFeedNotice(catalog) : null
 
-  const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({ api: "/api/chat" }),
-    messages: initialMessages,
+  // Freeze the transport and the initial messages for the lifetime of this
+  // mount. The parent persists messages on every update, which hands this
+  // component a brand-new `initialMessages` array identity on each render; if
+  // that flowed into useChat it could reset the live thread (wiping messages
+  // after a product result). A fresh mount per conversation is driven by the
+  // `key={active.id}` in the parent, so freezing here is safe and preserves
+  // history across conversation switches.
+  const [transport] = useState(
+    () => new DefaultChatTransport({ api: "/api/chat" }),
+  )
+  const [initialChatMessages] = useState(() => initialMessages)
+
+  const { messages, sendMessage, status, error } = useChat({
+    id: conversationId,
+    transport,
+    messages: initialChatMessages,
   })
 
   const isLoading = status === "streaming" || status === "submitted"
@@ -173,6 +186,17 @@ export function ChatThread({
       </div>
 
       <div className="border-t border-border bg-background/80 backdrop-blur">
+        {error ? (
+          <div className="mx-auto flex w-full max-w-2xl items-start gap-2 px-4 pt-3">
+            <div className="flex flex-1 items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              <AlertCircle className="mt-0.5 size-4 shrink-0" />
+              <span>
+                Something went wrong generating a response. Please try sending
+                your message again.
+              </span>
+            </div>
+          </div>
+        ) : null}
         <form
           onSubmit={(e) => {
             e.preventDefault()
