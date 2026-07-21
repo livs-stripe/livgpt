@@ -11,10 +11,9 @@ import { ErrorBoundary } from "@/components/error-boundary"
 import type { CatalogProduct, ProductResult } from "@/lib/types"
 
 const FALLBACK_SUGGESTIONS = [
-  "What can I shop for here?",
-  "Show me your most popular items",
-  "Help me find a gift",
-  "What's available under $50?",
+  "Help me find a birthday gift under $50",
+  "Show me products from a few different stores",
+  "What are your most popular items?",
 ]
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
@@ -53,17 +52,24 @@ function getFeedNotice(catalog: CatalogResponse): FeedNotice | null {
   }
 }
 
-/** Builds friendly starter prompts from whatever the seller actually sells. */
+/**
+ * Builds exactly 3 friendly starter prompts. The first two are curated to show
+ * off the assistant (gifting + cross-store discovery); the third is tailored to
+ * a real category from the seller's catalog when available.
+ */
 function buildSuggestions(products: CatalogProduct[]): string[] {
   if (products.length === 0) return FALLBACK_SUGGESTIONS
-  const names = products.slice(0, 3).map((p) => `Show me the ${p.name}`)
   const categories = Array.from(
     new Set(products.map((p) => p.category).filter(Boolean)),
-  ).slice(0, 1) as string[]
+  ) as string[]
   const categoryPrompt = categories.length
-    ? `What ${categories[0]} do you have?`
-    : "What's available to buy?"
-  return [...names, categoryPrompt].slice(0, 4)
+    ? `What ${categories[0].toLowerCase()} do you have?`
+    : "What are your most popular items?"
+  return [
+    "Help me find a birthday gift under $50",
+    "Show me products from a few different stores",
+    categoryPrompt,
+  ]
 }
 
 type ChatThreadProps = {
@@ -162,7 +168,7 @@ export function ChatThread({
                   <span>{feedNotice.message}</span>
                 </div>
               ) : (
-                <div className="grid w-full max-w-md grid-cols-1 gap-2 sm:grid-cols-2">
+                <div className="flex w-full max-w-md flex-col gap-2">
                   {suggestions.map((s) => (
                     <button
                       key={s}
