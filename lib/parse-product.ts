@@ -83,6 +83,20 @@ export function parseProductResult(text: string): {
 // Referenced to keep the closing tag meaningful for prompt/documentation parity.
 export const PRODUCT_RESULT_TAGS = { open: OPEN_TAG, close: CLOSE_TAG }
 
+/**
+ * Derives a friendly merchant name from a catalog seller id.
+ * e.g. "profile_harbor_and_home" -> "Harbor & Home".
+ */
+export function sellerNameFromId(sellerId?: string): string {
+  if (!sellerId) return "Store"
+  return sellerId
+    .replace(/^profile_/, "")
+    .split("_")
+    .filter(Boolean)
+    .map((w) => (w === "and" ? "&" : w.charAt(0).toUpperCase() + w.slice(1)))
+    .join(" ")
+}
+
 export function formatPrice(amount: number, currency = "usd"): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",

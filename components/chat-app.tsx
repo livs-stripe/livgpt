@@ -1,14 +1,17 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import type { UIMessage } from "ai"
-import { Moon, Sun } from "lucide-react"
+import { Moon, ShoppingCart, Sun } from "lucide-react"
 import { toast } from "sonner"
 import { ConversationSidebar } from "@/components/conversation-sidebar"
 import { ChatThread } from "@/components/chat-thread"
 import { CheckoutPanel } from "@/components/checkout-panel"
 import { Button } from "@/components/ui/button"
-import type { Conversation, ProductResult } from "@/lib/types"
+import { formatPrice, sellerNameFromId } from "@/lib/parse-product"
+import type { CartItem, Conversation, ProductResult } from "@/lib/types"
+
+const MAX_QTY = 5
 
 const STORAGE_KEY = "ai-shopping-agent:conversations"
 const THEME_KEY = "ai-shopping-agent:theme"
@@ -39,10 +42,26 @@ export function ChatApp() {
   const [theme, setTheme] = useState<"dark" | "light">("dark")
   const [hydrated, setHydrated] = useState(false)
 
-  // Checkout state
+  // Cart + checkout state. A cart targets a single seller because a Delegated
+  // Checkout RequestedSession can only span one seller profile.
+  const [cart, setCart] = useState<CartItem[]>([])
   const [checkoutOpen, setCheckoutOpen] = useState(false)
-  const [checkoutProduct, setCheckoutProduct] = useState<ProductResult | null>(null)
-  const [checkoutSessionId, setCheckoutSessionId] = useState<string | null>(null)
+
+  const cartSeller = cart[0]?.product.sellerId
+  const cartCount = useMemo(
+    () => cart.reduce((n, item) => n + item.quantity, 0),
+    [cart],
+  )
+  const cartSubtotal = useMemo(
+    () => cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0),
+    [cart],
+  )
+  const cartCurrency = cart[0]?.product.currency ?? "usd"
+
+  const getCartQty = useCallback(
+    (productId: string) => cart.find((i) => i.product.id === productId)?.quantity ?? 0,
+    [cart],
+  )
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -108,9 +127,86 @@ export function ChatApp() {
     })
   }
 
-  function handleBuy(product: ProductResult, sessionId: string) {
-    setCheckoutProduct(product)
-    setCheckoutSessionId(sessionId)
+  // Adds a product, capping quantity. Assumes the seller matches (or the cart is
+  // empty); seller conflicts are resolved by the callers below.
+  const addUnit = useCallback((product: ProductResult) => {
+    setCart((prev) => {
+      const existing = prev.find((i) => i.product.id === product.id)
+      if (existing) {
+        return prev.map((i) =>
+          i.product.id === product.id
+            ? { ...i, quantity: Math.min(MAX_QTY, i.quantity + 1) }
+            : i,
+        )
+      }
+      return [...prev, { product, quantity: 1 }]
+    })
+  }, [])
+
+  // Prompts the user to replace a different-seller cart, then runs `after`.
+  const promptReplace = useCallback(
+    (product: ProductResult, after?: () => void) => {
+      toast(`Your cart has items from ${sellerNameFromId(cartSeller)}.`, {
+        description: `A checkout can only include one seller. Replace it with ${sellerNameFromId(
+          product.sellerId,
+        )}?`,
+        action: {
+          label: "Replace cart",
+          onClick: () => {
+            setCart([{ product, quantity: 1 }])
+            after?.()
+          },
+        },
+      })
+    },
+    [cartSeller],
+  )
+
+  const handleAddToCart = useCallback(
+    (product: ProductResult) => {
+      if (cart.length > 0 && cartSeller !== product.sellerId) {
+        promptReplace(product)
+        return
+      }
+      const atCap = getCartQty(product.id) >= MAX_QTY
+      addUnit(product)
+      if (atCap) {
+        toast.info(`Max quantity (${MAX_QTY}) reached for ${product.name}.`)
+      } else {
+        toast.success(`Added ${product.name} to cart.`)
+      }
+    },
+    [cart.length, cartSeller, getCartQty, addUnit, promptReplace],
+  )
+
+  const handleBuyNow = useCallback(
+    (product: ProductResult) => {
+      if (cart.length > 0 && cartSeller !== product.sellerId) {
+        promptReplace(product, () => setCheckoutOpen(true))
+        return
+      }
+      if (getCartQty(product.id) === 0) addUnit(product)
+      setCheckoutOpen(true)
+    },
+    [cart.length, cartSeller, getCartQty, addUnit, promptReplace],
+  )
+
+  const setItemQty = useCallback((productId: string, qty: number) => {
+    const clamped = Math.min(MAX_QTY, Math.max(1, Math.floor(qty)))
+    setCart((prev) =>
+      prev.map((i) => (i.product.id === productId ? { ...i, quantity: clamped } : i)),
+    )
+  }, [])
+
+  const removeItem = useCallback((productId: string) => {
+    setCart((prev) => prev.filter((i) => i.product.id !== productId))
+  }, [])
+
+  function openCart() {
+    if (cart.length === 0) {
+      toast.info("Your cart is empty. Add a product to get started.")
+      return
+    }
     setCheckoutOpen(true)
   }
 
@@ -118,6 +214,11 @@ export function ChatApp() {
     setCheckoutOpen(false)
     toast.dismiss()
   }
+
+  // Close the sheet automatically if the cart is emptied while it's open.
+  useEffect(() => {
+    if (checkoutOpen && cart.length === 0) setCheckoutOpen(false)
+  }, [checkoutOpen, cart.length])
 
   const active = conversations.find((c) => c.id === activeId) || null
 
@@ -145,14 +246,34 @@ export function ChatApp() {
               {active.title}
             </span>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
-          </Button>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              onClick={openCart}
+              className="relative gap-2"
+              aria-label={`Open cart (${cartCount} item${cartCount === 1 ? "" : "s"})`}
+            >
+              <ShoppingCart className="size-5" />
+              {cartCount > 0 ? (
+                <span className="text-sm font-medium tabular-nums">
+                  {formatPrice(cartSubtotal, cartCurrency)}
+                </span>
+              ) : null}
+              {cartCount > 0 ? (
+                <span className="absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                  {cartCount}
+                </span>
+              ) : null}
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
+            </Button>
+          </div>
         </header>
 
         <ChatThread
@@ -160,15 +281,18 @@ export function ChatApp() {
           conversationId={active.id}
           initialMessages={active.messages as UIMessage[]}
           onMessagesChange={handleMessagesChange}
-          onBuy={handleBuy}
+          onAddToCart={handleAddToCart}
+          onBuyNow={handleBuyNow}
+          getCartQty={getCartQty}
         />
       </main>
 
       <CheckoutPanel
         open={checkoutOpen}
-        product={checkoutProduct}
-        sessionId={checkoutSessionId}
+        items={cart}
         theme={theme}
+        onUpdateQty={setItemQty}
+        onRemove={removeItem}
         onClose={closeCheckout}
       />
     </div>

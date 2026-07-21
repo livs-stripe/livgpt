@@ -24,6 +24,13 @@ export type CatalogProduct = {
   available?: boolean
 }
 
+/** A line item in the shopping cart. A cart targets a single seller because a
+ * Delegated Checkout RequestedSession can only target one seller profile. */
+export type CartItem = {
+  product: ProductResult
+  quantity: number
+}
+
 export type Conversation = {
   id: string
   title: string

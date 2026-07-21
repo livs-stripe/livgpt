@@ -1,45 +1,24 @@
 "use client"
 
-import { useState } from "react"
-import { Loader2, ShoppingBag } from "lucide-react"
+import { Check, Plus, ShoppingBag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { formatPrice } from "@/lib/parse-product"
 import type { ProductResult } from "@/lib/types"
 
 type ProductCardProps = {
   product: ProductResult
-  onBuy: (product: ProductResult, sessionId: string, quantity: number) => void
+  /** Quantity of this product currently in the cart (0 if none). */
+  inCartQty?: number
+  onAddToCart: (product: ProductResult) => void
+  onBuyNow: (product: ProductResult) => void
 }
 
-export function ProductCard({ product, onBuy }: ProductCardProps) {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
-  async function handleBuyNow() {
-    setLoading(true)
-    setError(null)
-    try {
-      const res = await fetch("/api/checkout/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productId: product.id,
-          quantity: 1,
-          currency: product.currency,
-        }),
-      })
-      const data = await res.json()
-      if (!res.ok || !data.sessionId) {
-        throw new Error(data.error || "Could not start checkout.")
-      }
-      onBuy(product, data.sessionId, 1)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.")
-    } finally {
-      setLoading(false)
-    }
-  }
-
+export function ProductCard({
+  product,
+  inCartQty = 0,
+  onAddToCart,
+  onBuyNow,
+}: ProductCardProps) {
   return (
     <div className="flex h-full w-full flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm">
       <div className="aspect-[4/3] w-full overflow-hidden bg-muted">
@@ -61,20 +40,29 @@ export function ProductCard({ product, onBuy }: ProductCardProps) {
         <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
           {product.description}
         </p>
-        <Button
-          onClick={handleBuyNow}
-          disabled={loading}
-          className="mt-auto w-full"
-          size="lg"
-        >
-          {loading ? (
-            <Loader2 className="size-4 animate-spin" />
-          ) : (
+        <div className="mt-auto flex gap-2 pt-1">
+          <Button
+            onClick={() => onAddToCart(product)}
+            variant="outline"
+            className="flex-1"
+          >
+            {inCartQty > 0 ? (
+              <>
+                <Check className="size-4" />
+                In cart ({inCartQty})
+              </>
+            ) : (
+              <>
+                <Plus className="size-4" />
+                Add
+              </>
+            )}
+          </Button>
+          <Button onClick={() => onBuyNow(product)} className="flex-1">
             <ShoppingBag className="size-4" />
-          )}
-          {loading ? "Starting checkout..." : "Buy Now"}
-        </Button>
-        {error ? <p className="text-sm text-destructive">{error}</p> : null}
+            Buy Now
+          </Button>
+        </div>
       </div>
     </div>
   )
