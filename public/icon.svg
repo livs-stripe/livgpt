@@ -1,12 +1,12 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="livBadge" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#6366F1" />
-      <stop offset="1" stop-color="#A855F7" />
+    <linearGradient id="brandBadge" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#635BFF" />
+      <stop offset="1" stop-color="#A78BFA" />
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="15" fill="url(#livBadge)" />
+  <rect width="64" height="64" rx="15" fill="url(#brandBadge)" />
   <path d="M24 27v-3a8 8 0 0 1 16 0v3" fill="none" stroke="#ffffff" stroke-width="3.6" stroke-linecap="round" />
   <path d="M17 27h30l-1.9 22.6A6 6 0 0 1 39.1 55H24.9a6 6 0 0 1-6-5.4L17 27z" fill="#ffffff" />
-  <path d="M32 33.5l1.7 4.6 4.6 1.7-4.6 1.7L32 46.1l-1.7-4.6-4.6-1.7 4.6-1.7z" fill="url(#livBadge)" />
+  <path d="M32 33.5l1.7 4.6 4.6 1.7-4.6 1.7L32 46.1l-1.7-4.6-4.6-1.7 4.6-1.7z" fill="url(#brandBadge)" />
 </svg>

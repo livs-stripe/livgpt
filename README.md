@@ -1,4 +1,4 @@
-# LivGPT
+# Shop with Stripe
 
 A chat-based shopping agent that uses **OpenAI GPT-5** to help users find and
 purchase products through **Stripe's Agentic Commerce (Delegated Checkout)** API.

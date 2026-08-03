@@ -241,7 +241,12 @@ export function ChatApp() {
       <main className="flex h-full min-h-0 flex-1 flex-col">
         <header className="flex items-center justify-between border-b border-border px-4 py-3">
           <div className="flex flex-col leading-tight">
-            <span className="text-sm font-semibold">LivGPT</span>
+            <span className="flex items-center gap-2 text-sm font-semibold">
+              Shop with Stripe
+              <span className="rounded-full border border-primary/40 bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-primary">
+                Demo
+              </span>
+            </span>
             <span className="truncate text-xs text-muted-foreground">
               {active.title}
             </span>

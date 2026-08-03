@@ -226,9 +226,9 @@ export function ChatThread({
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Talk to Liv..."
+              placeholder="Ask the shopping assistant…"
               className="flex-1 bg-transparent py-2.5 text-sm outline-none placeholder:text-muted-foreground"
-              aria-label="Talk to Liv"
+              aria-label="Ask the shopping assistant"
             />
           </div>
           <Button

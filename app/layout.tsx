@@ -11,10 +11,9 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'LivGPT',
+  title: 'Shop with Stripe',
   description:
-    'A chat-based shopping agent powered by GPT-5 and Stripe Agentic Commerce.',
-  generator: 'v0.app',
+    'An AI shopping assistant powered by Stripe Agentic Commerce — discover products and check out right from the chat.',
   icons: {
     icon: [
       {

@@ -27,8 +27,15 @@ export function ConversationSidebar({
           <Sparkles className="size-4" />
         </div>
         <div className="flex flex-col leading-tight">
-          <span className="text-sm font-semibold">LivGPT</span>
-          <span className="text-xs text-muted-foreground">Powered by GPT-5</span>
+          <span className="flex items-center gap-2 text-sm font-semibold">
+            Shop with Stripe
+            <span className="rounded-full border border-primary/40 bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-primary">
+              Demo
+            </span>
+          </span>
+          <span className="text-xs text-muted-foreground">
+            AI shopping assistant
+          </span>
         </div>
       </div>
 
@@ -74,6 +81,11 @@ export function ConversationSidebar({
         </div>
       </ScrollArea>
 
+      <div className="border-t border-sidebar-border px-4 py-3">
+        <p className="text-[11px] leading-relaxed text-muted-foreground">
+          Demo · Powered by Stripe Agentic Commerce
+        </p>
+      </div>
     </aside>
   )
 }

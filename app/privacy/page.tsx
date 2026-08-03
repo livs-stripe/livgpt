@@ -2,15 +2,16 @@ import type { Metadata } from "next"
 import { LegalPage, LegalSection } from "@/components/legal-page"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | LivGPT",
-  description: "How LivGPT collects, uses, and protects your information.",
+  title: "Privacy Policy | Shop with Stripe",
+  description:
+    "How Shop with Stripe collects, uses, and protects your information.",
 }
 
 export default function PrivacyPage() {
   return (
     <LegalPage title="Privacy Policy" lastUpdated="June 6, 2026">
       <p>
-        This Privacy Policy explains how LivGPT (the {'"Service"'}) collects, uses, and protects
+        This Privacy Policy explains how Shop with Stripe (the {'"Service"'}) collects, uses, and protects
         your information when you use our AI shopping assistant.
       </p>
 
@@ -64,8 +65,8 @@ export default function PrivacyPage() {
       <LegalSection heading="7. Contact">
         <p>
           If you have questions about this Privacy Policy, contact us at{" "}
-          <a href="mailto:privacy@livgpt.app" className="text-foreground underline underline-offset-4">
-            privacy@livgpt.app
+          <a href="mailto:privacy@example.com" className="text-foreground underline underline-offset-4">
+            privacy@example.com
           </a>
           .
         </p>

@@ -2,22 +2,22 @@ import type { Metadata } from "next"
 import { LegalPage, LegalSection } from "@/components/legal-page"
 
 export const metadata: Metadata = {
-  title: "Terms of Service | LivGPT",
-  description: "The terms governing your use of LivGPT.",
+  title: "Terms of Service | Shop with Stripe",
+  description: "The terms governing your use of Shop with Stripe.",
 }
 
 export default function TermsPage() {
   return (
     <LegalPage title="Terms of Service" lastUpdated="June 6, 2026">
       <p>
-        These Terms of Service ({'"Terms"'}) govern your access to and use of LivGPT (the
+        These Terms of Service ({'"Terms"'}) govern your access to and use of Shop with Stripe (the
         {' "Service"'}), an AI shopping assistant that helps you discover and purchase products.
         By using the Service, you agree to these Terms.
       </p>
 
       <LegalSection heading="1. Use of the Service">
         <p>
-          LivGPT provides a conversational interface to browse a product catalog and complete
+          Shop with Stripe provides a conversational interface to browse a product catalog and complete
           purchases through our payment processor. You agree to use the Service only for lawful
           purposes and not to misuse, disrupt, or attempt to gain unauthorized access to any part
           of it.
@@ -26,7 +26,7 @@ export default function TermsPage() {
 
       <LegalSection heading="2. Orders and Payments">
         <p>
-          Purchases made through LivGPT are processed securely by Stripe. By placing an order, you
+          Purchases made through Shop with Stripe are processed securely by Stripe. By placing an order, you
           authorize the charge to your selected payment method for the listed price plus any
           applicable taxes and shipping. All prices are shown in the currency indicated at
           checkout.
@@ -43,7 +43,7 @@ export default function TermsPage() {
 
       <LegalSection heading="4. AI-Generated Content">
         <p>
-          LivGPT uses AI to generate product recommendations and responses. While we strive for
+          Shop with Stripe uses AI to generate product recommendations and responses. While we strive for
           accuracy, AI output may occasionally be incomplete or incorrect. Always review product
           details before completing a purchase.
         </p>
@@ -52,7 +52,7 @@ export default function TermsPage() {
       <LegalSection heading="5. Limitation of Liability">
         <p>
           The Service is provided {'"as is"'} without warranties of any kind. To the maximum extent
-          permitted by law, LivGPT shall not be liable for any indirect, incidental, or
+          permitted by law, Shop with Stripe shall not be liable for any indirect, incidental, or
           consequential damages arising from your use of the Service.
         </p>
       </LegalSection>
@@ -67,8 +67,8 @@ export default function TermsPage() {
       <LegalSection heading="7. Contact">
         <p>
           If you have questions about these Terms, contact us at{" "}
-          <a href="mailto:support@livgpt.app" className="text-foreground underline underline-offset-4">
-            support@livgpt.app
+          <a href="mailto:support@example.com" className="text-foreground underline underline-offset-4">
+            support@example.com
           </a>
           .
         </p>
