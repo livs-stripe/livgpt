@@ -243,9 +243,6 @@ export function ChatApp() {
           <div className="flex flex-col leading-tight">
             <span className="flex items-center gap-2 text-sm font-semibold">
               Shop with Stripe
-              <span className="rounded-full border border-primary/40 bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-primary">
-                Demo
-              </span>
             </span>
             <span className="truncate text-xs text-muted-foreground">
               {active.title}
