@@ -391,6 +391,44 @@ export async function loadCatalog(forceRefresh = false): Promise<CatalogState> {
   }
 }
 
+/**
+ * Diagnostic-only: runs the exact SFTP feed ingestion WITHOUT any mock-catalog
+ * fallback, so a caller can see what the real Stripe Agentic Commerce feed
+ * currently returns. Returns `configured:false` when SFTP env is missing, and
+ * an `error` string (never throws) when connecting/parsing fails.
+ */
+export async function loadFeedOnly(): Promise<{
+  products: CatalogProduct[]
+  configured: boolean
+  error: string | null
+}> {
+  let config: FeedConfig | null
+  try {
+    config = readConfig()
+  } catch (err) {
+    return {
+      products: [],
+      configured: true,
+      error: err instanceof Error ? err.message : "Invalid product feed configuration.",
+    }
+  }
+
+  if (!config) {
+    return { products: [], configured: false, error: null }
+  }
+
+  try {
+    const products = await downloadFeed(config)
+    return { products, configured: true, error: null }
+  } catch (err) {
+    return {
+      products: [],
+      configured: true,
+      error: err instanceof Error ? err.message : "Failed to read product feed.",
+    }
+  }
+}
+
 export async function getProductById(id: string): Promise<CatalogProduct | undefined> {
   const { products } = await loadCatalog()
   return products.find((p) => p.id === id)
