@@ -3,7 +3,7 @@
 import type { UIMessage } from "ai"
 import { Bot, User } from "lucide-react"
 import { ProductCard } from "@/components/product-card"
-import { parseProductResult } from "@/lib/parse-product"
+import { parseProductResult, stripDashes } from "@/lib/parse-product"
 import type { ProductResult } from "@/lib/types"
 
 function getText(message: UIMessage): string {
@@ -32,6 +32,8 @@ export function ChatMessage({
   const { cleanText, products } = isUser
     ? { cleanText: rawText, products: [] as ProductResult[] }
     : parseProductResult(rawText)
+  // Never render em/en dashes in assistant replies (keep the user's own text as-is).
+  const displayText = isUser ? cleanText : stripDashes(cleanText)
 
   return (
     <div className={`flex w-full gap-3 ${isUser ? "flex-row-reverse" : "flex-row"}`}>
@@ -52,7 +54,7 @@ export function ChatMessage({
                 : "rounded-tl-sm bg-muted text-foreground"
             }`}
           >
-            {cleanText}
+            {displayText}
           </div>
         ) : null}
         {products.length > 0 ? (

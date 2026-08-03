@@ -123,6 +123,25 @@ export function sellerNameFromId(sellerId?: string): string {
     .join(" ")
 }
 
+/**
+ * Removes em dashes (—) and en dashes (–) from assistant text and replaces them
+ * with natural punctuation, so responses read like normal human writing. The
+ * system prompt already instructs the model to avoid them; this is a guaranteed
+ * safety net for any that slip through. Hyphens (-) in product names like
+ * "3-Wick" are U+002D and are intentionally left untouched.
+ */
+export function stripDashes(text: string): string {
+  if (!text) return text
+  return text
+    // A dash flanked by spaces becomes a comma pause: "gifting — fun" -> "gifting, fun".
+    .replace(/\s+[\u2014\u2013]\s+/g, ", ")
+    // Any remaining em/en dash (e.g. tight "cooking—baking") becomes ", ".
+    .replace(/[\u2014\u2013]/g, ", ")
+    // Tidy up any accidental doubled punctuation like "!, " or ",, ".
+    .replace(/([!?.,;:])\s*,\s+/g, "$1 ")
+    .replace(/,\s*,\s*/g, ", ")
+}
+
 export function formatPrice(amount: number, currency = "usd"): string {
   const value = Number.isFinite(amount) ? amount / 100 : 0
   const code = typeof currency === "string" && currency.trim() ? currency.trim() : "usd"
