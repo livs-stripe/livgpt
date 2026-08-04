@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react"
 import type { UIMessage } from "ai"
-import { Moon, ShoppingCart, Sun } from "lucide-react"
+import { Menu, Moon, ShoppingCart, Sparkles, Sun } from "lucide-react"
 import { toast } from "sonner"
 import { ConversationSidebar } from "@/components/conversation-sidebar"
 import { ChatThread } from "@/components/chat-thread"
@@ -46,6 +46,7 @@ export function ChatApp() {
   // Checkout RequestedSession can only span one seller profile.
   const [cart, setCart] = useState<CartItem[]>([])
   const [checkoutOpen, setCheckoutOpen] = useState(false)
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
 
   const cartSeller = cart[0]?.product.sellerId
   const cartCount = useMemo(
@@ -220,6 +221,16 @@ export function ChatApp() {
     if (checkoutOpen && cart.length === 0) setCheckoutOpen(false)
   }, [checkoutOpen, cart.length])
 
+  // Close the mobile sidebar drawer on Escape.
+  useEffect(() => {
+    if (!mobileSidebarOpen) return
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setMobileSidebarOpen(false)
+    }
+    document.addEventListener("keydown", onKeyDown)
+    return () => document.removeEventListener("keydown", onKeyDown)
+  }, [mobileSidebarOpen])
+
   const active = conversations.find((c) => c.id === activeId) || null
 
   if (!hydrated || !active) {
@@ -238,15 +249,66 @@ export function ChatApp() {
         />
       </div>
 
+      {/* Mobile sidebar drawer (below md) */}
+      <div
+        className={`fixed inset-0 z-40 md:hidden ${
+          mobileSidebarOpen ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+        aria-hidden={!mobileSidebarOpen}
+      >
+        <div
+          onClick={() => setMobileSidebarOpen(false)}
+          className={`absolute inset-0 bg-black/60 transition-opacity ${
+            mobileSidebarOpen ? "opacity-100" : "opacity-0"
+          }`}
+        />
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
+          className={`absolute inset-y-0 left-0 flex transition-transform duration-300 ${
+            mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <ConversationSidebar
+            conversations={conversations}
+            activeId={activeId}
+            onSelect={(id) => {
+              setActiveId(id)
+              setMobileSidebarOpen(false)
+            }}
+            onNew={() => {
+              handleNew()
+              setMobileSidebarOpen(false)
+            }}
+            onDelete={handleDelete}
+          />
+        </div>
+      </div>
+
       <main className="flex h-full min-h-0 flex-1 flex-col">
         <header className="flex items-center justify-between border-b border-border px-4 py-3">
-          <div className="flex flex-col leading-tight">
-            <span className="flex items-center gap-2 text-sm font-semibold">
-              Shop with Stripe
-            </span>
-            <span className="truncate text-xs text-muted-foreground">
-              {active.title}
-            </span>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={() => setMobileSidebarOpen(true)}
+              aria-label="Open menu"
+            >
+              <Menu className="size-5" />
+            </Button>
+            <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <Sparkles className="size-4" />
+            </div>
+            <div className="flex flex-col leading-tight">
+              <span className="flex items-center gap-2 text-sm font-semibold">
+                Shop with Stripe
+              </span>
+              <span className="truncate text-xs text-muted-foreground">
+                {active.title}
+              </span>
+            </div>
           </div>
           <div className="flex items-center gap-1">
             <Button

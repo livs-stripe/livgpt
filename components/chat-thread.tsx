@@ -8,7 +8,7 @@ import useSWR from "swr"
 import { Button } from "@/components/ui/button"
 import { ChatMessage } from "@/components/chat-message"
 import { ErrorBoundary } from "@/components/error-boundary"
-import type { CatalogProduct, ProductResult } from "@/lib/types"
+import type { ProductResult } from "@/lib/types"
 
 const FALLBACK_SUGGESTIONS = [
   "Help me find a birthday gift under $50",
@@ -22,33 +22,20 @@ type CatalogResponse = {
   configured: boolean
   error: string | null
   count: number
-  products: CatalogProduct[]
+  categories: string[]
 }
 
 type FeedNotice = { tone: "info" | "error"; message: string }
 
 /**
- * Explains *why* the catalog is empty using the fields the API already returns,
- * instead of always showing the generic "still syncing" message. This surfaces
- * misconfiguration and connection errors that were previously swallowed.
+ * Shows a friendly, audience-safe notice when the catalog is empty. We never
+ * surface configuration, environment, or connection details to shoppers.
  */
 function getFeedNotice(catalog: CatalogResponse): FeedNotice | null {
   if (catalog.count > 0) return null
-  if (!catalog.configured) {
-    return {
-      tone: "error",
-      message:
-        catalog.error ??
-        "The product feed isn't configured. Set the SFTP_* environment variables in the Vercel project.",
-    }
-  }
-  if (catalog.error) {
-    return { tone: "error", message: catalog.error }
-  }
   return {
     tone: "info",
-    message:
-      "The store catalog is still syncing from the seller's Stripe product feed. Check back shortly once products arrive.",
+    message: "The store is restocking, please check back shortly.",
   }
 }
 
@@ -57,14 +44,9 @@ function getFeedNotice(catalog: CatalogResponse): FeedNotice | null {
  * off the assistant (gifting + cross-store discovery); the third is tailored to
  * a real category from the seller's catalog when available.
  */
-function buildSuggestions(products: CatalogProduct[]): string[] {
-  if (products.length === 0) return FALLBACK_SUGGESTIONS
-  const categories = Array.from(
-    new Set(products.map((p) => p.category).filter(Boolean)),
-  ) as string[]
-  const categoryPrompt = categories.length
-    ? `What ${categories[0].toLowerCase()} do you have?`
-    : "What are your most popular items?"
+function buildSuggestions(categories: string[]): string[] {
+  if (categories.length === 0) return FALLBACK_SUGGESTIONS
+  const categoryPrompt = `What ${categories[0].toLowerCase()} do you have?`
   return [
     "Help me find a birthday gift under $50",
     "Show me products from a few different stores",
@@ -95,7 +77,7 @@ export function ChatThread({
   const { data: catalog } = useSWR<CatalogResponse>("/api/catalog", fetcher, {
     revalidateOnFocus: false,
   })
-  const suggestions = buildSuggestions(catalog?.products ?? [])
+  const suggestions = buildSuggestions(catalog?.categories ?? [])
   const feedEmpty = catalog ? catalog.count === 0 : false
   const feedNotice = catalog ? getFeedNotice(catalog) : null
 

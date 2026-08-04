@@ -39,18 +39,15 @@ export async function POST(req: Request) {
             `/v1/orchestrated_commerce/agreements/${objectId}/confirm`,
             { method: "POST", body: {} },
           )
-          console.log("Orchestrated commerce agreement auto-confirmed:", objectId)
         }
         break
       }
       case "v2.orchestrated_commerce.agreement.confirmed":
-        console.log("Orchestrated commerce agreement confirmed (feed incoming):", objectId)
         break
       case "v2.orchestrated_commerce.agreement.terminated":
-        console.log("Orchestrated commerce agreement terminated:", objectId)
         break
       default:
-        console.log("Unhandled agent webhook event:", type)
+        break
     }
   } catch (err) {
     const message = err instanceof Error ? err.message : "handler error"

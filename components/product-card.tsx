@@ -7,6 +7,16 @@ import { Separator } from "@/components/ui/separator"
 import { formatPrice, sellerNameFromId } from "@/lib/parse-product"
 import type { ProductResult } from "@/lib/types"
 
+const PLACEHOLDER_IMG = "/placeholder.svg"
+
+/** Swaps a broken product image for the local placeholder, guarding against a
+ * loop if the placeholder itself ever fails to load. */
+function handleImageError(event: React.SyntheticEvent<HTMLImageElement>) {
+  const img = event.currentTarget
+  if (img.src.endsWith(PLACEHOLDER_IMG)) return
+  img.src = PLACEHOLDER_IMG
+}
+
 type ProductCardProps = {
   product: ProductResult
   /** Quantity of this product currently in the cart (0 if none). */
@@ -50,7 +60,7 @@ export function ProductCard({
             src={product.imageUrl || "/placeholder.svg"}
             alt={product.name}
             className="h-full w-full object-cover"
-            crossOrigin="anonymous"
+            onError={handleImageError}
           />
         </button>
         <div className="flex flex-1 flex-col gap-2 p-4">
@@ -165,7 +175,7 @@ function ProductDetail({
               src={product.imageUrl || "/placeholder.svg"}
               alt={product.name}
               className="h-full w-full object-cover"
-              crossOrigin="anonymous"
+              onError={handleImageError}
             />
           </div>
 

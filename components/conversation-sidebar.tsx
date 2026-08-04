@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { MessageSquarePlus, Sparkles, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -82,6 +83,21 @@ export function ConversationSidebar({
         <p className="text-[11px] leading-relaxed text-muted-foreground">
           Powered by Stripe Agentic Commerce
         </p>
+        <nav className="mt-2 flex items-center gap-2 text-[11px] text-muted-foreground">
+          <Link
+            href="/privacy"
+            className="transition-colors hover:text-foreground hover:underline underline-offset-2"
+          >
+            Privacy
+          </Link>
+          <span aria-hidden="true">·</span>
+          <Link
+            href="/terms"
+            className="transition-colors hover:text-foreground hover:underline underline-offset-2"
+          >
+            Terms
+          </Link>
+        </nav>
       </div>
     </aside>
   )

@@ -10,10 +10,15 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
+const SITE_TITLE = 'Shop with Stripe'
+const SITE_DESCRIPTION =
+  'An AI shopping assistant powered by Stripe Agentic Commerce — discover products and check out right from the chat.'
+const SITE_URL = 'https://shopwithstripe.vercel.app'
+
 export const metadata: Metadata = {
-  title: 'Shop with Stripe',
-  description:
-    'An AI shopping assistant powered by Stripe Agentic Commerce — discover products and check out right from the chat.',
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
   icons: {
     icon: [
       {
@@ -23,6 +28,20 @@ export const metadata: Metadata = {
     ],
     shortcut: '/icon.svg',
     apple: '/icon.svg',
+  },
+  openGraph: {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: SITE_TITLE,
+    type: 'website',
+    images: [{ url: '/icon.svg' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ['/icon.svg'],
   },
 }
 

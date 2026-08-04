@@ -48,6 +48,16 @@ function getStripePromise(publishableKey: string | undefined) {
   return promise
 }
 
+const PLACEHOLDER_IMG = "/placeholder.svg"
+
+/** Swaps a broken product image for the local placeholder, guarding against a
+ * loop if the placeholder itself ever fails to load. */
+function handleImageError(event: React.SyntheticEvent<HTMLImageElement>) {
+  const img = event.currentTarget
+  if (img.src.endsWith(PLACEHOLDER_IMG)) return
+  img.src = PLACEHOLDER_IMG
+}
+
 type CheckoutPanelProps = {
   open: boolean
   items: CartItem[]
@@ -66,6 +76,15 @@ export function CheckoutPanel({
   onClose,
 }: CheckoutPanelProps) {
   const stripe = getStripePromise(AGENT_PUBLISHABLE_KEY)
+
+  useEffect(() => {
+    if (!open) return
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") onClose()
+    }
+    document.addEventListener("keydown", onKeyDown)
+    return () => document.removeEventListener("keydown", onKeyDown)
+  }, [open, onClose])
 
   const subtotal = items.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
@@ -385,7 +404,7 @@ function CheckoutForm({
                 src={product.imageUrl || "/placeholder.svg"}
                 alt={product.name}
                 className="h-full w-full object-cover"
-                crossOrigin="anonymous"
+                onError={handleImageError}
               />
             </div>
             <div className="flex flex-1 flex-col">

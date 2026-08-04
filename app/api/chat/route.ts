@@ -101,8 +101,8 @@ export async function POST(req: Request) {
   )
 
   const result = streamText({
-    // Routed through the Vercel AI Gateway (zero-config for OpenAI in v0),
-    // so it does not depend on a personal OPENAI_API_KEY / its quota.
+    // Routed through the Vercel AI Gateway, so it does not depend on a personal
+    // OPENAI_API_KEY / its quota.
     model: "openai/gpt-5.5",
     system: systemPrompt,
     messages: await convertToModelMessages(messages),
@@ -110,9 +110,10 @@ export async function POST(req: Request) {
 
   return result.toUIMessageStreamResponse({
     onError: (err) => {
+      // Log the detailed error server-side only; never leak internals to the
+      // client. The UI shows a fixed, friendly message.
       console.error("/api/chat error:", err)
-      if (err instanceof Error) return err.message
-      return "Something went wrong generating a response."
+      return "Something went wrong generating a response. Please try again."
     },
   })
 }

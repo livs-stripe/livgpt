@@ -27,17 +27,7 @@ export async function POST(req: Request) {
   }
 
   if (event.type === "checkout.session.completed") {
-    const session = event.data.object as Stripe.Checkout.Session
-    console.log("Seller order completed:", {
-      sessionId: session.id,
-      amountTotal: session.amount_total,
-      currency: session.currency,
-      customerEmail: session.customer_details?.email,
-      shipping: session.collected_information?.shipping_details ?? null,
-    })
     // Fulfillment logic would go here (e.g. create order, notify warehouse).
-  } else {
-    console.log("Unhandled seller webhook event:", event.type)
   }
 
   return NextResponse.json({ received: true })

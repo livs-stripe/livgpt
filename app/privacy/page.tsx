@@ -64,11 +64,8 @@ export default function PrivacyPage() {
 
       <LegalSection heading="7. Contact">
         <p>
-          If you have questions about this Privacy Policy, contact us at{" "}
-          <a href="mailto:privacy@example.com" className="text-foreground underline underline-offset-4">
-            privacy@example.com
-          </a>
-          .
+          If you have questions about this Privacy Policy, please reach out to the event host or
+          the team operating this demo.
         </p>
       </LegalSection>
     </LegalPage>

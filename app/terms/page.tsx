@@ -66,11 +66,8 @@ export default function TermsPage() {
 
       <LegalSection heading="7. Contact">
         <p>
-          If you have questions about these Terms, contact us at{" "}
-          <a href="mailto:support@example.com" className="text-foreground underline underline-offset-4">
-            support@example.com
-          </a>
-          .
+          If you have questions about these Terms, please reach out to the event host or the team
+          operating this demo.
         </p>
       </LegalSection>
     </LegalPage>
