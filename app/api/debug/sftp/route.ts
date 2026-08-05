@@ -70,6 +70,28 @@ export async function GET() {
     const rootList = await sftp.list(feedPath)
     const rootEntries = rootList.map((e) => ({ name: e.name, type: e.type }))
 
+    // Read the contents of stripe-verification.txt (if present) so we can
+    // confirm it matches the challenge token shown in the Stripe dashboard.
+    // This token is NOT a secret (Stripe displays it in the UI), so returning
+    // it from this diagnostic endpoint is safe.
+    let verificationToken: string | null = null
+    const verifyEntry = rootList.find((e) => e.name === "stripe-verification.txt")
+    if (verifyEntry) {
+      try {
+        const base = feedPath.replace(/\/$/, "")
+        const verifyPath = `${base}/stripe-verification.txt`
+        const data = await sftp.get(verifyPath)
+        const buf = Buffer.isBuffer(data)
+          ? data
+          : typeof data === "string"
+            ? Buffer.from(data)
+            : Buffer.from(data as unknown as Uint8Array)
+        verificationToken = buf.toString("utf8").trim()
+      } catch (e) {
+        verificationToken = `<unreadable: ${e instanceof Error ? e.message : String(e)}>`
+      }
+    }
+
     // Walk one level into subdirectories to surface manifests / catalog files.
     const children: Record<string, string[]> = {}
     let manifestCount = 0
@@ -104,6 +126,7 @@ export async function GET() {
       connected: true,
       rootEntryCount: rootEntries.length,
       rootEntries,
+      verificationToken,
       children,
       manifestCount,
     })
