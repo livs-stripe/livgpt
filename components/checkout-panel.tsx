@@ -25,7 +25,7 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { formatPrice, sellerNameFromId } from "@/lib/parse-product"
 import type { CartItem } from "@/lib/types"
-import { isValidEmail } from "@/lib/utils"
+import { isValidE164Phone, isValidEmail, toE164Phone } from "@/lib/utils"
 
 // Agentic Commerce / Delegated Checkout: the agent collects the payment method
 // with its OWN publishable key. When the RequestedSession is confirmed, Stripe
@@ -54,6 +54,10 @@ const PLACEHOLDER_IMG = "/placeholder.svg"
 /** Prefilled so the demo can be driven end to end without typing, mirroring the
  * prefilled shipping address. Editable in the panel. */
 const DEMO_EMAIL = "demouser@example.com"
+
+/** Reserved US fictional-use number, so it is obviously fake but still passes
+ * E.164 validation. Prefilled and editable like the address and email. */
+const DEMO_PHONE = "+14155550123"
 
 /** Swaps a broken product image for the local placeholder, guarding against a
  * loop if the placeholder itself ever fails to load. */
@@ -128,9 +132,12 @@ export function CheckoutPanel({
             // Required for the Shared Payment Token flow: it lets us create the
             // PaymentMethod manually via stripe.preparePaymentMethod()/createPaymentMethod().
             paymentMethodCreation: "manual" as const,
-            // Card-only keeps every step inside this panel. Dashboard-enabled
-            // dynamic payment methods would otherwise surface redirect-based
-            // options (Link, Klarna, Affirm) that navigate the shopper away.
+            // `card` alone yields exactly the methods that stay in this panel:
+            // it opts into Link's card integration (Link renders inline in the
+            // card form) and auto-enables Apple Pay / Google Pay, while keeping
+            // dashboard-enabled redirect methods such as Klarna and Affirm out.
+            // Passing "link" here instead would make Link a separate payment
+            // method rather than an inline part of the card form.
             paymentMethodTypes: ["card"],
             appearance: {
               theme: theme === "dark" ? ("night" as const) : ("stripe" as const),
@@ -345,6 +352,13 @@ function CheckoutForm({
         return
       }
 
+      const buyerPhone = toE164Phone(value.phone)
+      if (!isValidE164Phone(buyerPhone)) {
+        setError("Please enter a valid phone number for delivery updates")
+        setStatus("error")
+        return
+      }
+
       const shippingAddress = {
         name: value.name,
         line1: value.address.line1,
@@ -360,7 +374,12 @@ function CheckoutForm({
       const updateRes = await fetch("/api/checkout/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId, shippingAddress, email: buyerEmail }),
+        body: JSON.stringify({
+          sessionId,
+          shippingAddress,
+          email: buyerEmail,
+          phone: buyerPhone,
+        }),
       })
       const updateData = await updateRes.json()
       if (!updateRes.ok || updateData.error) {
@@ -391,6 +410,7 @@ function CheckoutForm({
             sessionId,
             shippingAddress,
             email: buyerEmail,
+            phone: buyerPhone,
             selectedFulfillmentOption: chosen.id,
           }),
         })
@@ -627,8 +647,13 @@ function CheckoutForm({
           options={{
             mode: "shipping",
             allowedCountries: ["US"],
+            // Stripe requires `fulfillment_details[phone]`, and collecting it
+            // here keeps it to a single input alongside the address.
+            fields: { phone: "always" },
+            validation: { phone: { required: "always" } },
             defaultValues: {
               name: "Demo Customer",
+              phone: DEMO_PHONE,
               address: {
                 line1: "354 Oyster Point Blvd",
                 line2: "",
@@ -645,14 +670,10 @@ function CheckoutForm({
       {/* Card / payment details */}
       <div className="flex flex-col gap-2">
         <span className="text-sm font-medium">Payment</span>
-        {/* Wallets are off so the shopper never leaves this panel: Link hands
-         * off to a Stripe-hosted page rather than rendering inline here, and
-         * Apple/Google Pay open their own sheets. Card fields stay embedded. */}
+        {/* Wallets are left at their default `auto`, so Link renders inline in
+         * the card form and Apple/Google Pay appear on supporting browsers. */}
         <PaymentElement
-          options={{
-            fields: { billingDetails: { phone: "auto" } },
-            wallets: { applePay: "never", googlePay: "never", link: "never" },
-          }}
+          options={{ fields: { billingDetails: { phone: "auto" } } }}
         />
       </div>
 
