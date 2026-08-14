@@ -6,7 +6,7 @@ schema, ready to upload to each merchant's Stripe account.
 Reads:  mock-catalog/<slug>/products.csv   (compact internal schema)
 Writes: mock-catalog/<slug>/feed.csv        (full Stripe template schema)
 
-Only the 5 existing merchants are processed. image_link is rewritten to an
+All 7 merchants in MERCHANTS are processed. image_link is rewritten to an
 absolute public URL so Stripe can fetch the product images.
 
 Pass one or more slugs as arguments to regenerate just those merchants:
@@ -18,12 +18,19 @@ import hashlib
 import os
 import re
 import sys
+from urllib.parse import quote
 
 # Public base URL where the /public assets are served (env override wins).
 # Must be a domain without Vercel Deployment Protection, or Stripe's crawler
 # gets a 401 instead of the image. shopwithstripe.vercel.app is protected;
 # livgpt.vercel.app serves /mock-catalog/images/** publicly.
 IMAGE_BASE_URL = os.environ.get("IMAGE_BASE_URL", "https://livgpt.vercel.app").rstrip("/")
+
+# Stripe requires `link` to resolve with HTTP 200. The per-merchant
+# <slug>.example.com hosts in products.csv are NXDOMAIN, and the app has no
+# per-product route, so point at the storefront root with identifying query
+# params (unknown params are ignored and the page returns 200).
+PRODUCT_LINK_BASE = os.environ.get("PRODUCT_LINK_BASE", IMAGE_BASE_URL).rstrip("/")
 
 # Full Stripe product-feed template header (column order preserved).
 TEMPLATE_HEADER = [
@@ -131,6 +138,12 @@ def item_group_title(product_type: str, title: str) -> str:
     return title
 
 
+def product_link(slug: str, pid: str, original: str) -> str:
+    if not pid:
+        return original
+    return f"{PRODUCT_LINK_BASE}/?merchant={quote(slug)}&product={quote(pid)}"
+
+
 def abs_image(url: str) -> str:
     if not url:
         return ""
@@ -139,7 +152,7 @@ def abs_image(url: str) -> str:
     return f"{IMAGE_BASE_URL}/{url.lstrip('/')}"
 
 
-def convert(src: str, dst: str) -> int:
+def convert(src: str, dst: str, slug: str) -> int:
     with open(src, newline="") as f:
         rows = list(csv.DictReader(f))
 
@@ -156,7 +169,7 @@ def convert(src: str, dst: str) -> int:
             "id": pid,
             "title": r.get("title", ""),
             "description": r.get("description", ""),
-            "link": r.get("link", ""),
+            "link": product_link(slug, pid, r.get("link", "")),
             "brand": r.get("brand", ""),
             "gtin": r.get("gtin", ""),
             "mpn": r.get("mpn", ""),
@@ -215,7 +228,7 @@ def main():
             print(f"SKIP {slug}: no products.csv")
             continue
         dst = os.path.join("mock-catalog", slug, "feed.csv")
-        n = convert(src, dst)
+        n = convert(src, dst, slug)
         total += n
         print(f"{slug}: {n} rows -> {dst}")
     print(f"TOTAL: {total} rows across feeds (image base: {IMAGE_BASE_URL})")
