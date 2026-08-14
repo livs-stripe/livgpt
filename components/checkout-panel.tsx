@@ -132,13 +132,13 @@ export function CheckoutPanel({
             // Required for the Shared Payment Token flow: it lets us create the
             // PaymentMethod manually via stripe.preparePaymentMethod()/createPaymentMethod().
             paymentMethodCreation: "manual" as const,
-            // `card` alone yields exactly the methods that stay in this panel:
-            // it opts into Link's card integration (Link renders inline in the
-            // card form) and auto-enables Apple Pay / Google Pay, while keeping
-            // dashboard-enabled redirect methods such as Klarna and Affirm out.
-            // Passing "link" here instead would make Link a separate payment
-            // method rather than an inline part of the card form.
-            paymentMethodTypes: ["card"],
+            // Listing "link" alongside "card" surfaces Link as its own payment
+            // option rather than only as an inline prompt inside the card form.
+            // Link never requires a redirect, and no other type is listed, so
+            // redirect-based methods such as Affirm cannot appear. The Bank and
+            // "Klarna - Powered by Link" rows are Link's own funding sources,
+            // which arrive through Link's account-level passthrough mode.
+            paymentMethodTypes: ["card", "link"],
             appearance: {
               theme: theme === "dark" ? ("night" as const) : ("stripe" as const),
             },
@@ -670,10 +670,11 @@ function CheckoutForm({
       {/* Card / payment details */}
       <div className="flex flex-col gap-2">
         <span className="text-sm font-medium">Payment</span>
-        {/* Wallets are left at their default `auto`, so Link renders inline in
-         * the card form and Apple/Google Pay appear on supporting browsers. */}
         <PaymentElement
-          options={{ fields: { billingDetails: { phone: "auto" } } }}
+          options={{
+            fields: { billingDetails: { phone: "auto" } },
+            paymentMethodOrder: ["link", "card"],
+          }}
         />
       </div>
 
