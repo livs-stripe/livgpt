@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Check, Plus, ShoppingBag, Store, X } from "lucide-react"
+import { ShoppingBag, Store, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { formatPrice, sellerNameFromId } from "@/lib/parse-product"
@@ -19,32 +19,11 @@ function handleImageError(event: React.SyntheticEvent<HTMLImageElement>) {
 
 type ProductCardProps = {
   product: ProductResult
-  /** Quantity of this product currently in the cart (0 if none). */
-  inCartQty?: number
-  onAddToCart: (product: ProductResult) => void
   onBuyNow: (product: ProductResult) => void
 }
 
-export function ProductCard({
-  product,
-  inCartQty = 0,
-  onAddToCart,
-  onBuyNow,
-}: ProductCardProps) {
+export function ProductCard({ product, onBuyNow }: ProductCardProps) {
   const [detailOpen, setDetailOpen] = useState(false)
-
-  const addLabel =
-    inCartQty > 0 ? (
-      <>
-        <Check className="size-4" />
-        In cart ({inCartQty})
-      </>
-    ) : (
-      <>
-        <Plus className="size-4" />
-        Add
-      </>
-    )
 
   return (
     <>
@@ -81,14 +60,7 @@ export function ProductCard({
             </p>
           </button>
           <div className="mt-auto flex gap-2 pt-1">
-            <Button
-              onClick={() => onAddToCart(product)}
-              variant="outline"
-              className="flex-1"
-            >
-              {addLabel}
-            </Button>
-            <Button onClick={() => onBuyNow(product)} className="flex-1">
+            <Button onClick={() => onBuyNow(product)} className="w-full">
               <ShoppingBag className="size-4" />
               Buy Now
             </Button>
@@ -99,9 +71,7 @@ export function ProductCard({
       <ProductDetail
         product={product}
         open={detailOpen}
-        addLabel={addLabel}
         onClose={() => setDetailOpen(false)}
-        onAddToCart={onAddToCart}
         onBuyNow={onBuyNow}
       />
     </>
@@ -111,16 +81,12 @@ export function ProductCard({
 function ProductDetail({
   product,
   open,
-  addLabel,
   onClose,
-  onAddToCart,
   onBuyNow,
 }: {
   product: ProductResult
   open: boolean
-  addLabel: React.ReactNode
   onClose: () => void
-  onAddToCart: (product: ProductResult) => void
   onBuyNow: (product: ProductResult) => void
 }) {
   useEffect(() => {
@@ -204,14 +170,7 @@ function ProductDetail({
             </p>
 
             <div className="mt-2 flex gap-2">
-              <Button
-                onClick={() => onAddToCart(product)}
-                variant="outline"
-                className="flex-1"
-              >
-                {addLabel}
-              </Button>
-              <Button onClick={() => onBuyNow(product)} className="flex-1">
+              <Button onClick={() => onBuyNow(product)} className="w-full">
                 <ShoppingBag className="size-4" />
                 Buy Now
               </Button>

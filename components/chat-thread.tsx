@@ -58,18 +58,14 @@ type ChatThreadProps = {
   conversationId: string
   initialMessages: UIMessage[]
   onMessagesChange: (id: string, messages: UIMessage[]) => void
-  onAddToCart: (product: ProductResult) => void
   onBuyNow: (product: ProductResult) => void
-  getCartQty: (productId: string) => number
 }
 
 export function ChatThread({
   conversationId,
   initialMessages,
   onMessagesChange,
-  onAddToCart,
   onBuyNow,
-  getCartQty,
 }: ChatThreadProps) {
   const [input, setInput] = useState("")
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -166,12 +162,7 @@ export function ChatThread({
           ) : (
             messages.map((m) => (
               <ErrorBoundary key={m.id}>
-                <ChatMessage
-                  message={m}
-                  onAddToCart={onAddToCart}
-                  onBuyNow={onBuyNow}
-                  getCartQty={getCartQty}
-                />
+                <ChatMessage message={m} onBuyNow={onBuyNow} />
               </ErrorBoundary>
             ))
           )}

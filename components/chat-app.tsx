@@ -8,7 +8,7 @@ import { ConversationSidebar } from "@/components/conversation-sidebar"
 import { ChatThread } from "@/components/chat-thread"
 import { CheckoutPanel } from "@/components/checkout-panel"
 import { Button } from "@/components/ui/button"
-import { formatPrice, sellerNameFromId } from "@/lib/parse-product"
+import { formatPrice } from "@/lib/parse-product"
 import type { CartItem, Conversation, ProductResult } from "@/lib/types"
 
 const MAX_QTY = 5
@@ -48,7 +48,6 @@ export function ChatApp() {
   const [checkoutOpen, setCheckoutOpen] = useState(false)
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
 
-  const cartSeller = cart[0]?.product.sellerId
   const cartCount = useMemo(
     () => cart.reduce((n, item) => n + item.quantity, 0),
     [cart],
@@ -58,11 +57,6 @@ export function ChatApp() {
     [cart],
   )
   const cartCurrency = cart[0]?.product.currency ?? "usd"
-
-  const getCartQty = useCallback(
-    (productId: string) => cart.find((i) => i.product.id === productId)?.quantity ?? 0,
-    [cart],
-  )
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -128,69 +122,13 @@ export function ChatApp() {
     })
   }
 
-  // Adds a product, capping quantity. Assumes the seller matches (or the cart is
-  // empty); seller conflicts are resolved by the callers below.
-  const addUnit = useCallback((product: ProductResult) => {
-    setCart((prev) => {
-      const existing = prev.find((i) => i.product.id === product.id)
-      if (existing) {
-        return prev.map((i) =>
-          i.product.id === product.id
-            ? { ...i, quantity: Math.min(MAX_QTY, i.quantity + 1) }
-            : i,
-        )
-      }
-      return [...prev, { product, quantity: 1 }]
-    })
+  // Buy Now purchases just this product. A Delegated Checkout session targets a
+  // single seller, so each Buy Now starts a fresh single-item cart, which sidesteps
+  // any cross-seller conflict entirely.
+  const handleBuyNow = useCallback((product: ProductResult) => {
+    setCart([{ product, quantity: 1 }])
+    setCheckoutOpen(true)
   }, [])
-
-  // Prompts the user to replace a different-seller cart, then runs `after`.
-  const promptReplace = useCallback(
-    (product: ProductResult, after?: () => void) => {
-      toast(`Your cart has items from ${sellerNameFromId(cartSeller)}.`, {
-        description: `A checkout can only include one seller. Replace it with ${sellerNameFromId(
-          product.sellerId,
-        )}?`,
-        action: {
-          label: "Replace cart",
-          onClick: () => {
-            setCart([{ product, quantity: 1 }])
-            after?.()
-          },
-        },
-      })
-    },
-    [cartSeller],
-  )
-
-  const handleAddToCart = useCallback(
-    (product: ProductResult) => {
-      if (cart.length > 0 && cartSeller !== product.sellerId) {
-        promptReplace(product)
-        return
-      }
-      const atCap = getCartQty(product.id) >= MAX_QTY
-      addUnit(product)
-      if (atCap) {
-        toast.info(`Max quantity (${MAX_QTY}) reached for ${product.name}.`)
-      } else {
-        toast.success(`Added ${product.name} to cart.`)
-      }
-    },
-    [cart.length, cartSeller, getCartQty, addUnit, promptReplace],
-  )
-
-  const handleBuyNow = useCallback(
-    (product: ProductResult) => {
-      if (cart.length > 0 && cartSeller !== product.sellerId) {
-        promptReplace(product, () => setCheckoutOpen(true))
-        return
-      }
-      if (getCartQty(product.id) === 0) addUnit(product)
-      setCheckoutOpen(true)
-    },
-    [cart.length, cartSeller, getCartQty, addUnit, promptReplace],
-  )
 
   const setItemQty = useCallback((productId: string, qty: number) => {
     const clamped = Math.min(MAX_QTY, Math.max(1, Math.floor(qty)))
@@ -345,9 +283,7 @@ export function ChatApp() {
           conversationId={active.id}
           initialMessages={active.messages as UIMessage[]}
           onMessagesChange={handleMessagesChange}
-          onAddToCart={handleAddToCart}
           onBuyNow={handleBuyNow}
-          getCartQty={getCartQty}
         />
       </main>
 

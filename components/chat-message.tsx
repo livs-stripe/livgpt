@@ -16,17 +16,10 @@ function getText(message: UIMessage): string {
 
 type ChatMessageProps = {
   message: UIMessage
-  onAddToCart: (product: ProductResult) => void
   onBuyNow: (product: ProductResult) => void
-  getCartQty: (productId: string) => number
 }
 
-export function ChatMessage({
-  message,
-  onAddToCart,
-  onBuyNow,
-  getCartQty,
-}: ChatMessageProps) {
+export function ChatMessage({ message, onBuyNow }: ChatMessageProps) {
   const isUser = message.role === "user"
   const rawText = getText(message)
   const { cleanText, products } = isUser
@@ -60,13 +53,7 @@ export function ChatMessage({
         {products.length > 0 ? (
           <div className="mt-3 grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
             {products.map((p) => (
-              <ProductCard
-                key={p.id}
-                product={p}
-                inCartQty={getCartQty(p.id)}
-                onAddToCart={onAddToCart}
-                onBuyNow={onBuyNow}
-              />
+              <ProductCard key={p.id} product={p} onBuyNow={onBuyNow} />
             ))}
           </div>
         ) : null}
