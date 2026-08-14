@@ -8,13 +8,32 @@ import useSWR from "swr"
 import { Button } from "@/components/ui/button"
 import { ChatMessage } from "@/components/chat-message"
 import { ErrorBoundary } from "@/components/error-boundary"
+import { parseProductResult } from "@/lib/parse-product"
 import type { ProductResult } from "@/lib/types"
 
-const FALLBACK_SUGGESTIONS = [
+/**
+ * Openers for an empty thread. Hand written, never templated from catalog data:
+ * an earlier version interpolated a category from /api/catalog and rendered the
+ * raw feed taxonomy path ("What home & garden > household supplies > storage &
+ * organization do you have?") straight into the UI.
+ *
+ * Each one opens a conversation rather than a single lookup, and each targets a
+ * merchant the live feed actually serves: gifting, then Lumen Beauty skincare,
+ * then Harbor & Home for the kitchen. Nothing here points at outdoor,
+ * electronics, or travel, where the live feed can come back empty.
+ */
+const SUGGESTIONS = [
   "Help me find a birthday gift under $50",
-  "Show me products from a few different stores",
-  "What are your most popular items?",
+  "My skin's been really dry lately, what would you recommend?",
+  "I just moved into a new apartment and need to sort out the kitchen",
 ]
+
+/**
+ * One-tap follow-ups offered under the newest set of product cards. They mirror
+ * the refinements the assistant is built to handle, so the next turn builds on
+ * the last one instead of starting a fresh search.
+ */
+const FOLLOW_UPS = ["Something cheaper", "Which would you pick?", "What about another store?"]
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
@@ -35,23 +54,26 @@ function getFeedNotice(catalog: CatalogResponse): FeedNotice | null {
   if (catalog.count > 0) return null
   return {
     tone: "info",
-    message: "The store is restocking, please check back shortly.",
+    message: "The stores are restocking, please check back shortly.",
   }
 }
 
+function messageText(message: UIMessage): string {
+  if (!message.parts) return ""
+  return message.parts
+    .filter((p): p is { type: "text"; text: string } => p.type === "text")
+    .map((p) => p.text)
+    .join("")
+}
+
 /**
- * Builds exactly 3 friendly starter prompts. The first two are curated to show
- * off the assistant (gifting + cross-store discovery); the third is tailored to
- * a real category from the seller's catalog when available.
+ * Whether the newest message is an assistant turn that put a choice on screen.
+ * Follow-up chips only make sense there: after a clarifying question or a
+ * "nothing fits" reply, "something cheaper" would be nonsense.
  */
-function buildSuggestions(categories: string[]): string[] {
-  if (categories.length === 0) return FALLBACK_SUGGESTIONS
-  const categoryPrompt = `What ${categories[0].toLowerCase()} do you have?`
-  return [
-    "Help me find a birthday gift under $50",
-    "Show me products from a few different stores",
-    categoryPrompt,
-  ]
+function showsProductChoice(message: UIMessage | undefined): boolean {
+  if (!message || message.role !== "assistant") return false
+  return parseProductResult(messageText(message)).products.length >= 2
 }
 
 type ChatThreadProps = {
@@ -73,7 +95,6 @@ export function ChatThread({
   const { data: catalog } = useSWR<CatalogResponse>("/api/catalog", fetcher, {
     revalidateOnFocus: false,
   })
-  const suggestions = buildSuggestions(catalog?.categories ?? [])
   const feedEmpty = catalog ? catalog.count === 0 : false
   const feedNotice = catalog ? getFeedNotice(catalog) : null
 
@@ -130,8 +151,8 @@ export function ChatThread({
                   What are you shopping for?
                 </h1>
                 <p className="text-sm text-muted-foreground text-pretty">
-                  Describe what you need and I&apos;ll find it from the seller&apos;s
-                  catalog and help you check out.
+                  Tell me what you&apos;re after and I&apos;ll pull options from the
+                  stores I can shop, then help you check out.
                 </p>
               </div>
               {feedEmpty && feedNotice ? (
@@ -147,7 +168,7 @@ export function ChatThread({
                 </div>
               ) : (
                 <div className="flex w-full max-w-md flex-col gap-2">
-                  {suggestions.map((s) => (
+                  {SUGGESTIONS.map((s) => (
                     <button
                       key={s}
                       onClick={() => submit(s)}
@@ -166,6 +187,20 @@ export function ChatThread({
               </ErrorBoundary>
             ))
           )}
+
+          {!isLoading && showsProductChoice(messages[messages.length - 1]) ? (
+            <div className="flex flex-wrap gap-2 pl-11">
+              {FOLLOW_UPS.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => submit(f)}
+                  className="rounded-full border border-border bg-card px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+          ) : null}
 
           {status === "submitted" ? (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
