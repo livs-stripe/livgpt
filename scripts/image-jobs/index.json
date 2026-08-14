@@ -1,0 +1,29 @@
+{
+  "total_jobs": 750,
+  "slices": [
+    {
+      "file": "slice-1-of-6.json",
+      "count": 125
+    },
+    {
+      "file": "slice-2-of-6.json",
+      "count": 125
+    },
+    {
+      "file": "slice-3-of-6.json",
+      "count": 125
+    },
+    {
+      "file": "slice-4-of-6.json",
+      "count": 125
+    },
+    {
+      "file": "slice-5-of-6.json",
+      "count": 125
+    },
+    {
+      "file": "slice-6-of-6.json",
+      "count": 125
+    }
+  ]
+}

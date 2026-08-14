@@ -35,6 +35,24 @@ PRODUCTS_PER_MERCHANT = 150
 IMAGES_PER_SUBCAT = 3
 CURRENCY = "USD"
 
+# --- Per-product imagery for the merchants the live SFTP feed actually serves ---
+# These three grow to EXPANDED_TOTAL products and get ONE dedicated image per
+# product (filename = product id) instead of sharing 3 photos per sub-category.
+# Two reasons: a shared pool makes most titles describe an item the photo does
+# not show, and lib/parse-product.ts dedupes product cards by imageUrl, so a
+# shared pool caps how many cards a single reply can display.
+#
+# The other four merchants deliver nothing to the live feed and are deliberately
+# left on the old shared-image scheme; main() does not rewrite their files.
+EXPANDED_MERCHANTS = ("harbor-and-home", "lumen-beauty", "northwind-apparel")
+EXPANDED_TOTAL = 250
+# Stripe's product feed accepts JPEG or PNG only (no WebP), recommended minimum
+# 800x800. scripts/compress_images.py emits exactly that.
+IMAGE_EXT = "jpg"
+# Separate RNG stream for the added products, so the original 150 rows per
+# merchant keep their existing prices/brands/quantities byte-for-byte.
+EXPANSION_SEED = 20260814
+
 CSV_COLUMNS = [
     "id",
     "title",
@@ -68,6 +86,57 @@ IMAGE_COLORS = [
     "black", "white", "sand beige", "forest green", "navy", "terracotta",
     "slate gray", "cream", "olive", "blush pink",
 ]
+
+# Photographic phrasing for each display color in COLORS. A product that claims
+# a color in its title must have that same color spelled out in its image
+# prompt, otherwise we are back to the original bug: an "Olive" mug rendered as
+# a blush-pink photo. Keyed by the exact COLORS entry used in the title.
+PROMPT_COLORS = {
+    "Black": "matte black",
+    "White": "clean off-white",
+    "Navy": "deep navy blue",
+    "Slate Gray": "cool slate gray",
+    "Forest Green": "deep forest green",
+    "Sand": "warm sand beige",
+    "Charcoal": "dark charcoal gray",
+    "Sky Blue": "soft sky blue",
+    "Burgundy": "rich burgundy red",
+    "Olive": "muted olive green",
+    "Blush Pink": "soft blush pink",
+    "Cream": "warm cream ivory",
+    "Terracotta": "earthy terracotta orange",
+}
+
+# Nouns naming a MULTI-PIECE product. The old prompts said "a single ..." for
+# every product, which is why a "Stoneware Mug Set" rendered as one lone mug.
+# These switch the prompt to depict a matching group of pieces.
+SET_TOKENS = ("Set", "Pack", "Cups", "Placemats", "Cubes", "Gummies")
+# Nouns that are grammatically plural but are ONE product (a pair / a garment).
+# Without this they would be mistaken for sets by the SET_TOKENS check.
+PAIR_TOKENS = ("Socks", "Pants", "Shorts", "Sunglasses", "Slippers")
+
+
+def item_phrase(noun: str) -> tuple[str, bool]:
+    """How the prompt should quantify this product, and whether it is a set.
+
+    Returns (phrase, is_multi). `is_multi` suppresses the "exactly one product"
+    negative clause, which would otherwise fight a deliberate set shot.
+    """
+    if any(t in noun for t in PAIR_TOKENS):
+        if "Socks" in noun and "Pack" in noun:
+            return f"three neatly folded pairs of {noun.replace(' 3-Pack', '').lower()}", True
+        return f"a single pair of {noun.lower()}", False
+    if any(t in noun for t in SET_TOKENS):
+        low = noun.lower()
+        # "a matching set of stoneware mug set" reads badly; nouns that already
+        # end in "set" just take the adjective.
+        phrase = (
+            f"a matching {low}, with every piece of the set visible together"
+            if low.endswith("set")
+            else f"a matching set of {low}, all pieces visible together"
+        )
+        return phrase, True
+    return f"a single {noun.lower()}", False
 
 # Composition / camera direction rotated across a sub-category's 3 variants so
 # they read as different catalog shots rather than duplicates.
@@ -239,12 +308,12 @@ MERCHANTS = [
 ]
 
 
-def price_str(lo: float, hi: float) -> tuple[str, str]:
-    base = round(random.uniform(lo, hi) - 0.01, 2)
+def price_str(lo: float, hi: float, rng=random) -> tuple[str, str]:
+    base = round(rng.uniform(lo, hi) - 0.01, 2)
     price = f"{base:.2f} {CURRENCY}"
     sale = ""
-    if random.random() < 0.22:  # ~22% on sale
-        sale_val = round(base * random.uniform(0.75, 0.92) - 0.01, 2)
+    if rng.random() < 0.22:  # ~22% on sale
+        sale_val = round(base * rng.uniform(0.75, 0.92) - 0.01, 2)
         sale = f"{sale_val:.2f} {CURRENCY}"
     return price, sale
 
@@ -312,17 +381,51 @@ def make_description(merchant, sc, adj, noun, material, color) -> str:
     return f"{lead}, {bits[1]}, {detail}{color_bit}"
 
 
+def product_image_prompt(m, sc, noun, color, material, seq) -> str:
+    """Prompt for ONE product's dedicated photo.
+
+    Everything the title asserts must appear here: the exact item, its piece
+    count, and its color. That is what makes the image trustworthy, instead of
+    the previous shared-pool photos that contradicted most of their titles.
+    """
+    subject, is_multi = item_phrase(noun)
+    if color:
+        subject = subject.replace(
+            noun.lower(), f"{PROMPT_COLORS.get(color, color.lower())} {noun.lower()}", 1
+        )
+    mat_bit = ""
+    if material not in ("Standard", "Formula", "Blend", "Assorted"):
+        mat_bit = f", made of {material.lower()}"
+    comp = COMPOSITIONS[seq % len(COMPOSITIONS)]
+    solo = (
+        "Show the complete set as one product grouping, nothing else in frame. "
+        if is_multi
+        else "Exactly one product, no alternate versions or duplicates in frame. "
+    )
+    return (
+        f"Professional studio product photograph of {subject}{mat_bit}, "
+        f"styled for the brand {m['name']} ({sc['theme']}). {m['style']}. {comp}. "
+        f"Photorealistic, high-end e-commerce catalog photography, tack-sharp "
+        f"focus, natural material texture, subtle soft shadow, square 1:1 framing "
+        f"with the product filling most of the frame. {solo}"
+        f"No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    )
+
+
 def gen_merchant(m):
     rows = []
     image_specs = []
+    expanded = m["slug"] in EXPANDED_MERCHANTS
     ipsc = m.get("images_per_subcat", IMAGES_PER_SUBCAT)
     per_subcat = PRODUCTS_PER_MERCHANT // len(m["subcats"])
     remainder = PRODUCTS_PER_MERCHANT - per_subcat * len(m["subcats"])
     mprefix = "".join(w[0] for w in m["slug"].split("-")).upper()
 
     # Pre-register `ipsc` images per sub-category, each a distinct product /
-    # color / composition so the variants don't look duplicated.
-    for sc in m["subcats"]:
+    # color / composition so the variants don't look duplicated. Expanded
+    # merchants skip this: they get one dedicated image per product instead,
+    # registered alongside each row below.
+    for sc in ([] if expanded else m["subcats"]):
         for k in range(1, ipsc + 1):
             fname = f"{sc['slug']}-{k}.png"
             noun = sc["nouns"][(k - 1) % len(sc["nouns"])]
@@ -351,61 +454,96 @@ def gen_merchant(m):
                 ),
             })
 
+    def build(rng, sc, j, seq, used_names):
+        """One product row. Draw order is load-bearing: it must stay identical
+        to the original implementation so pass 1 reproduces the already-uploaded
+        150 rows exactly."""
+        noun = rng.choice(sc["nouns"])
+        adj = rng.choice(ADJECTIVES)
+        material = rng.choice(sc["materials"])
+        color = rng.choice(COLORS) if sc["has_color"] else ""
+        # Ensure a unique title within the sub-category.
+        title = f"{adj} {noun}"
+        attempts = 0
+        while title in used_names and attempts < 30:
+            adj = rng.choice(ADJECTIVES)
+            title = f"{adj} {noun}"
+            attempts += 1
+        if title in used_names:
+            title = f"{adj} {noun} {j+1}"
+        used_names.add(title)
+        display_title = f"{title} \u2013 {color}" if color else title
+
+        pid = f"{mprefix}-{sc['slug'][:4].upper()}-{seq:04d}"
+        price, sale = price_str(*sc["price"], rng=rng)
+        brand = rng.choice(m["brands"])
+        size = rng.choice(SIZES) if sc["sized"] else ""
+        if expanded:
+            # One dedicated image per product, named from the id: unique by
+            # construction, both within a merchant and across merchants.
+            fname = f"{pid}.{IMAGE_EXT}"
+            image_specs.append({
+                "merchant": m["slug"],
+                "subcategory": sc["slug"],
+                "product_id": pid,
+                "product_title": display_title,
+                "filename": fname,
+                "path": f"public/mock-catalog/images/{m['slug']}/{fname}",
+                "web_path": f"{IMAGE_WEB_BASE}/{m['slug']}/{fname}",
+                "prompt": product_image_prompt(m, sc, noun, color, material, seq),
+            })
+        else:
+            fname = f"{sc['slug']}-{(j % ipsc) + 1}.png"
+        image_link = f"{IMAGE_WEB_BASE}/{m['slug']}/{fname}"
+        item_group = f"{mprefix}-{sc['slug'][:4].upper()}-GRP-{(j // 2) + 1:03d}"
+
+        rows.append({
+            "id": pid,
+            "title": display_title,
+            "description": make_description(m, sc, adj, noun, material, color),
+            "link": f"https://{m['slug']}.example.com/products/{pid.lower()}",
+            "image_link": image_link,
+            "additional_image_link": "",
+            "availability": "in_stock" if rng.random() > 0.06 else "out_of_stock",
+            "price": price,
+            "sale_price": sale,
+            "brand": brand,
+            "gtin": "",
+            "mpn": pid,
+            "condition": "new",
+            "google_product_category": sc["google_product_category"],
+            "product_type": sc["product_type"],
+            "item_group_id": item_group,
+            "color": color,
+            "size": size,
+            "material": material if material not in ("Standard", "Formula", "Blend", "Assorted") else "",
+            "quantity": str(rng.randint(0, 250)),
+        })
+
+    # Pass 1: the original PRODUCTS_PER_MERCHANT rows, on the shared global RNG.
     seq = 0
+    used = {}
     for i, sc in enumerate(m["subcats"]):
         count = per_subcat + (1 if i < remainder else 0)
-        used_names = set()
+        used[sc["slug"]] = set()
         for j in range(count):
-            noun = random.choice(sc["nouns"])
-            adj = random.choice(ADJECTIVES)
-            material = random.choice(sc["materials"])
-            color = random.choice(COLORS) if sc["has_color"] else ""
-            # Ensure a unique title within the sub-category.
-            title = f"{adj} {noun}"
-            attempts = 0
-            while title in used_names and attempts < 30:
-                adj = random.choice(ADJECTIVES)
-                title = f"{adj} {noun}"
-                attempts += 1
-            if title in used_names:
-                title = f"{adj} {noun} {j+1}"
-            used_names.add(title)
-            if color:
-                display_title = f"{title} \u2013 {color}"
-            else:
-                display_title = title
-
             seq += 1
-            pid = f"{mprefix}-{sc['slug'][:4].upper()}-{seq:04d}"
-            price, sale = price_str(*sc["price"])
-            brand = random.choice(m["brands"])
-            size = random.choice(SIZES) if sc["sized"] else ""
-            img_k = (j % ipsc) + 1
-            image_link = f"{IMAGE_WEB_BASE}/{m['slug']}/{sc['slug']}-{img_k}.png"
-            item_group = f"{mprefix}-{sc['slug'][:4].upper()}-GRP-{(j // 2) + 1:03d}"
+            build(random, sc, j, seq, used[sc["slug"]])
 
-            rows.append({
-                "id": pid,
-                "title": display_title,
-                "description": make_description(m, sc, adj, noun, material, color),
-                "link": f"https://{m['slug']}.example.com/products/{pid.lower()}",
-                "image_link": image_link,
-                "additional_image_link": "",
-                "availability": "in_stock" if random.random() > 0.06 else "out_of_stock",
-                "price": price,
-                "sale_price": sale,
-                "brand": brand,
-                "gtin": "",
-                "mpn": pid,
-                "condition": "new",
-                "google_product_category": sc["google_product_category"],
-                "product_type": sc["product_type"],
-                "item_group_id": item_group,
-                "color": color,
-                "size": size,
-                "material": material if material not in ("Standard", "Formula", "Blend", "Assorted") else "",
-                "quantity": str(random.randint(0, 250)),
-            })
+    # Pass 2: extra rows for the expanded merchants, drawn from a per-merchant
+    # RNG so pass 1 above is unaffected by anything added here.
+    if expanded:
+        extra_total = EXPANDED_TOTAL - PRODUCTS_PER_MERCHANT
+        extra_per_subcat = extra_total // len(m["subcats"])
+        extra_rem = extra_total - extra_per_subcat * len(m["subcats"])
+        rng = random.Random(f"{EXPANSION_SEED}:{m['slug']}")
+        for i, sc in enumerate(m["subcats"]):
+            base_j = per_subcat + (1 if i < remainder else 0)
+            count = extra_per_subcat + (1 if i < extra_rem else 0)
+            for j in range(base_j, base_j + count):
+                seq += 1
+                build(rng, sc, j, seq, used[sc["slug"]])
+
     return rows, image_specs
 
 
@@ -415,9 +553,19 @@ def main():
     summary = []
     batch_ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
+    # Only the expanded (live-feed) merchants get their files rewritten. The
+    # other four have hand-corrected CSVs on disk (colour claims stripped) that
+    # a regeneration would silently revert, and they deliver nothing to the live
+    # feed, so leave them byte-identical. Their image specs are still emitted so
+    # image-spec.json stays a complete record.
     for m in MERCHANTS:
         rows, image_specs = gen_merchant(m)
         all_image_specs.extend(image_specs)
+        summary.append({"merchant": m["name"], "slug": m["slug"],
+                        "profile_id": m["profile_id"], "products": len(rows)})
+        if m["slug"] not in EXPANDED_MERCHANTS:
+            print(f"{m['name']:22s} {len(rows):4d} products (out of scope, files untouched)")
+            continue
         mdir = os.path.join(OUT_DIR, m["slug"])
         os.makedirs(mdir, exist_ok=True)
 
@@ -437,8 +585,6 @@ def main():
         with open(os.path.join(mdir, "manifest.json"), "w", encoding="utf-8") as f:
             json.dump(manifest, f, indent=2)
 
-        summary.append({"merchant": m["name"], "slug": m["slug"],
-                        "profile_id": m["profile_id"], "products": len(rows)})
         print(f"{m['name']:22s} {len(rows):4d} products -> {m['slug']}/{csv_name}")
 
     with open(os.path.join(OUT_DIR, "image-spec.json"), "w", encoding="utf-8") as f:
@@ -472,11 +618,18 @@ def build_readme(summary, n_images) -> str:
         lines.append(f"| {s['merchant']} | `{s['profile_id']}` | {s['products']} |")
     lines += [
         "",
-        f"Images: `image-spec.json` lists {n_images} images to generate",
-        "(3 per sub-category for most merchants, 5 for meridian-travel and",
-        "fern-and-field). Product `image_link` values point to",
-        "`/mock-catalog/images/<merchant>/<subcategory>-<k>.png`; place generated",
-        "images under `public/mock-catalog/images/` so the app can serve them.",
+        f"Images: `image-spec.json` lists {n_images} images to generate.",
+        "",
+        "The three merchants the live SFTP feed serves (harbor-and-home,",
+        "lumen-beauty, northwind-apparel) have ONE dedicated image per product,",
+        "named `<product_id>.jpg`, so no image is ever shared between two",
+        "products or between two merchants. The remaining four merchants still",
+        "share 3-5 photos per sub-category named `<subcategory>-<k>.png`.",
+        "",
+        "Place generated images under `public/mock-catalog/images/<merchant>/`",
+        "so the app can serve them. Stripe's product feed accepts JPEG or PNG",
+        "only (not WebP), recommended minimum 800x800; run",
+        "`scripts/compress_images.py` to normalise generated files to that.",
         "",
         "Catalogs intentionally overlap (water bottles, backpacks, earbuds,",
         "candles, sunglasses, activewear, wellness) so one query returns products",

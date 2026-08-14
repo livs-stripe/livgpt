@@ -1,32 +1,29 @@
 #!/usr/bin/env python3
 """Remove per-product color claims that don't match the product image.
 
-Each subcategory ships only 3-5 generic studio photos, but the generator assigned
-each product a RANDOM color (in its title suffix, `color` field, and a
-"Shown in <Color>." description sentence) with no relationship to the image it
-points at -- so an "Olive" mug could render a navy photo. With a handful of
-shared images per subcategory there is no way to make a specific color truthful,
-so we drop the color claim entirely rather than assert a wrong one.
+Applies ONLY to merchants that still share 3-5 generic studio photos per
+sub-category. For those, the generator assigns each product a RANDOM color (in
+its title suffix, `color` field, and a "Shown in <Color>." description sentence)
+with no relationship to the image it points at -- so an "Olive" mug could render
+a navy photo. With a handful of shared images there is no way to make a specific
+color truthful, so we drop the claim rather than assert a wrong one.
 
-Idempotent. Covers all 7 merchants: meridian-travel and fern-and-field were
-excluded while they were still being generated, but they are live in the catalog
-now and hit the same mismatch. Run after any regeneration of the mock catalog.
+DELIBERATELY EXCLUDED: harbor-and-home, lumen-beauty and northwind-apparel. Each
+of their products now has its own image, generated from a prompt that names the
+same colour the title claims, so the claim is accurate and must be kept. Colour
+consistency for those three is enforced by scripts/validate_feeds.py instead.
+
+Idempotent, and expected to report 0 rows changed on a clean tree.
 """
 import csv
-import json
 import os
 
+# Shared-image merchants only. The three live-feed merchants have one image per
+# product and are validated, not stripped.
 MERCHANT_SLUGS = [
-    "harbor-and-home", "lumen-beauty", "northwind-apparel",
     "summit-outdoors", "voltedge-electronics",
     "meridian-travel", "fern-and-field",
 ]
-SELLER_IDS = {
-    "profile_harbor_and_home", "profile_lumen_beauty",
-    "profile_northwind_apparel", "profile_summit_outdoors",
-    "profile_voltedge_electronics",
-    "profile_meridian_travel", "profile_fern_and_field",
-}
 COLORS = [
     "Blush Pink", "Forest Green", "Slate Gray", "Sky Blue",  # multi-word first
     "Terracotta", "Burgundy", "Charcoal", "Black", "Cream", "Navy",
@@ -74,34 +71,16 @@ def fix_csv(path: str) -> int:
     return changed
 
 
-def fix_bundle(path: str) -> int:
-    with open(path) as f:
-        data = json.load(f)
-    changed = 0
-    for p in data:
-        if p.get("sellerId") not in SELLER_IDS:
-            continue
-        name = strip_title(p.get("name", ""))
-        desc = strip_desc(p.get("description", ""))
-        if name != p.get("name") or desc != p.get("description"):
-            p["name"], p["description"] = name, desc
-            changed += 1
-    if not changed:
-        return 0
-    with open(path, "w") as f:
-        json.dump(data, f, ensure_ascii=False, indent=0)
-        f.write("\n")
-    return changed
-
-
 def main():
+    total = 0
     for slug in MERCHANT_SLUGS:
         for fname in ("products.csv", "feed.csv"):
             path = os.path.join("mock-catalog", slug, fname)
             if os.path.exists(path):
-                print(f"{slug}/{fname}: stripped color from {fix_csv(path)} rows")
-    n = fix_bundle("lib/mock-catalog-data.json")
-    print(f"lib/mock-catalog-data.json: stripped color from {n} products")
+                n = fix_csv(path)
+                total += n
+                print(f"{slug}/{fname}: stripped color from {n} rows")
+    print(f"\nTOTAL rows changed: {total}")
 
 
 if __name__ == "__main__":

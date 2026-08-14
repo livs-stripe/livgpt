@@ -1,0 +1,1008 @@
+{
+  "slice": 3,
+  "of": 6,
+  "count": 125,
+  "instructions": "For each job: call GenerateImage with `description` set to `prompt`, `filename` set to `output_filename`, and aspect_ratio '1:1'. GenerateImage does NOT accept a directory, so afterwards run `python3 scripts/place_generated_images.py` to move every generated file into its merchant directory. A call can take 25s+ and can fail (504s have happened): record any failure and retry it, never skip silently. Sanity-check each result against `product_title` before moving on.",
+  "jobs": [
+    {
+      "product_id": "NA-TSHI-0003",
+      "merchant": "northwind-apparel",
+      "product_title": "Luxe Pocket Tee \u2013 Terracotta",
+      "output_filename": "NA-TSHI-0003.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-TSHI-0003.jpg",
+      "prompt": "Professional studio product photograph of a single earthy terracotta orange pocket tee, made of cotton blend, styled for the brand Northwind Apparel (wardrobe basics). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-TSHI-0009",
+      "merchant": "northwind-apparel",
+      "product_title": "Minimalist Pocket Tee \u2013 Burgundy",
+      "output_filename": "NA-TSHI-0009.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-TSHI-0009.jpg",
+      "prompt": "Professional studio product photograph of a single rich burgundy red pocket tee, made of cotton blend, styled for the brand Northwind Apparel (wardrobe basics). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-TSHI-0015",
+      "merchant": "northwind-apparel",
+      "product_title": "Urban V-Neck Tee \u2013 Burgundy",
+      "output_filename": "NA-TSHI-0015.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-TSHI-0015.jpg",
+      "prompt": "Professional studio product photograph of a single rich burgundy red v-neck tee, made of organic cotton, styled for the brand Northwind Apparel (wardrobe basics). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-HOOD-0021",
+      "merchant": "northwind-apparel",
+      "product_title": "Minimalist Zip Hoodie \u2013 Sand",
+      "output_filename": "NA-HOOD-0021.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-HOOD-0021.jpg",
+      "prompt": "Professional studio product photograph of a single warm sand beige zip hoodie, made of cotton blend, styled for the brand Northwind Apparel (cozy streetwear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-HOOD-0027",
+      "merchant": "northwind-apparel",
+      "product_title": "Urban Pullover Hoodie \u2013 Burgundy",
+      "output_filename": "NA-HOOD-0027.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-HOOD-0027.jpg",
+      "prompt": "Professional studio product photograph of a single rich burgundy red pullover hoodie, made of french terry, styled for the brand Northwind Apparel (cozy streetwear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-ACTI-0033",
+      "merchant": "northwind-apparel",
+      "product_title": "Essential Track Jacket \u2013 Charcoal",
+      "output_filename": "NA-ACTI-0033.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-ACTI-0033.jpg",
+      "prompt": "Professional studio product photograph of a single dark charcoal gray track jacket, made of recycled poly, styled for the brand Northwind Apparel (athleisure). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-ACTI-0039",
+      "merchant": "northwind-apparel",
+      "product_title": "Coastal Performance Tee \u2013 Forest Green",
+      "output_filename": "NA-ACTI-0039.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-ACTI-0039.jpg",
+      "prompt": "Professional studio product photograph of a single deep forest green performance tee, made of moisture-wick knit, styled for the brand Northwind Apparel (athleisure). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-ACTI-0045",
+      "merchant": "northwind-apparel",
+      "product_title": "Luxe Jogger Pants \u2013 Blush Pink",
+      "output_filename": "NA-ACTI-0045.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-ACTI-0045.jpg",
+      "prompt": "Professional studio product photograph of a single pair of soft blush pink jogger pants, made of recycled poly, styled for the brand Northwind Apparel (athleisure). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-HATS-0051",
+      "merchant": "northwind-apparel",
+      "product_title": "Coastal Trucker Hat \u2013 White",
+      "output_filename": "NA-HATS-0051.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-HATS-0051.jpg",
+      "prompt": "Professional studio product photograph of a single clean off-white trucker hat, made of knit, styled for the brand Northwind Apparel (everyday headwear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-HATS-0057",
+      "merchant": "northwind-apparel",
+      "product_title": "Essential Trucker Hat \u2013 Sand",
+      "output_filename": "NA-HATS-0057.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-HATS-0057.jpg",
+      "prompt": "Professional studio product photograph of a single warm sand beige trucker hat, made of knit, styled for the brand Northwind Apparel (everyday headwear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-SUNG-0063",
+      "merchant": "northwind-apparel",
+      "product_title": "Essential Aviator Sunglasses \u2013 Olive",
+      "output_filename": "NA-SUNG-0063.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-SUNG-0063.jpg",
+      "prompt": "Professional studio product photograph of a single pair of muted olive green aviator sunglasses, made of acetate, styled for the brand Northwind Apparel (lifestyle eyewear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-SUNG-0069",
+      "merchant": "northwind-apparel",
+      "product_title": "Essential Round Sunglasses \u2013 Charcoal",
+      "output_filename": "NA-SUNG-0069.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-SUNG-0069.jpg",
+      "prompt": "Professional studio product photograph of a single pair of dark charcoal gray round sunglasses, made of acetate, styled for the brand Northwind Apparel (lifestyle eyewear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-SUNG-0075",
+      "merchant": "northwind-apparel",
+      "product_title": "Nova Aviator Sunglasses \u2013 Slate Gray",
+      "output_filename": "NA-SUNG-0075.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-SUNG-0075.jpg",
+      "prompt": "Professional studio product photograph of a single pair of cool slate gray aviator sunglasses, made of recycled frame, styled for the brand Northwind Apparel (lifestyle eyewear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-BACK-0081",
+      "merchant": "northwind-apparel",
+      "product_title": "Featherlight Tote Bag \u2013 Olive",
+      "output_filename": "NA-BACK-0081.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-BACK-0081.jpg",
+      "prompt": "Professional studio product photograph of a single muted olive green tote bag, made of recycled nylon, styled for the brand Northwind Apparel (commuter bags). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-BACK-0087",
+      "merchant": "northwind-apparel",
+      "product_title": "Studio Daypack \u2013 Black",
+      "output_filename": "NA-BACK-0087.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-BACK-0087.jpg",
+      "prompt": "Professional studio product photograph of a single matte black daypack, made of recycled nylon, styled for the brand Northwind Apparel (commuter bags). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-BOTT-0093",
+      "merchant": "northwind-apparel",
+      "product_title": "Featherlight Steel Water Bottle \u2013 Slate Gray",
+      "output_filename": "NA-BOTT-0093.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-BOTT-0093.jpg",
+      "prompt": "Professional studio product photograph of a single cool slate gray steel water bottle, made of stainless steel, styled for the brand Northwind Apparel (branded hydration). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-BOTT-0099",
+      "merchant": "northwind-apparel",
+      "product_title": "Classic Insulated Bottle \u2013 Sky Blue",
+      "output_filename": "NA-BOTT-0099.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-BOTT-0099.jpg",
+      "prompt": "Professional studio product photograph of a single soft sky blue insulated bottle, made of tritan, styled for the brand Northwind Apparel (branded hydration). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-BOTT-0105",
+      "merchant": "northwind-apparel",
+      "product_title": "Rugged Steel Water Bottle \u2013 Sand",
+      "output_filename": "NA-BOTT-0105.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-BOTT-0105.jpg",
+      "prompt": "Professional studio product photograph of a single warm sand beige steel water bottle, made of stainless steel, styled for the brand Northwind Apparel (branded hydration). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-SOCK-0111",
+      "merchant": "northwind-apparel",
+      "product_title": "Alpine Crew Socks 3-Pack \u2013 Slate Gray",
+      "output_filename": "NA-SOCK-0111.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-SOCK-0111.jpg",
+      "prompt": "Professional studio product photograph of three neatly folded pairs of crew socks, made of combed cotton, styled for the brand Northwind Apparel (everyday accessories). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-SOCK-0117",
+      "merchant": "northwind-apparel",
+      "product_title": "Pro Wool Socks \u2013 Burgundy",
+      "output_filename": "NA-SOCK-0117.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-SOCK-0117.jpg",
+      "prompt": "Professional studio product photograph of a single pair of rich burgundy red wool socks, made of combed cotton, styled for the brand Northwind Apparel (everyday accessories). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-JACK-0123",
+      "merchant": "northwind-apparel",
+      "product_title": "Alpine Rain Shell \u2013 Sky Blue",
+      "output_filename": "NA-JACK-0123.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-JACK-0123.jpg",
+      "prompt": "Professional studio product photograph of a single soft sky blue rain shell, made of ripstop, styled for the brand Northwind Apparel (seasonal outerwear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-JACK-0129",
+      "merchant": "northwind-apparel",
+      "product_title": "Classic Puffer Jacket \u2013 Navy",
+      "output_filename": "NA-JACK-0129.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-JACK-0129.jpg",
+      "prompt": "Professional studio product photograph of a single deep navy blue puffer jacket, made of recycled poly, styled for the brand Northwind Apparel (seasonal outerwear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-JACK-0135",
+      "merchant": "northwind-apparel",
+      "product_title": "Signature Puffer Jacket \u2013 Black",
+      "output_filename": "NA-JACK-0135.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-JACK-0135.jpg",
+      "prompt": "Professional studio product photograph of a single matte black puffer jacket, made of recycled poly, styled for the brand Northwind Apparel (seasonal outerwear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-WALL-0141",
+      "merchant": "northwind-apparel",
+      "product_title": "Heritage Card Holder \u2013 Slate Gray",
+      "output_filename": "NA-WALL-0141.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-WALL-0141.jpg",
+      "prompt": "Professional studio product photograph of a single cool slate gray card holder, made of full-grain leather, styled for the brand Northwind Apparel (leather goods). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-WALL-0147",
+      "merchant": "northwind-apparel",
+      "product_title": "Studio Leather Belt \u2013 Charcoal",
+      "output_filename": "NA-WALL-0147.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-WALL-0147.jpg",
+      "prompt": "Professional studio product photograph of a single dark charcoal gray leather belt, made of vegan leather, styled for the brand Northwind Apparel (leather goods). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-TSHI-0153",
+      "merchant": "northwind-apparel",
+      "product_title": "Pro Long-Sleeve Tee \u2013 Charcoal",
+      "output_filename": "NA-TSHI-0153.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-TSHI-0153.jpg",
+      "prompt": "Professional studio product photograph of a single dark charcoal gray long-sleeve tee, made of organic cotton, styled for the brand Northwind Apparel (wardrobe basics). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-TSHI-0159",
+      "merchant": "northwind-apparel",
+      "product_title": "Modern Henley \u2013 Blush Pink",
+      "output_filename": "NA-TSHI-0159.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-TSHI-0159.jpg",
+      "prompt": "Professional studio product photograph of a single soft blush pink henley, made of organic cotton, styled for the brand Northwind Apparel (wardrobe basics). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-HOOD-0165",
+      "merchant": "northwind-apparel",
+      "product_title": "Minimalist Fleece Hoodie \u2013 Blush Pink",
+      "output_filename": "NA-HOOD-0165.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-HOOD-0165.jpg",
+      "prompt": "Professional studio product photograph of a single soft blush pink fleece hoodie, made of brushed fleece, styled for the brand Northwind Apparel (cozy streetwear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-ACTI-0171",
+      "merchant": "northwind-apparel",
+      "product_title": "Terra Track Jacket \u2013 Burgundy",
+      "output_filename": "NA-ACTI-0171.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-ACTI-0171.jpg",
+      "prompt": "Professional studio product photograph of a single rich burgundy red track jacket, made of recycled poly, styled for the brand Northwind Apparel (athleisure). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-ACTI-0177",
+      "merchant": "northwind-apparel",
+      "product_title": "Urban Training Shorts \u2013 Forest Green",
+      "output_filename": "NA-ACTI-0177.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-ACTI-0177.jpg",
+      "prompt": "Professional studio product photograph of a single pair of deep forest green training shorts, made of recycled poly, styled for the brand Northwind Apparel (athleisure). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-HATS-0183",
+      "merchant": "northwind-apparel",
+      "product_title": "Urban Bucket Hat \u2013 Olive",
+      "output_filename": "NA-HATS-0183.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-HATS-0183.jpg",
+      "prompt": "Professional studio product photograph of a single muted olive green bucket hat, made of knit, styled for the brand Northwind Apparel (everyday headwear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-HATS-0189",
+      "merchant": "northwind-apparel",
+      "product_title": "Featherlight Trucker Hat \u2013 Terracotta",
+      "output_filename": "NA-HATS-0189.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-HATS-0189.jpg",
+      "prompt": "Professional studio product photograph of a single earthy terracotta orange trucker hat, made of cotton twill, styled for the brand Northwind Apparel (everyday headwear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-SUNG-0195",
+      "merchant": "northwind-apparel",
+      "product_title": "Premium Sport Sunglasses \u2013 Forest Green",
+      "output_filename": "NA-SUNG-0195.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-SUNG-0195.jpg",
+      "prompt": "Professional studio product photograph of a single pair of deep forest green sport sunglasses, made of acetate, styled for the brand Northwind Apparel (lifestyle eyewear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-BACK-0201",
+      "merchant": "northwind-apparel",
+      "product_title": "Featherlight Daypack \u2013 Sky Blue",
+      "output_filename": "NA-BACK-0201.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-BACK-0201.jpg",
+      "prompt": "Professional studio product photograph of a single soft sky blue daypack, made of waxed canvas, styled for the brand Northwind Apparel (commuter bags). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-BACK-0207",
+      "merchant": "northwind-apparel",
+      "product_title": "Trail Rolltop Backpack \u2013 Navy",
+      "output_filename": "NA-BACK-0207.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-BACK-0207.jpg",
+      "prompt": "Professional studio product photograph of a single deep navy blue rolltop backpack, made of recycled nylon, styled for the brand Northwind Apparel (commuter bags). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-BOTT-0213",
+      "merchant": "northwind-apparel",
+      "product_title": "Modern Steel Water Bottle \u2013 Black",
+      "output_filename": "NA-BOTT-0213.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-BOTT-0213.jpg",
+      "prompt": "Professional studio product photograph of a single matte black steel water bottle, made of stainless steel, styled for the brand Northwind Apparel (branded hydration). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-BOTT-0219",
+      "merchant": "northwind-apparel",
+      "product_title": "Pro Flip-Top Bottle \u2013 Blush Pink",
+      "output_filename": "NA-BOTT-0219.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-BOTT-0219.jpg",
+      "prompt": "Professional studio product photograph of a single soft blush pink flip-top bottle, made of tritan, styled for the brand Northwind Apparel (branded hydration). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-SOCK-0225",
+      "merchant": "northwind-apparel",
+      "product_title": "Aero Ankle Socks 3-Pack \u2013 Charcoal",
+      "output_filename": "NA-SOCK-0225.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-SOCK-0225.jpg",
+      "prompt": "Professional studio product photograph of three neatly folded pairs of ankle socks, made of combed cotton, styled for the brand Northwind Apparel (everyday accessories). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-JACK-0231",
+      "merchant": "northwind-apparel",
+      "product_title": "Everyday Puffer Jacket \u2013 Black",
+      "output_filename": "NA-JACK-0231.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-JACK-0231.jpg",
+      "prompt": "Professional studio product photograph of a single matte black puffer jacket, made of ripstop, styled for the brand Northwind Apparel (seasonal outerwear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-JACK-0237",
+      "merchant": "northwind-apparel",
+      "product_title": "Urban Denim Jacket \u2013 Burgundy",
+      "output_filename": "NA-JACK-0237.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-JACK-0237.jpg",
+      "prompt": "Professional studio product photograph of a single rich burgundy red denim jacket, made of denim, styled for the brand Northwind Apparel (seasonal outerwear). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-WALL-0243",
+      "merchant": "northwind-apparel",
+      "product_title": "Luxe Bifold Wallet \u2013 Cream",
+      "output_filename": "NA-WALL-0243.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-WALL-0243.jpg",
+      "prompt": "Professional studio product photograph of a single warm cream ivory bifold wallet, made of vegan leather, styled for the brand Northwind Apparel (leather goods). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "NA-WALL-0249",
+      "merchant": "northwind-apparel",
+      "product_title": "Everyday Travel Wallet \u2013 Terracotta",
+      "output_filename": "NA-WALL-0249.jpg",
+      "final_path": "public/mock-catalog/images/northwind-apparel/NA-WALL-0249.jpg",
+      "prompt": "Professional studio product photograph of a single earthy terracotta orange travel wallet, made of vegan leather, styled for the brand Northwind Apparel (leather goods). premium minimalist apparel brand aesthetic, soft diffused daylight, warm neutral linen and stone surfaces, muted earthy palette, elevated editorial catalog styling. centered straight-on hero shot, seamless studio backdrop, even softbox lighting. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-CAND-0005",
+      "merchant": "harbor-and-home",
+      "product_title": "Minimalist Wood-Wick Candle",
+      "output_filename": "HAH-CAND-0005.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-CAND-0005.jpg",
+      "prompt": "Professional studio product photograph of a single wood-wick candle, made of soy wax, styled for the brand Harbor & Home (scented home fragrance). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-CAND-0011",
+      "merchant": "harbor-and-home",
+      "product_title": "Everyday 3-Wick Candle",
+      "output_filename": "HAH-CAND-0011.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-CAND-0011.jpg",
+      "prompt": "Professional studio product photograph of a single 3-wick candle, made of soy wax, styled for the brand Harbor & Home (scented home fragrance). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-MUGS-0017",
+      "merchant": "harbor-and-home",
+      "product_title": "Nova Enamel Mug \u2013 Navy",
+      "output_filename": "HAH-MUGS-0017.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-MUGS-0017.jpg",
+      "prompt": "Professional studio product photograph of a single deep navy blue enamel mug, made of stoneware, styled for the brand Harbor & Home (handmade drinkware). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-MUGS-0023",
+      "merchant": "harbor-and-home",
+      "product_title": "Essential Enamel Mug \u2013 Olive",
+      "output_filename": "HAH-MUGS-0023.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-MUGS-0023.jpg",
+      "prompt": "Professional studio product photograph of a single muted olive green enamel mug, made of stoneware, styled for the brand Harbor & Home (handmade drinkware). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-MUGS-0029",
+      "merchant": "harbor-and-home",
+      "product_title": "Heritage Stoneware Mug Set \u2013 Olive",
+      "output_filename": "HAH-MUGS-0029.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-MUGS-0029.jpg",
+      "prompt": "Professional studio product photograph of a matching muted olive green stoneware mug set, with every piece of the set visible together, made of stoneware, styled for the brand Harbor & Home (handmade drinkware). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-COOK-0035",
+      "merchant": "harbor-and-home",
+      "product_title": "Featherlight Dutch Oven \u2013 Olive",
+      "output_filename": "HAH-COOK-0035.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-COOK-0035.jpg",
+      "prompt": "Professional studio product photograph of a single muted olive green dutch oven, made of anodized aluminum, styled for the brand Harbor & Home (kitchen cookware). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-COOK-0041",
+      "merchant": "harbor-and-home",
+      "product_title": "Trail Cast Iron Pan \u2013 Terracotta",
+      "output_filename": "HAH-COOK-0041.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-COOK-0041.jpg",
+      "prompt": "Professional studio product photograph of a single earthy terracotta orange cast iron pan, made of cast iron, styled for the brand Harbor & Home (kitchen cookware). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-BEDD-0047",
+      "merchant": "harbor-and-home",
+      "product_title": "Alpine Cotton Sheet Set \u2013 Navy",
+      "output_filename": "HAH-BEDD-0047.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-BEDD-0047.jpg",
+      "prompt": "Professional studio product photograph of a matching deep navy blue cotton sheet set, with every piece of the set visible together, made of french linen, styled for the brand Harbor & Home (soft bedding textiles). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-BEDD-0053",
+      "merchant": "harbor-and-home",
+      "product_title": "Featherlight Waffle Throw Blanket \u2013 Cream",
+      "output_filename": "HAH-BEDD-0053.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-BEDD-0053.jpg",
+      "prompt": "Professional studio product photograph of a single warm cream ivory waffle throw blanket, made of french linen, styled for the brand Harbor & Home (soft bedding textiles). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-BEDD-0059",
+      "merchant": "harbor-and-home",
+      "product_title": "Aero Linen Duvet Cover \u2013 Navy",
+      "output_filename": "HAH-BEDD-0059.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-BEDD-0059.jpg",
+      "prompt": "Professional studio product photograph of a single deep navy blue linen duvet cover, made of organic cotton, styled for the brand Harbor & Home (soft bedding textiles). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-LOUN-0065",
+      "merchant": "harbor-and-home",
+      "product_title": "Minimalist Lounge Pants \u2013 Olive",
+      "output_filename": "HAH-LOUN-0065.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-LOUN-0065.jpg",
+      "prompt": "Professional studio product photograph of a single pair of muted olive green lounge pants, made of brushed cotton, styled for the brand Harbor & Home (cozy loungewear). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-LOUN-0071",
+      "merchant": "harbor-and-home",
+      "product_title": "Rugged Lounge Pants \u2013 Cream",
+      "output_filename": "HAH-LOUN-0071.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-LOUN-0071.jpg",
+      "prompt": "Professional studio product photograph of a single pair of warm cream ivory lounge pants, made of waffle knit, styled for the brand Harbor & Home (cozy loungewear). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-WELL-0077",
+      "merchant": "harbor-and-home",
+      "product_title": "Minimalist Essential Oil Diffuser \u2013 Sky Blue",
+      "output_filename": "HAH-WELL-0077.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-WELL-0077.jpg",
+      "prompt": "Professional studio product photograph of a single soft sky blue essential oil diffuser, made of cork, styled for the brand Harbor & Home (home wellness). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-WELL-0083",
+      "merchant": "harbor-and-home",
+      "product_title": "Featherlight Aromatherapy Set \u2013 Sand",
+      "output_filename": "HAH-WELL-0083.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-WELL-0083.jpg",
+      "prompt": "Professional studio product photograph of a matching warm sand beige aromatherapy set, with every piece of the set visible together, made of bamboo, styled for the brand Harbor & Home (home wellness). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-WELL-0089",
+      "merchant": "harbor-and-home",
+      "product_title": "Classic Aromatherapy Set \u2013 Forest Green",
+      "output_filename": "HAH-WELL-0089.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-WELL-0089.jpg",
+      "prompt": "Professional studio product photograph of a matching deep forest green aromatherapy set, with every piece of the set visible together, made of bamboo, styled for the brand Harbor & Home (home wellness). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-TUMB-0095",
+      "merchant": "harbor-and-home",
+      "product_title": "Terra Glass Water Bottle \u2013 Terracotta",
+      "output_filename": "HAH-TUMB-0095.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-TUMB-0095.jpg",
+      "prompt": "Professional studio product photograph of a single earthy terracotta orange glass water bottle, made of borosilicate glass, styled for the brand Harbor & Home (insulated drinkware). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-TUMB-0101",
+      "merchant": "harbor-and-home",
+      "product_title": "Everyday Insulated Tumbler \u2013 Blush Pink",
+      "output_filename": "HAH-TUMB-0101.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-TUMB-0101.jpg",
+      "prompt": "Professional studio product photograph of a single soft blush pink insulated tumbler, made of stainless steel, styled for the brand Harbor & Home (insulated drinkware). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-KITC-0107",
+      "merchant": "harbor-and-home",
+      "product_title": "Minimalist Cutting Board",
+      "output_filename": "HAH-KITC-0107.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-KITC-0107.jpg",
+      "prompt": "Professional studio product photograph of a single cutting board, made of acacia wood, styled for the brand Harbor & Home (kitchen essentials). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-KITC-0113",
+      "merchant": "harbor-and-home",
+      "product_title": "Urban Utensil Set",
+      "output_filename": "HAH-KITC-0113.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-KITC-0113.jpg",
+      "prompt": "Professional studio product photograph of a matching utensil set, with every piece of the set visible together, made of acacia wood, styled for the brand Harbor & Home (kitchen essentials). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-KITC-0119",
+      "merchant": "harbor-and-home",
+      "product_title": "Minimalist Measuring Cups",
+      "output_filename": "HAH-KITC-0119.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-KITC-0119.jpg",
+      "prompt": "Professional studio product photograph of a matching set of measuring cups, all pieces visible together, made of acacia wood, styled for the brand Harbor & Home (kitchen essentials). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-STOR-0125",
+      "merchant": "harbor-and-home",
+      "product_title": "Alpine Shelf Organizer \u2013 Sand",
+      "output_filename": "HAH-STOR-0125.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-STOR-0125.jpg",
+      "prompt": "Professional studio product photograph of a single warm sand beige shelf organizer, made of bamboo, styled for the brand Harbor & Home (home organization). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-STOR-0131",
+      "merchant": "harbor-and-home",
+      "product_title": "Classic Storage Bin Set \u2013 Sand",
+      "output_filename": "HAH-STOR-0131.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-STOR-0131.jpg",
+      "prompt": "Professional studio product photograph of a matching warm sand beige storage bin set, with every piece of the set visible together, made of bamboo, styled for the brand Harbor & Home (home organization). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-LINE-0137",
+      "merchant": "harbor-and-home",
+      "product_title": "Essential Tea Towel Set \u2013 Slate Gray",
+      "output_filename": "HAH-LINE-0137.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-LINE-0137.jpg",
+      "prompt": "Professional studio product photograph of a matching cool slate gray tea towel set, with every piece of the set visible together, made of cotton, styled for the brand Harbor & Home (dining textiles). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-LINE-0143",
+      "merchant": "harbor-and-home",
+      "product_title": "Nova Linen Napkin Set \u2013 Olive",
+      "output_filename": "HAH-LINE-0143.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-LINE-0143.jpg",
+      "prompt": "Professional studio product photograph of a matching muted olive green linen napkin set, with every piece of the set visible together, made of french linen, styled for the brand Harbor & Home (dining textiles). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-LINE-0149",
+      "merchant": "harbor-and-home",
+      "product_title": "Everyday Table Runner \u2013 Sand",
+      "output_filename": "HAH-LINE-0149.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-LINE-0149.jpg",
+      "prompt": "Professional studio product photograph of a single warm sand beige table runner, made of french linen, styled for the brand Harbor & Home (dining textiles). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-CAND-0155",
+      "merchant": "harbor-and-home",
+      "product_title": "Featherlight Travel Tin Candle",
+      "output_filename": "HAH-CAND-0155.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-CAND-0155.jpg",
+      "prompt": "Professional studio product photograph of a single travel tin candle, made of soy wax, styled for the brand Harbor & Home (scented home fragrance). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-MUGS-0161",
+      "merchant": "harbor-and-home",
+      "product_title": "Trail Espresso Cup Set \u2013 Cream",
+      "output_filename": "HAH-MUGS-0161.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-MUGS-0161.jpg",
+      "prompt": "Professional studio product photograph of a matching warm cream ivory espresso cup set, with every piece of the set visible together, made of stoneware, styled for the brand Harbor & Home (handmade drinkware). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-MUGS-0167",
+      "merchant": "harbor-and-home",
+      "product_title": "Studio Espresso Cup Set \u2013 Terracotta",
+      "output_filename": "HAH-MUGS-0167.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-MUGS-0167.jpg",
+      "prompt": "Professional studio product photograph of a matching earthy terracotta orange espresso cup set, with every piece of the set visible together, made of ceramic, styled for the brand Harbor & Home (handmade drinkware). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-COOK-0173",
+      "merchant": "harbor-and-home",
+      "product_title": "Essential Saucepan \u2013 Burgundy",
+      "output_filename": "HAH-COOK-0173.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-COOK-0173.jpg",
+      "prompt": "Professional studio product photograph of a single rich burgundy red saucepan, made of anodized aluminum, styled for the brand Harbor & Home (kitchen cookware). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-COOK-0179",
+      "merchant": "harbor-and-home",
+      "product_title": "Classic Saucepan \u2013 Cream",
+      "output_filename": "HAH-COOK-0179.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-COOK-0179.jpg",
+      "prompt": "Professional studio product photograph of a single warm cream ivory saucepan, made of cast iron, styled for the brand Harbor & Home (kitchen cookware). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-BEDD-0185",
+      "merchant": "harbor-and-home",
+      "product_title": "Featherlight Cotton Sheet Set \u2013 Slate Gray",
+      "output_filename": "HAH-BEDD-0185.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-BEDD-0185.jpg",
+      "prompt": "Professional studio product photograph of a matching cool slate gray cotton sheet set, with every piece of the set visible together, made of organic cotton, styled for the brand Harbor & Home (soft bedding textiles). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-LOUN-0191",
+      "merchant": "harbor-and-home",
+      "product_title": "Minimalist Waffle Robe \u2013 Slate Gray",
+      "output_filename": "HAH-LOUN-0191.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-LOUN-0191.jpg",
+      "prompt": "Professional studio product photograph of a single cool slate gray waffle robe, made of brushed cotton, styled for the brand Harbor & Home (cozy loungewear). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-LOUN-0197",
+      "merchant": "harbor-and-home",
+      "product_title": "Aero Slipper Socks \u2013 Olive",
+      "output_filename": "HAH-LOUN-0197.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-LOUN-0197.jpg",
+      "prompt": "Professional studio product photograph of a single pair of muted olive green slipper socks, made of brushed cotton, styled for the brand Harbor & Home (cozy loungewear). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-WELL-0203",
+      "merchant": "harbor-and-home",
+      "product_title": "Everyday Aromatherapy Set \u2013 Navy",
+      "output_filename": "HAH-WELL-0203.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-WELL-0203.jpg",
+      "prompt": "Professional studio product photograph of a matching deep navy blue aromatherapy set, with every piece of the set visible together, made of bamboo, styled for the brand Harbor & Home (home wellness). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-WELL-0209",
+      "merchant": "harbor-and-home",
+      "product_title": "Urban Essential Oil Diffuser \u2013 White",
+      "output_filename": "HAH-WELL-0209.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-WELL-0209.jpg",
+      "prompt": "Professional studio product photograph of a single clean off-white essential oil diffuser, made of bamboo, styled for the brand Harbor & Home (home wellness). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-TUMB-0215",
+      "merchant": "harbor-and-home",
+      "product_title": "Rugged Insulated Tumbler \u2013 Navy",
+      "output_filename": "HAH-TUMB-0215.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-TUMB-0215.jpg",
+      "prompt": "Professional studio product photograph of a single deep navy blue insulated tumbler, made of stainless steel, styled for the brand Harbor & Home (insulated drinkware). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-KITC-0221",
+      "merchant": "harbor-and-home",
+      "product_title": "Signature Cutting Board",
+      "output_filename": "HAH-KITC-0221.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-KITC-0221.jpg",
+      "prompt": "Professional studio product photograph of a single cutting board, made of stainless steel, styled for the brand Harbor & Home (kitchen essentials). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-KITC-0227",
+      "merchant": "harbor-and-home",
+      "product_title": "Premium Knife Block Set",
+      "output_filename": "HAH-KITC-0227.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-KITC-0227.jpg",
+      "prompt": "Professional studio product photograph of a matching knife block set, with every piece of the set visible together, made of acacia wood, styled for the brand Harbor & Home (kitchen essentials). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-STOR-0233",
+      "merchant": "harbor-and-home",
+      "product_title": "Terra Storage Bin Set \u2013 Olive",
+      "output_filename": "HAH-STOR-0233.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-STOR-0233.jpg",
+      "prompt": "Professional studio product photograph of a matching muted olive green storage bin set, with every piece of the set visible together, made of bamboo, styled for the brand Harbor & Home (home organization). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-STOR-0239",
+      "merchant": "harbor-and-home",
+      "product_title": "Premium Storage Bin Set \u2013 Black",
+      "output_filename": "HAH-STOR-0239.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-STOR-0239.jpg",
+      "prompt": "Professional studio product photograph of a matching matte black storage bin set, with every piece of the set visible together, made of seagrass, styled for the brand Harbor & Home (home organization). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "HAH-LINE-0245",
+      "merchant": "harbor-and-home",
+      "product_title": "Aero Tea Towel Set \u2013 Black",
+      "output_filename": "HAH-LINE-0245.jpg",
+      "final_path": "public/mock-catalog/images/harbor-and-home/HAH-LINE-0245.jpg",
+      "prompt": "Professional studio product photograph of a matching matte black tea towel set, with every piece of the set visible together, made of cotton, styled for the brand Harbor & Home (dining textiles). warm cozy home-goods brand aesthetic, soft window light, styled on light oak and marble surfaces with linen and greenery accents, hygge editorial mood, creamy natural palette. tight macro detail shot, shallow depth of field, dramatic rim lighting highlighting texture. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-SKIN-0001",
+      "merchant": "lumen-beauty",
+      "product_title": "Rugged Eye Cream",
+      "output_filename": "LB-SKIN-0001.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-SKIN-0001.jpg",
+      "prompt": "Professional studio product photograph of a single eye cream, styled for the brand Lumen Beauty (glass-bottle skincare). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-SKIN-0007",
+      "merchant": "lumen-beauty",
+      "product_title": "Essential Eye Cream",
+      "output_filename": "LB-SKIN-0007.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-SKIN-0007.jpg",
+      "prompt": "Professional studio product photograph of a single eye cream, styled for the brand Lumen Beauty (glass-bottle skincare). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-SKIN-0013",
+      "merchant": "lumen-beauty",
+      "product_title": "Coastal Vitamin C Serum",
+      "output_filename": "LB-SKIN-0013.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-SKIN-0013.jpg",
+      "prompt": "Professional studio product photograph of a single vitamin c serum, styled for the brand Lumen Beauty (glass-bottle skincare). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-SUNS-0019",
+      "merchant": "lumen-beauty",
+      "product_title": "Coastal Sport Sunscreen Stick",
+      "output_filename": "LB-SUNS-0019.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-SUNS-0019.jpg",
+      "prompt": "Professional studio product photograph of a single sport sunscreen stick, styled for the brand Lumen Beauty (sun care). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-SUNS-0025",
+      "merchant": "lumen-beauty",
+      "product_title": "Aero SPF 50 Daily Fluid",
+      "output_filename": "LB-SUNS-0025.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-SUNS-0025.jpg",
+      "prompt": "Professional studio product photograph of a single spf 50 daily fluid, styled for the brand Lumen Beauty (sun care). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-CAND-0031",
+      "merchant": "lumen-beauty",
+      "product_title": "Alpine Aromatherapy Candle",
+      "output_filename": "LB-CAND-0031.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-CAND-0031.jpg",
+      "prompt": "Professional studio product photograph of a single aromatherapy candle, made of soy wax, styled for the brand Lumen Beauty (luxury fragrance). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-CAND-0037",
+      "merchant": "lumen-beauty",
+      "product_title": "Aero Massage Candle",
+      "output_filename": "LB-CAND-0037.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-CAND-0037.jpg",
+      "prompt": "Professional studio product photograph of a single massage candle, made of soy wax, styled for the brand Lumen Beauty (luxury fragrance). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-CAND-0043",
+      "merchant": "lumen-beauty",
+      "product_title": "Urban Reed Diffuser",
+      "output_filename": "LB-CAND-0043.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-CAND-0043.jpg",
+      "prompt": "Professional studio product photograph of a single reed diffuser, made of soy wax, styled for the brand Lumen Beauty (luxury fragrance). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-HAIR-0049",
+      "merchant": "lumen-beauty",
+      "product_title": "Luxe Hair Oil \u2013 White",
+      "output_filename": "LB-HAIR-0049.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-HAIR-0049.jpg",
+      "prompt": "Professional studio product photograph of a single clean off-white hair oil, made of silk, styled for the brand Lumen Beauty (hair care). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-HAIR-0055",
+      "merchant": "lumen-beauty",
+      "product_title": "Pro Conditioner \u2013 Sky Blue",
+      "output_filename": "LB-HAIR-0055.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-HAIR-0055.jpg",
+      "prompt": "Professional studio product photograph of a single soft sky blue conditioner, styled for the brand Lumen Beauty (hair care). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-BATH-0061",
+      "merchant": "lumen-beauty",
+      "product_title": "Modern Whipped Body Butter",
+      "output_filename": "LB-BATH-0061.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-BATH-0061.jpg",
+      "prompt": "Professional studio product photograph of a single whipped body butter, styled for the brand Lumen Beauty (bath and body). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-BATH-0067",
+      "merchant": "lumen-beauty",
+      "product_title": "Aero Body Wash",
+      "output_filename": "LB-BATH-0067.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-BATH-0067.jpg",
+      "prompt": "Professional studio product photograph of a single body wash, styled for the brand Lumen Beauty (bath and body). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-BATH-0073",
+      "merchant": "lumen-beauty",
+      "product_title": "Signature Whipped Body Butter",
+      "output_filename": "LB-BATH-0073.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-BATH-0073.jpg",
+      "prompt": "Professional studio product photograph of a single whipped body butter, styled for the brand Lumen Beauty (bath and body). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-MAKE-0079",
+      "merchant": "lumen-beauty",
+      "product_title": "Modern Brow Gel \u2013 Sand",
+      "output_filename": "LB-MAKE-0079.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-MAKE-0079.jpg",
+      "prompt": "Professional studio product photograph of a single warm sand beige brow gel, styled for the brand Lumen Beauty (clean makeup). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-MAKE-0085",
+      "merchant": "lumen-beauty",
+      "product_title": "Modern Cream Blush \u2013 Sand",
+      "output_filename": "LB-MAKE-0085.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-MAKE-0085.jpg",
+      "prompt": "Professional studio product photograph of a single warm sand beige cream blush, styled for the brand Lumen Beauty (clean makeup). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-WELL-0091",
+      "merchant": "lumen-beauty",
+      "product_title": "Studio Collagen Powder",
+      "output_filename": "LB-WELL-0091.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-WELL-0091.jpg",
+      "prompt": "Professional studio product photograph of a single collagen powder, styled for the brand Lumen Beauty (beauty wellness). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-WELL-0097",
+      "merchant": "lumen-beauty",
+      "product_title": "Heritage Collagen Powder",
+      "output_filename": "LB-WELL-0097.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-WELL-0097.jpg",
+      "prompt": "Professional studio product photograph of a single collagen powder, styled for the brand Lumen Beauty (beauty wellness). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-WELL-0103",
+      "merchant": "lumen-beauty",
+      "product_title": "Coastal Magnesium Drink Mix",
+      "output_filename": "LB-WELL-0103.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-WELL-0103.jpg",
+      "prompt": "Professional studio product photograph of a single magnesium drink mix, styled for the brand Lumen Beauty (beauty wellness). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-FRAG-0109",
+      "merchant": "lumen-beauty",
+      "product_title": "Nova Eau de Parfum",
+      "output_filename": "LB-FRAG-0109.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-FRAG-0109.jpg",
+      "prompt": "Professional studio product photograph of a single eau de parfum, styled for the brand Lumen Beauty (perfume). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-FRAG-0115",
+      "merchant": "lumen-beauty",
+      "product_title": "Premium Body Mist",
+      "output_filename": "LB-FRAG-0115.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-FRAG-0115.jpg",
+      "prompt": "Professional studio product photograph of a single body mist, styled for the brand Lumen Beauty (perfume). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-TOOL-0121",
+      "merchant": "lumen-beauty",
+      "product_title": "Studio Jade Roller \u2013 Burgundy",
+      "output_filename": "LB-TOOL-0121.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-TOOL-0121.jpg",
+      "prompt": "Professional studio product photograph of a single rich burgundy red jade roller, made of synthetic, styled for the brand Lumen Beauty (beauty tools). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-TOOL-0127",
+      "merchant": "lumen-beauty",
+      "product_title": "Essential Makeup Brush Set \u2013 White",
+      "output_filename": "LB-TOOL-0127.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-TOOL-0127.jpg",
+      "prompt": "Professional studio product photograph of a matching clean off-white makeup brush set, with every piece of the set visible together, made of rose quartz, styled for the brand Lumen Beauty (beauty tools). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-TOOL-0133",
+      "merchant": "lumen-beauty",
+      "product_title": "Aero Facial Steamer \u2013 Olive",
+      "output_filename": "LB-TOOL-0133.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-TOOL-0133.jpg",
+      "prompt": "Professional studio product photograph of a single muted olive green facial steamer, made of rose quartz, styled for the brand Lumen Beauty (beauty tools). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-GIFT-0139",
+      "merchant": "lumen-beauty",
+      "product_title": "Luxe Travel Beauty Kit",
+      "output_filename": "LB-GIFT-0139.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-GIFT-0139.jpg",
+      "prompt": "Professional studio product photograph of a single travel beauty kit, styled for the brand Lumen Beauty (curated gift set). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-GIFT-0145",
+      "merchant": "lumen-beauty",
+      "product_title": "Studio Self-Care Ritual Box",
+      "output_filename": "LB-GIFT-0145.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-GIFT-0145.jpg",
+      "prompt": "Professional studio product photograph of a single self-care ritual box, styled for the brand Lumen Beauty (curated gift set). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-SKIN-0151",
+      "merchant": "lumen-beauty",
+      "product_title": "Classic Eye Cream",
+      "output_filename": "LB-SKIN-0151.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-SKIN-0151.jpg",
+      "prompt": "Professional studio product photograph of a single eye cream, styled for the brand Lumen Beauty (glass-bottle skincare). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-SKIN-0157",
+      "merchant": "lumen-beauty",
+      "product_title": "Modern Retinol Night Cream",
+      "output_filename": "LB-SKIN-0157.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-SKIN-0157.jpg",
+      "prompt": "Professional studio product photograph of a single retinol night cream, styled for the brand Lumen Beauty (glass-bottle skincare). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-SUNS-0163",
+      "merchant": "lumen-beauty",
+      "product_title": "Studio SPF 50 Daily Fluid",
+      "output_filename": "LB-SUNS-0163.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-SUNS-0163.jpg",
+      "prompt": "Professional studio product photograph of a single spf 50 daily fluid, styled for the brand Lumen Beauty (sun care). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-SUNS-0169",
+      "merchant": "lumen-beauty",
+      "product_title": "Aero Sport Sunscreen Stick",
+      "output_filename": "LB-SUNS-0169.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-SUNS-0169.jpg",
+      "prompt": "Professional studio product photograph of a single sport sunscreen stick, styled for the brand Lumen Beauty (sun care). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-CAND-0175",
+      "merchant": "lumen-beauty",
+      "product_title": "Urban Scented Candle",
+      "output_filename": "LB-CAND-0175.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-CAND-0175.jpg",
+      "prompt": "Professional studio product photograph of a single scented candle, made of soy wax, styled for the brand Lumen Beauty (luxury fragrance). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-HAIR-0181",
+      "merchant": "lumen-beauty",
+      "product_title": "Premium Conditioner \u2013 Forest Green",
+      "output_filename": "LB-HAIR-0181.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-HAIR-0181.jpg",
+      "prompt": "Professional studio product photograph of a single deep forest green conditioner, made of silk, styled for the brand Lumen Beauty (hair care). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-HAIR-0187",
+      "merchant": "lumen-beauty",
+      "product_title": "Modern Silk Scrunchie Set \u2013 White",
+      "output_filename": "LB-HAIR-0187.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-HAIR-0187.jpg",
+      "prompt": "Professional studio product photograph of a matching clean off-white silk scrunchie set, with every piece of the set visible together, made of silk, styled for the brand Lumen Beauty (hair care). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-BATH-0193",
+      "merchant": "lumen-beauty",
+      "product_title": "Signature Bath Salts",
+      "output_filename": "LB-BATH-0193.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-BATH-0193.jpg",
+      "prompt": "Professional studio product photograph of a single bath salts, styled for the brand Lumen Beauty (bath and body). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-BATH-0199",
+      "merchant": "lumen-beauty",
+      "product_title": "Trail Body Wash",
+      "output_filename": "LB-BATH-0199.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-BATH-0199.jpg",
+      "prompt": "Professional studio product photograph of a single body wash, styled for the brand Lumen Beauty (bath and body). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-MAKE-0205",
+      "merchant": "lumen-beauty",
+      "product_title": "Urban Tinted Lip Balm \u2013 Cream",
+      "output_filename": "LB-MAKE-0205.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-MAKE-0205.jpg",
+      "prompt": "Professional studio product photograph of a single warm cream ivory tinted lip balm, styled for the brand Lumen Beauty (clean makeup). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-WELL-0211",
+      "merchant": "lumen-beauty",
+      "product_title": "Terra Collagen Powder",
+      "output_filename": "LB-WELL-0211.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-WELL-0211.jpg",
+      "prompt": "Professional studio product photograph of a single collagen powder, styled for the brand Lumen Beauty (beauty wellness). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-WELL-0217",
+      "merchant": "lumen-beauty",
+      "product_title": "Essential Hair Gummies",
+      "output_filename": "LB-WELL-0217.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-WELL-0217.jpg",
+      "prompt": "Professional studio product photograph of a matching set of hair gummies, all pieces visible together, styled for the brand Lumen Beauty (beauty wellness). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-FRAG-0223",
+      "merchant": "lumen-beauty",
+      "product_title": "Studio Eau de Parfum",
+      "output_filename": "LB-FRAG-0223.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-FRAG-0223.jpg",
+      "prompt": "Professional studio product photograph of a single eau de parfum, styled for the brand Lumen Beauty (perfume). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-FRAG-0229",
+      "merchant": "lumen-beauty",
+      "product_title": "Featherlight Eau de Parfum",
+      "output_filename": "LB-FRAG-0229.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-FRAG-0229.jpg",
+      "prompt": "Professional studio product photograph of a single eau de parfum, styled for the brand Lumen Beauty (perfume). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-TOOL-0235",
+      "merchant": "lumen-beauty",
+      "product_title": "Classic Jade Roller \u2013 Sand",
+      "output_filename": "LB-TOOL-0235.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-TOOL-0235.jpg",
+      "prompt": "Professional studio product photograph of a single warm sand beige jade roller, made of rose quartz, styled for the brand Lumen Beauty (beauty tools). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-GIFT-0241",
+      "merchant": "lumen-beauty",
+      "product_title": "Essential Skincare Gift Set",
+      "output_filename": "LB-GIFT-0241.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-GIFT-0241.jpg",
+      "prompt": "Professional studio product photograph of a matching skincare gift set, with every piece of the set visible together, styled for the brand Lumen Beauty (curated gift set). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Show the complete set as one product grouping, nothing else in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    },
+    {
+      "product_id": "LB-GIFT-0247",
+      "merchant": "lumen-beauty",
+      "product_title": "Nova Self-Care Ritual Box",
+      "output_filename": "LB-GIFT-0247.jpg",
+      "final_path": "public/mock-catalog/images/lumen-beauty/LB-GIFT-0247.jpg",
+      "prompt": "Professional studio product photograph of a single self-care ritual box, styled for the brand Lumen Beauty (curated gift set). elegant clean-beauty brand aesthetic, soft blush and cream pastel backdrop, dewy luminous highlights, delicate florals and water droplets, glossy reflective base, refined luxury-skincare mood. dynamic three-quarter angle, gentle top-down perspective, directional light with soft gradient shadow. Photorealistic, high-end e-commerce catalog photography, tack-sharp focus, natural material texture, subtle soft shadow, square 1:1 framing with the product filling most of the frame. Exactly one product, no alternate versions or duplicates in frame. No text, no lettering, no labels, no brand logos, no watermark, no people, no hands."
+    }
+  ]
+}

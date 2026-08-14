@@ -7,19 +7,26 @@ Each merchant folder contains a Google Merchant / Stripe style
 
 | Merchant | Profile ID | Products |
 | --- | --- | --- |
-| Northwind Apparel | `profile_northwind_apparel` | 150 |
-| Harbor & Home | `profile_harbor_and_home` | 150 |
+| Northwind Apparel | `profile_northwind_apparel` | 250 |
+| Harbor & Home | `profile_harbor_and_home` | 250 |
 | VoltEdge Electronics | `profile_voltedge_electronics` | 150 |
-| Lumen Beauty | `profile_lumen_beauty` | 150 |
+| Lumen Beauty | `profile_lumen_beauty` | 250 |
 | Summit Outdoors | `profile_summit_outdoors` | 150 |
 | Meridian Travel Co. | `profile_meridian_travel` | 150 |
 | Fern & Field | `profile_fern_and_field` | 150 |
 
-Images: `image-spec.json` lists 250 images to generate
-(3 per sub-category for most merchants, 5 for meridian-travel and
-fern-and-field). Product `image_link` values point to
-`/mock-catalog/images/<merchant>/<subcategory>-<k>.png`; place generated
-images under `public/mock-catalog/images/` so the app can serve them.
+Images: `image-spec.json` lists 910 images to generate.
+
+The three merchants the live SFTP feed serves (harbor-and-home,
+lumen-beauty, northwind-apparel) have ONE dedicated image per product,
+named `<product_id>.jpg`, so no image is ever shared between two
+products or between two merchants. The remaining four merchants still
+share 3-5 photos per sub-category named `<subcategory>-<k>.png`.
+
+Place generated images under `public/mock-catalog/images/<merchant>/`
+so the app can serve them. Stripe's product feed accepts JPEG or PNG
+only (not WebP), recommended minimum 800x800; run
+`scripts/compress_images.py` to normalise generated files to that.
 
 Catalogs intentionally overlap (water bottles, backpacks, earbuds,
 candles, sunglasses, activewear, wellness) so one query returns products
