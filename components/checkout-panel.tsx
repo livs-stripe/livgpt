@@ -359,14 +359,39 @@ function CheckoutForm({
         return
       }
 
+      const buyerName = value.name?.trim()
+      if (!buyerName) {
+        setError("Please enter the full name for delivery")
+        setStatus("error")
+        return
+      }
+
       const shippingAddress = {
-        name: value.name,
+        name: buyerName,
         line1: value.address.line1,
         line2: value.address.line2 || undefined,
         city: value.address.city,
         state: value.address.state,
         postal_code: value.address.postal_code,
         country: value.address.country,
+      }
+
+      // Supplied explicitly at PaymentMethod creation because a Link- or
+      // wallet-selected funding source arrives without billing details, and
+      // Stripe rejects the PaymentMethod when the name is absent. Sourced from
+      // the Address Element so edits carry through.
+      const billingDetails = {
+        name: buyerName,
+        email: buyerEmail,
+        phone: buyerPhone,
+        address: {
+          line1: value.address.line1,
+          line2: value.address.line2 || undefined,
+          city: value.address.city,
+          state: value.address.state,
+          postal_code: value.address.postal_code,
+          country: value.address.country,
+        },
       }
 
       // Attach the address; Stripe responds with the available fulfillment
@@ -425,9 +450,10 @@ function CheckoutForm({
       // Prepare a PaymentMethod using the beta flow. Falls back to
       // createPaymentMethod if the beta method is unavailable.
       const stripeAny = stripe as unknown as {
-        preparePaymentMethod?: (
-          options: { elements: typeof elements },
-        ) => Promise<{ paymentMethod?: { id: string }; error?: { message: string } }>
+        preparePaymentMethod?: (options: {
+          elements: typeof elements
+          params?: { billing_details: typeof billingDetails }
+        }) => Promise<{ paymentMethod?: { id: string }; error?: { message: string } }>
         createRadarSession?: () => Promise<{
           radarSession?: { id: string }
           error?: { message: string }
@@ -438,12 +464,16 @@ function CheckoutForm({
       if (typeof stripeAny.preparePaymentMethod === "function") {
         // Pass the live Elements instance (the one that owns the mounted
         // PaymentElement) inside the options object, not positionally.
-        const prepared = await stripeAny.preparePaymentMethod({ elements })
+        const prepared = await stripeAny.preparePaymentMethod({
+          elements,
+          params: { billing_details: billingDetails },
+        })
         if (prepared.error) throw new Error(prepared.error.message)
         paymentMethodId = prepared.paymentMethod?.id
       } else {
         const { error: pmError, paymentMethod } = await stripe.createPaymentMethod({
           elements,
+          params: { billing_details: billingDetails },
         })
         if (pmError) throw new Error(pmError.message || "Payment failed.")
         paymentMethodId = paymentMethod?.id
