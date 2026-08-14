@@ -16,6 +16,51 @@ function normalizePrivateKey(raw: string): string {
   return key
 }
 
+// Shape of the manifest.json Stripe writes beside each seller's catalog. Only
+// the fields this diagnostic reports back are described here.
+type ManifestSummary = {
+  path: string
+  profileId: string | null
+  merchant: string | null
+  batchTimestamp: string | null
+  feedType: string | null
+  totalShards: number | null
+  fileCount: number | null
+  readable: boolean
+}
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === "object" && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null
+}
+
+function str(value: unknown): string | null {
+  return typeof value === "string" && value ? value : null
+}
+
+function summarizeManifest(
+  path: string,
+  body: unknown,
+  merchantNames: Map<string, string>,
+): ManifestSummary {
+  const obj = asRecord(body)
+  const profileId = str(obj?.stripe_profile_id)
+  const files = Array.isArray(obj?.files) ? obj.files : null
+  return {
+    path,
+    profileId,
+    merchant: profileId ? (merchantNames.get(profileId) ?? null) : null,
+    batchTimestamp: str(obj?.batch_timestamp),
+    feedType: str(obj?.feed_type),
+    totalShards: typeof obj?.total_shards === "number" ? obj.total_shards : null,
+    fileCount: files ? files.length : null,
+    // A walk entry that failed to download or parse is stored as a string, so a
+    // non-object body means we found the file but could not read it.
+    readable: obj !== null,
+  }
+}
+
 function parseSellerProfileIds(): Record<string, string> | null {
   const raw = process.env.SELLER_PROFILE_IDS
   if (!raw) return null
@@ -53,6 +98,10 @@ export async function GET() {
     return NextResponse.json({
       ...presence,
       connected: false,
+      feedArrived: false,
+      manifestCount: 0,
+      summary:
+        "SFTP is not configured in this environment, so no feed can have arrived here.",
       error:
         "SFTP is not fully configured in this environment (need host, username, and a password or private key).",
     })
@@ -87,6 +136,11 @@ export async function GET() {
     // manifest.json bodies, to diagnose shard path/name mismatches.
     const tree: Record<string, { name: string; type: string; size?: number }[]> = {}
     const manifestBodies: Record<string, unknown> = {}
+    // Every manifest path the deep walk saw, readable or not. This is the single
+    // source of truth for manifestCount: manifests live three levels below the
+    // feed path (/root/<profile_id>/catalog/manifest.json), so any shallower
+    // scan misses them and would report 0 while feeds are in fact present.
+    const manifestPaths: string[] = []
     // Stripe drops a merchant_metadata.json beside each seller's catalog/. It is
     // the feed's own description of the merchant, so it is the natural source of
     // a display name for the "Sold by" line.
@@ -106,9 +160,9 @@ export async function GET() {
         if (e.type === "d") {
           await walk(full, depth + 1)
         } else if (/manifest.*\.json$|merchant_metadata\.json$/i.test(e.name)) {
-          const into = /merchant_metadata\.json$/i.test(e.name)
-            ? metadataBodies
-            : manifestBodies
+          const isMetadata = /merchant_metadata\.json$/i.test(e.name)
+          const into = isMetadata ? metadataBodies : manifestBodies
+          if (!isMetadata) manifestPaths.push(full)
           try {
             const buf = await sftp.get(full)
             const text = Buffer.isBuffer(buf)
@@ -147,9 +201,11 @@ export async function GET() {
       }
     }
 
-    // Walk one level into subdirectories to surface manifests / catalog files.
+    // Walk one level into subdirectories as a flat, easy-to-read index of the
+    // tree above. Deliberately does NOT count manifests — it cannot see three
+    // levels down, which is exactly how this diagnostic used to report 0
+    // manifests while the feed had arrived.
     const children: Record<string, string[]> = {}
-    let manifestCount = 0
     for (const entry of rootList) {
       if (entry.type === "d") {
         const sub = feedPath.replace(/\/$/, "") + "/" + entry.name
@@ -157,12 +213,10 @@ export async function GET() {
           const subList = await sftp.list(sub)
           children[entry.name] = subList.map((s) => s.name)
           for (const s of subList) {
-            if (/manifest.*\.json$/i.test(s.name)) manifestCount++
             if (s.type === "d") {
               try {
                 const deep = await sftp.list(sub + "/" + s.name)
                 children[`${entry.name}/${s.name}`] = deep.map((d) => d.name)
-                for (const d of deep) if (/manifest.*\.json$/i.test(d.name)) manifestCount++
               } catch {
                 /* ignore depth errors */
               }
@@ -176,14 +230,44 @@ export async function GET() {
 
     await sftp.end().catch(() => {})
 
+    const merchantNames = new Map<string, string>()
+    for (const body of Object.values(metadataBodies)) {
+      const obj = asRecord(body)
+      const id = str(obj?.stripe_profile_id)
+      const name = str(obj?.display_name)
+      if (id && name) merchantNames.set(id, name)
+    }
+
+    const manifests = manifestPaths
+      .map((path) => summarizeManifest(path, manifestBodies[path], merchantNames))
+      .sort((a, b) => (b.batchTimestamp ?? "").localeCompare(a.batchTimestamp ?? ""))
+    const manifestCount = manifests.length
+    const readable = manifests.filter((m) => m.readable)
+    const latestBatchTimestamp = readable
+      .map((m) => m.batchTimestamp)
+      .filter((t): t is string => Boolean(t))
+      .sort()
+      .pop() ?? null
+    const feedArrived = readable.length > 0
+
     return NextResponse.json({
       ...presence,
       connected: true,
+      // The answer to "has a feed arrived?" — first, and derived from the same
+      // deep walk as `tree` / `manifestBodies` so it cannot contradict them.
+      feedArrived,
+      manifestCount,
+      latestBatchTimestamp,
+      summary: feedArrived
+        ? `Feed present: ${manifestCount} manifest(s) under ${feedPath}, latest batch ${latestBatchTimestamp ?? "unknown"}.`
+        : manifestCount > 0
+          ? `Connected, found ${manifestCount} manifest(s) but none could be read — see manifests[].`
+          : `Connected to ${host} but no manifest.json found anywhere under ${feedPath} — no feed has been delivered yet.`,
+      manifests,
       rootEntryCount: rootEntries.length,
       rootEntries,
       verificationToken,
       children,
-      manifestCount,
       tree,
       manifestBodies,
       metadataBodies,
@@ -197,6 +281,9 @@ export async function GET() {
     return NextResponse.json({
       ...presence,
       connected: false,
+      feedArrived: false,
+      manifestCount: 0,
+      summary: "Could not connect to the SFTP endpoint, so feed arrival is unknown.",
       error: err instanceof Error ? err.message : String(err),
     })
   }

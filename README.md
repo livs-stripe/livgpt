@@ -107,3 +107,33 @@ Then open [http://localhost:3000](http://localhost:3000).
 
 Deploy to Vercel and add all environment variables in the project settings. The
 `vercel.json` configures function durations for the checkout and webhook routes.
+
+### Sharing a protected deployment
+
+The demo deployment has Vercel Deployment Protection on (both Vercel
+Authentication and Password Protection), so every request without a Vercel
+session gets a `401` — it works in the deploying account's browser and nowhere
+else. Protection does not have to be turned off to share a link: use
+**Protection Bypass for Automation**, which mints a cookie that any browser can
+carry.
+
+```
+https://<deployment-host>/?x-vercel-protection-bypass=<SECRET>&x-vercel-set-bypass-cookie=true
+```
+
+Opening that once responds `307` and sets a `_vercel_jwt` cookie valid for 7
+days, after which that browser loads the app (and its API routes) normally with
+no query string. Notes:
+
+- `<SECRET>` is the project's bypass secret, not stored in this repo. Read it
+  from Vercel → Project Settings → Deployment Protection → Protection Bypass for
+  Automation, or `GET /v9/projects/<project>?slug=<team>` and take the key of
+  the `protectionBypass` object. Deployments also receive it as
+  `VERCEL_AUTOMATION_BYPASS_SECRET`.
+- The cookie is `SameSite=Lax`, which is enough for someone clicking or pasting
+  the link. Use `x-vercel-set-bypass-cookie=samesitenone` only if the app has to
+  load inside a third-party iframe.
+- Treat the link as a credential — anyone with it reaches the protected
+  deployment. Regenerate the secret in project settings once the demo is over.
+- For scripted requests, `vercel curl <url>` handles protection automatically
+  and needs no secret.
