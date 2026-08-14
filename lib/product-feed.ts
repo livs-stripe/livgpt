@@ -3,7 +3,6 @@ import { gunzipSync } from "node:zlib"
 import { parse as parseCsv } from "csv-parse/sync"
 import SftpClient from "ssh2-sftp-client"
 import type { CatalogProduct } from "./types"
-import { loadMockCatalog, mockCatalogEnabled } from "./mock-catalog"
 import { knownSellerName } from "./seller-names"
 import { catalogSellerIdForProfileId } from "./stripe-server"
 
@@ -401,12 +400,11 @@ export async function loadCatalog(forceRefresh = false): Promise<CatalogState> {
     }
   }
 
-  // No SFTP feed configured. Serve the bundled multi-merchant demo catalog so
-  // the deployed app works out of the box; real feeds take over once SFTP is set.
+  // The Stripe-delivered SFTP feed is the only catalog source. There is
+  // deliberately no bundled/mock fallback: serving invented products would
+  // misrepresent the merchants' real catalogs, so an unavailable feed shows an
+  // empty store instead.
   if (!config) {
-    if (mockCatalogEnabled()) {
-      return { products: loadMockCatalog(), configured: true, error: null }
-    }
     return {
       products: [],
       configured: false,
@@ -421,10 +419,11 @@ export async function loadCatalog(forceRefresh = false): Promise<CatalogState> {
 
   try {
     const products = await downloadFeed(config)
-    // An SFTP feed that returns nothing (e.g. still syncing) falls back to the
-    // demo catalog rather than showing an empty store.
-    if (products.length === 0 && mockCatalogEnabled()) {
-      return { products: loadMockCatalog(), configured: true, error: null }
+    // An empty feed surfaces as an empty store rather than substituting demo
+    // data. Don't cache the empty result: Stripe may still be mid-export, and
+    // caching would keep the store empty for the rest of the TTL.
+    if (products.length === 0) {
+      return { products, configured: true, error: null }
     }
     cache = { products, at: Date.now() }
     return { products, configured: true, error: null }
@@ -433,10 +432,6 @@ export async function loadCatalog(forceRefresh = false): Promise<CatalogState> {
     // Serve stale cache on transient errors if we have one.
     if (cache) {
       return { products: cache.products, configured: true, error: message }
-    }
-    // Otherwise fall back to the bundled demo catalog so the app stays usable.
-    if (mockCatalogEnabled()) {
-      return { products: loadMockCatalog(), configured: true, error: null }
     }
     return { products: [], configured: true, error: message }
   }

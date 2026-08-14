@@ -409,47 +409,15 @@ def gen_merchant(m):
     return rows, image_specs
 
 
-def price_to_cents(raw: str) -> tuple[int, str]:
-    """Mirror rowToProduct/parsePrice in lib/product-feed.ts."""
-    token = (raw or "").strip().split()
-    value = float(token[0].replace(",", "")) if token else 0.0
-    currency = token[1].lower() if len(token) > 1 else "usd"
-    return round(value * 100), currency
-
-
-def row_to_catalog_product(row: dict, profile_id: str) -> dict:
-    price_raw = row["price"] or row["sale_price"]
-    amount, currency = price_to_cents(price_raw)
-    availability = row["availability"]
-    available = (
-        not availability
-        or "in_stock" in availability.replace(" ", "_").lower()
-        or availability.lower() == "available"
-    )
-    return {
-        "id": row["id"],
-        "name": row["title"],
-        "price": amount,
-        "currency": currency,
-        "imageUrl": row["image_link"],
-        "description": row["description"],
-        "category": row["product_type"] or row["google_product_category"] or "general",
-        "sellerId": profile_id,
-        "available": available,
-    }
-
-
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
     all_image_specs = []
-    catalog_products = []
     summary = []
     batch_ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     for m in MERCHANTS:
         rows, image_specs = gen_merchant(m)
         all_image_specs.extend(image_specs)
-        catalog_products.extend(row_to_catalog_product(r, m["profile_id"]) for r in rows)
         mdir = os.path.join(OUT_DIR, m["slug"])
         os.makedirs(mdir, exist_ok=True)
 
@@ -476,18 +444,16 @@ def main():
     with open(os.path.join(OUT_DIR, "image-spec.json"), "w", encoding="utf-8") as f:
         json.dump(all_image_specs, f, indent=2)
 
-    # Runtime bundle consumed by lib/mock-catalog.ts (imported into the app).
-    catalog_path = os.path.join(ROOT, "lib", "mock-catalog-data.json")
-    with open(catalog_path, "w", encoding="utf-8") as f:
-        json.dump(catalog_products, f, indent=0)
-        f.write("\n")
+    # NOTE: this script no longer writes lib/mock-catalog-data.json. The app has
+    # no bundled-catalog fallback: the Stripe-delivered SFTP feed is the only
+    # catalog source, so a runtime bundle of invented products could only ever
+    # misrepresent a merchant. products.csv / feed.csv are the artifacts to use.
 
     with open(os.path.join(OUT_DIR, "README.md"), "w", encoding="utf-8") as f:
         f.write(build_readme(summary, len(all_image_specs)))
 
     print(f"\nTotal products: {sum(s['products'] for s in summary)}")
     print(f"Image specs:    {len(all_image_specs)}")
-    print(f"Runtime catalog: {len(catalog_products)} products -> lib/mock-catalog-data.json")
 
 
 def build_readme(summary, n_images) -> str:

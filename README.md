@@ -76,7 +76,7 @@ Copy `.env.local.example` to `.env.local` and fill in the values:
 | `SFTP_PASSWORD` | Password for the reader user (alternative to `SFTP_PRIVATE_KEY`) |
 | `SFTP_PASSPHRASE` | Passphrase for `SFTP_PRIVATE_KEY`, only if the key is encrypted (optional) |
 | `SFTP_FEED_PATH` | Remote directory Stripe drops feeds into (default `/`, the SFTP root) |
-| `MOCK_CATALOG` | `on` (default) serves the bundled demo catalog when SFTP is unset/empty; set to `off` in production to force the real feed / empty state |
+| ~~`MOCK_CATALOG`~~ | **Removed and ignored.** The Stripe-delivered SFTP feed is the only catalog source; there is no bundled fallback. An unconfigured, empty, or unreachable feed shows an empty store. Delete this variable from any environment that still sets it. |
 | `OPENAI_API_KEY` | Optional. Set it to call the OpenAI API directly — needed on non-Vercel hosts that have public egress but no Vercel AI Gateway (e.g. the Cloud Run / stripedemos deployment). Takes precedence over everything below. |
 | `LITELLM_BASE_URL` | Optional, **local corp-laptop development only** (e.g. `https://litellm.corp.stripe.com/v1`). Requires a corp device certificate **and** an interactive YubiKey 2FA tap via the local `certproxy` daemon on `127.0.0.1:7892`, so it does **not** work from any server — never set it in a deployment. |
 | `LITELLM_API_KEY` | Optional cost-attribution string for `LITELLM_BASE_URL`. Defaults to `use_case=development&team=aunz-sa`. Ignored unless `LITELLM_BASE_URL` is set. |
