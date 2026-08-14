@@ -3,8 +3,8 @@
 import type { UIMessage } from "ai"
 import { Bot, User } from "lucide-react"
 import { ProductCard } from "@/components/product-card"
-import { stripCheckoutSignal } from "@/lib/checkout-signal"
-import { parseProductResult, stripDashes } from "@/lib/parse-product"
+import { Carousel } from "@/components/ui/carousel"
+import { parseProductResult, stripDashes, stripMarkers } from "@/lib/parse-product"
 import type { ProductResult } from "@/lib/types"
 
 function getText(message: UIMessage): string {
@@ -13,22 +13,6 @@ function getText(message: UIMessage): string {
     .filter((p): p is { type: "text"; text: string } => p.type === "text")
     .map((p) => p.text)
     .join("")
-}
-
-const PRODUCT_TAG = "[PRODUCT_RESULT]"
-
-/**
- * Hides a half-streamed opening tag. `parseProductResult` only strips from the
- * first COMPLETE "[PRODUCT_RESULT]", so while the tag is still arriving its
- * prefix sits at the end of the visible text and flashes as "[PRODUCT" for a
- * frame. Only a genuine prefix of the tag is removed, so ordinary bracketed
- * text is left alone.
- */
-function stripPartialProductTag(text: string): string {
-  const bracket = text.lastIndexOf("[")
-  if (bracket === -1) return text
-  const tail = text.slice(bracket)
-  return PRODUCT_TAG.startsWith(tail) ? text.slice(0, bracket).trimEnd() : text
 }
 
 type ChatMessageProps = {
@@ -43,10 +27,8 @@ export function ChatMessage({ message, onBuyNow }: ChatMessageProps) {
     ? { cleanText: rawText, products: [] as ProductResult[] }
     : parseProductResult(rawText)
   // Never render em/en dashes in assistant replies (keep the user's own text
-  // as-is), and never render the checkout marker, which is for the client only.
-  const displayText = isUser
-    ? cleanText
-    : stripDashes(stripPartialProductTag(stripCheckoutSignal(cleanText)))
+  // as-is), and never render the markers meant only for the client.
+  const displayText = isUser ? cleanText : stripDashes(stripMarkers(cleanText))
 
   return (
     <div className={`flex w-full gap-3 ${isUser ? "flex-row-reverse" : "flex-row"}`}>
@@ -58,7 +40,13 @@ export function ChatMessage({ message, onBuyNow }: ChatMessageProps) {
       >
         {isUser ? <User className="size-4" /> : <Bot className="size-4" />}
       </div>
-      <div className={`flex max-w-[80%] flex-col ${isUser ? "items-end" : "items-start"}`}>
+      {/* Assistant turns take the full column so the product rail can show a
+          card and a half of the next one; user bubbles stay narrow. */}
+      <div
+        className={`flex min-w-0 flex-col ${
+          isUser ? "max-w-[80%] items-end" : "w-full items-start"
+        }`}
+      >
         {displayText ? (
           <div
             className={`whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
@@ -71,11 +59,16 @@ export function ChatMessage({ message, onBuyNow }: ChatMessageProps) {
           </div>
         ) : null}
         {products.length > 0 ? (
-          <div className="mt-3 grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
+          <Carousel
+            label={`${products.length} product${products.length === 1 ? "" : "s"} to browse`}
+            className="mt-3 w-full"
+          >
             {products.map((p) => (
-              <ProductCard key={p.id} product={p} onBuyNow={onBuyNow} />
+              <div key={p.id} className="w-[240px] shrink-0 snap-start">
+                <ProductCard product={p} onBuyNow={onBuyNow} />
+              </div>
             ))}
-          </div>
+          </Carousel>
         ) : null}
       </div>
     </div>

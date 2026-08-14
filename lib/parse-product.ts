@@ -1,8 +1,71 @@
 import type { ProductResult } from "./types"
+import { CHECKOUT_SIGNAL } from "./checkout-signal"
 import { knownSellerName } from "./seller-names"
 
 const OPEN_TAG = "[PRODUCT_RESULT]"
 const CLOSE_TAG = "[/PRODUCT_RESULT]"
+
+const FOLLOW_UP_OPEN = "[FOLLOW_UPS]"
+const FOLLOW_UP_CLOSE = "[/FOLLOW_UPS]"
+
+/** Longest a suggested follow-up may be before it stops looking like a chip. */
+const MAX_FOLLOW_UP_CHARS = 40
+const MAX_FOLLOW_UPS = 3
+
+/**
+ * Reads the follow-up suggestions the assistant offers for its own turn, e.g.
+ * `[FOLLOW_UPS]Something for night-time too | Fragrance-free options[/FOLLOW_UPS]`.
+ *
+ * The model writes these because it is the only thing that knows what the
+ * conversation is about; there is deliberately no hardcoded fallback, so a turn
+ * that offers nothing (or emits something unusable) simply shows no chips.
+ * Returns nothing until the closing tag has arrived, so a half-streamed list
+ * never renders.
+ */
+export function parseFollowUps(text: string): string[] {
+  const start = text.indexOf(FOLLOW_UP_OPEN)
+  if (start === -1) return []
+  const end = text.indexOf(FOLLOW_UP_CLOSE, start)
+  if (end === -1) return []
+
+  const seen = new Set<string>()
+  for (const raw of text.slice(start + FOLLOW_UP_OPEN.length, end).split("|")) {
+    const suggestion = raw.trim()
+    if (!suggestion || suggestion.length > MAX_FOLLOW_UP_CHARS) continue
+    if (suggestion.includes("[") || suggestion.includes("]")) continue
+    seen.add(suggestion)
+    if (seen.size === MAX_FOLLOW_UPS) break
+  }
+  return [...seen]
+}
+
+/**
+ * Removes every marker the assistant emits for the client from text that is
+ * about to be displayed: the checkout signal, the follow-up block, and any
+ * trailing fragment of a marker that is still streaming in. Only a genuine
+ * prefix of a known marker is dropped, so ordinary bracketed prose survives.
+ */
+export function stripMarkers(text: string): string {
+  if (!text) return text
+  let out = text.replaceAll(CHECKOUT_SIGNAL, "")
+
+  const start = out.indexOf(FOLLOW_UP_OPEN)
+  if (start !== -1) {
+    const end = out.indexOf(FOLLOW_UP_CLOSE, start)
+    out =
+      end === -1
+        ? out.slice(0, start)
+        : out.slice(0, start) + out.slice(end + FOLLOW_UP_CLOSE.length)
+  }
+
+  const bracket = out.lastIndexOf("[")
+  if (bracket !== -1) {
+    const tail = out.slice(bracket)
+    const markers = [OPEN_TAG, CHECKOUT_SIGNAL, FOLLOW_UP_OPEN]
+    if (markers.some((marker) => marker.startsWith(tail))) out = out.slice(0, bracket)
+  }
+  return out.trimEnd()
+}
 
 /**
  * Extracts the first balanced JSON object ({...}) from a string starting at or

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { ChatMessage } from "@/components/chat-message"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { hasCheckoutSignal } from "@/lib/checkout-signal"
-import { parseProductResult } from "@/lib/parse-product"
+import { parseFollowUps, parseProductResult } from "@/lib/parse-product"
 import type { ProductResult } from "@/lib/types"
 
 /**
@@ -71,13 +71,6 @@ function drawSuggestions(count = 3): string[] {
   return drawn
 }
 
-/**
- * One-tap follow-ups offered under the newest set of product cards. They mirror
- * the refinements the assistant is built to handle, so the next turn builds on
- * the last one instead of starting a fresh search.
- */
-const FOLLOW_UPS = ["Something cheaper", "Which would you pick?", "What about another store?"]
-
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
 type CatalogResponse = {
@@ -110,13 +103,19 @@ function messageText(message: UIMessage): string {
 }
 
 /**
- * Whether the newest message is an assistant turn that put a choice on screen.
- * Follow-up chips only make sense there: after a clarifying question or a
- * "nothing fits" reply, "something cheaper" would be nonsense.
+ * The follow-ups the assistant offered for its own latest turn. They are written
+ * per turn by the model, which is the only thing that knows what was just
+ * recommended, so they read as part of the conversation instead of a fixed menu.
+ * There is no hardcoded fallback on purpose: a turn that offers none, or emits
+ * something unusable, shows no chips at all.
  */
-function showsProductChoice(message: UIMessage | undefined): boolean {
-  if (!message || message.role !== "assistant") return false
-  return parseProductResult(messageText(message)).products.length >= 2
+function latestFollowUps(message: UIMessage | undefined): string[] {
+  if (!message || message.role !== "assistant") return []
+  const text = messageText(message)
+  // A clarifying question or a "nothing fits" reply has no products, and chips
+  // like "something cheaper" would be nonsense there.
+  if (parseProductResult(text).products.length === 0) return []
+  return parseFollowUps(text)
 }
 
 type ChatThreadProps = {
@@ -219,6 +218,8 @@ export function ChatThread({
     setInput("")
   }
 
+  const followUps = latestFollowUps(messages[messages.length - 1])
+
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col">
       <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
@@ -270,9 +271,9 @@ export function ChatThread({
             ))
           )}
 
-          {!isLoading && showsProductChoice(messages[messages.length - 1]) ? (
+          {!isLoading && followUps.length > 0 ? (
             <div className="mt-3 flex flex-wrap gap-2 pl-11">
-              {FOLLOW_UPS.map((f) => (
+              {followUps.map((f) => (
                 <button
                   key={f}
                   onClick={() => submit(f)}

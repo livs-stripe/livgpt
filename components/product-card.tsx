@@ -49,9 +49,13 @@ export function ProductCard({ product, onBuyNow }: ProductCardProps) {
             className="text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
             aria-label={`View details for ${product.name}`}
           >
-            <div className="flex items-start justify-between gap-3">
-              <h3 className="font-semibold leading-tight text-pretty">{product.name}</h3>
-              <span className="shrink-0 text-lg font-bold text-emerald-500">
+            <div className="flex items-start justify-between gap-2">
+              {/* Clamped so a long feed title cannot push a card in the rail to
+                  four lines and knock the row out of alignment. */}
+              <h3 className="line-clamp-2 font-semibold leading-tight text-pretty">
+                {product.name}
+              </h3>
+              <span className="shrink-0 text-base font-bold text-emerald-500">
                 {formatPrice(product.price, product.currency)}
               </span>
             </div>
