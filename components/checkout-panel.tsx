@@ -587,7 +587,21 @@ function CheckoutForm({
       <div className="flex flex-col gap-2">
         <span className="text-sm font-medium">Shipping address</span>
         <AddressElement
-          options={{ mode: "shipping", allowedCountries: ["US"] }}
+          options={{
+            mode: "shipping",
+            allowedCountries: ["US"],
+            defaultValues: {
+              name: "Demo Customer",
+              address: {
+                line1: "354 Oyster Point Blvd",
+                line2: "",
+                city: "South San Francisco",
+                state: "CA",
+                postal_code: "94080",
+                country: "US",
+              },
+            },
+          }}
         />
       </div>
 
