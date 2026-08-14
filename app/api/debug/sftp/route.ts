@@ -70,6 +70,41 @@ export async function GET() {
     const rootList = await sftp.list(feedPath)
     const rootEntries = rootList.map((e) => ({ name: e.name, type: e.type }))
 
+    // Deep recursive listing (bounded) so we can see catalog/ contents and any
+    // manifest.json bodies, to diagnose shard path/name mismatches.
+    const tree: Record<string, { name: string; type: string; size?: number }[]> = {}
+    const manifestBodies: Record<string, unknown> = {}
+    async function walk(dir: string, depth: number): Promise<void> {
+      if (depth > 5) return
+      let list: Awaited<ReturnType<typeof sftp.list>>
+      try {
+        list = await sftp.list(dir)
+      } catch (e) {
+        tree[dir] = [{ name: `<unreadable: ${e instanceof Error ? e.message : String(e)}>`, type: "?" }]
+        return
+      }
+      tree[dir] = list.map((e) => ({ name: e.name, type: e.type, size: e.size }))
+      for (const e of list) {
+        const full = dir.replace(/\/$/, "") + "/" + e.name
+        if (e.type === "d") {
+          await walk(full, depth + 1)
+        } else if (/manifest.*\.json$/i.test(e.name)) {
+          try {
+            const buf = await sftp.get(full)
+            const text = Buffer.isBuffer(buf)
+              ? buf.toString("utf8")
+              : typeof buf === "string"
+                ? buf
+                : Buffer.from(buf as unknown as Uint8Array).toString("utf8")
+            manifestBodies[full] = JSON.parse(text)
+          } catch (e) {
+            manifestBodies[full] = `<unreadable: ${e instanceof Error ? e.message : String(e)}>`
+          }
+        }
+      }
+    }
+    await walk(feedPath, 0)
+
     // Read the contents of stripe-verification.txt (if present) so we can
     // confirm it matches the challenge token shown in the Stripe dashboard.
     // This token is NOT a secret (Stripe displays it in the UI), so returning
@@ -129,6 +164,8 @@ export async function GET() {
       verificationToken,
       children,
       manifestCount,
+      tree,
+      manifestBodies,
     })
   } catch (err) {
     await sftp.end().catch(() => {})
