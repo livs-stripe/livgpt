@@ -4,11 +4,19 @@ import { STRIPE_API_VERSION, stripeFetch } from "@/lib/stripe-server"
 export const dynamic = "force-dynamic"
 
 // Non-secret diagnostic: reports the effective Stripe API version the running
-// deployment resolves (code default vs. STRIPE_API_VERSION env override), the
-// LiteLLM endpoint the chat route will call, which sensitive env vars are
+// deployment resolves (code default vs. STRIPE_API_VERSION env override), which
+// LLM provider path the chat route will take, which sensitive env vars are
 // present (booleans only, never values), and the live Stripe *account id* the
 // deployed secret key belongs to (so we can confirm which agent account is
 // actually in use). The account id is an `acct_...` identifier, not a secret.
+
+/** Mirrors the provider precedence in `app/api/chat/route.ts`. */
+function llmProvider(): "openai" | "litellm" | "ai-gateway" {
+  if (process.env.OPENAI_API_KEY) return "openai"
+  if (process.env.LITELLM_BASE_URL) return "litellm"
+  return "ai-gateway"
+}
+
 export async function GET() {
   let stripeAccountId: string | null = null
   let accountError: string | null = null
@@ -34,9 +42,11 @@ export async function GET() {
     hasSecretKey: Boolean(process.env.STRIPE_SECRET_KEY),
     hasPublishableKey: Boolean(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY),
     hasSellerProfileIds: Boolean(process.env.SELLER_PROFILE_IDS),
-    // LLM routing: the base URL is not a secret, so report the effective value.
-    // For the key, report only whether an override is set, never the value.
-    liteLlmBaseUrl: process.env.LITELLM_BASE_URL ?? "https://litellm.corp.stripe.com/v1",
+    // LLM routing: base URLs are not secrets, so report the effective value.
+    // For keys, report only whether one is set, never the value.
+    llmProvider: llmProvider(),
+    hasOpenAiKey: Boolean(process.env.OPENAI_API_KEY),
+    liteLlmBaseUrl: process.env.LITELLM_BASE_URL ?? null,
     liteLlmKeyOverrideSet: Boolean(process.env.LITELLM_API_KEY),
     stripeAccountId,
     accountError,

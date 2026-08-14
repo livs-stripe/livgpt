@@ -34,12 +34,23 @@ Elements, and Tailwind CSS + shadcn/ui.
    (Agentic Commerce) API is served under** — set
    `STRIPE_API_VERSION=2026-04-22.preview`. A different preview date makes the
    `requested_sessions` endpoints return "Unrecognized request URL".
-7. **Chat completions go through Stripe's LiteLLM proxy** (`litellm-srv`), not
-   the OpenAI API directly. It is OpenAI-API compatible, so `app/api/chat/route.ts`
-   uses the standard `@ai-sdk/openai` provider with `baseURL`/`apiKey` pointed at
-   the proxy. `litellm.corp.stripe.com` is **corp-network only** (it requires a
-   client certificate), so a publicly hosted deployment must set
-   `LITELLM_BASE_URL` to an externally reachable OpenAI-compatible endpoint.
+7. **The chat LLM provider is env-driven** (`app/api/chat/route.ts`), in this
+   precedence:
+   1. `OPENAI_API_KEY` set → call the OpenAI API directly. Use this on hosts with
+      public egress but no Vercel AI Gateway (e.g. Cloud Run / stripedemos).
+   2. `LITELLM_BASE_URL` set → call Stripe's internal LiteLLM proxy
+      (`litellm-srv`, OpenAI-API compatible). **Local corp-laptop development
+      only** — see the note below.
+   3. Neither set (**default**) → route a bare `openai/gpt-5.5` string model
+      through the **Vercel AI Gateway**, which needs no key of ours. This is what
+      the Vercel deployment uses, with zero configuration.
+
+   `litellm.corp.stripe.com` requires a hardware-bound corp **device certificate
+   plus an interactive YubiKey 2FA tap**, brokered by the local `certproxy` daemon
+   on `127.0.0.1:7892`. It is therefore unreachable from **any** server (Vercel,
+   Cloud Run, containers, CI); setting `LITELLM_BASE_URL` in a deployment breaks
+   chat at the transport layer. `/api/debug/version` reports the active path as
+   `llmProvider`.
 8. For local testing, use the Stripe CLI:
    ```bash
    stripe listen --forward-to localhost:3000/api/webhooks/agent
@@ -66,8 +77,10 @@ Copy `.env.local.example` to `.env.local` and fill in the values:
 | `SFTP_PASSPHRASE` | Passphrase for `SFTP_PRIVATE_KEY`, only if the key is encrypted (optional) |
 | `SFTP_FEED_PATH` | Remote directory Stripe drops feeds into (default `/`, the SFTP root) |
 | `MOCK_CATALOG` | `on` (default) serves the bundled demo catalog when SFTP is unset/empty; set to `off` in production to force the real feed / empty state |
-| `LITELLM_BASE_URL` | Base URL of the LiteLLM proxy serving the chat model. Optional — defaults to `https://litellm.corp.stripe.com/v1` |
-| `LITELLM_API_KEY` | LiteLLM API key / attribution string. Optional — defaults to `use_case=development&team=aunz-sa` |
+| `OPENAI_API_KEY` | Optional. Set it to call the OpenAI API directly — needed on non-Vercel hosts that have public egress but no Vercel AI Gateway (e.g. the Cloud Run / stripedemos deployment). Takes precedence over everything below. |
+| `LITELLM_BASE_URL` | Optional, **local corp-laptop development only** (e.g. `https://litellm.corp.stripe.com/v1`). Requires a corp device certificate **and** an interactive YubiKey 2FA tap via the local `certproxy` daemon on `127.0.0.1:7892`, so it does **not** work from any server — never set it in a deployment. |
+| `LITELLM_API_KEY` | Optional cost-attribution string for `LITELLM_BASE_URL`. Defaults to `use_case=development&team=aunz-sa`. Ignored unless `LITELLM_BASE_URL` is set. |
+| _(neither set)_ | Default: chat streams `openai/gpt-5.5` through the **Vercel AI Gateway**, no credentials required. Leave both unset on Vercel. |
 | `NEXT_PUBLIC_BASE_URL` | Public base URL of the deployment |
 
 ## API routes
