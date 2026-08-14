@@ -53,7 +53,7 @@ const PLACEHOLDER_IMG = "/placeholder.svg"
 
 /** Prefilled so the demo can be driven end to end without typing, mirroring the
  * prefilled shipping address. Editable in the panel. */
-const DEMO_EMAIL = "demo@example.com"
+const DEMO_EMAIL = "demouser@example.com"
 
 /** Swaps a broken product image for the local placeholder, guarding against a
  * loop if the placeholder itself ever fails to load. */
