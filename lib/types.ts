@@ -7,6 +7,8 @@ export type ProductResult = {
   imageUrl: string
   description: string
   sellerId: string
+  /** Merchant display name resolved server-side; never a raw profile id. */
+  sellerName?: string
 }
 
 /** A product sourced from the Stripe Agentic Commerce product feed. */
@@ -21,6 +23,8 @@ export type CatalogProduct = {
   category?: string
   /** Stripe seller profile id this product is purchased from. */
   sellerId?: string
+  /** Human-readable merchant name resolved from the feed, for display. */
+  sellerName?: string
   available?: boolean
 }
 

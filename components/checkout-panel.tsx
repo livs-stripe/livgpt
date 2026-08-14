@@ -23,7 +23,7 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import { formatPrice, sellerNameFromId } from "@/lib/parse-product"
+import { formatPrice, sellerDisplayName } from "@/lib/parse-product"
 import type { CartItem } from "@/lib/types"
 import { isValidE164Phone, isValidEmail, toE164Phone } from "@/lib/utils"
 
@@ -120,7 +120,7 @@ export function CheckoutPanel({
     0,
   )
   const currency = items[0]?.product.currency ?? "usd"
-  const sellerName = sellerNameFromId(items[0]?.product.sellerId)
+  const sellerName = sellerDisplayName(items[0]?.product) ?? "this merchant"
 
   const elementsOptions = useMemo(
     () =>

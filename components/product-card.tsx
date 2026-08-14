@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { ShoppingBag, Store, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { formatPrice, sellerNameFromId } from "@/lib/parse-product"
+import { formatPrice, sellerDisplayName } from "@/lib/parse-product"
 import type { ProductResult } from "@/lib/types"
 
 const PLACEHOLDER_IMG = "/placeholder.svg"
@@ -98,7 +98,7 @@ function ProductDetail({
     return () => document.removeEventListener("keydown", onKeyDown)
   }, [open, onClose])
 
-  const sellerName = sellerNameFromId(product.sellerId)
+  const sellerName = sellerDisplayName(product)
 
   return (
     <div
@@ -155,13 +155,15 @@ function ProductDetail({
               </span>
             </div>
 
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Store className="size-4" />
-              <span>
-                Sold by{" "}
-                <span className="font-medium text-foreground">{sellerName}</span>
-              </span>
-            </div>
+            {sellerName ? (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Store className="size-4" />
+                <span>
+                  Sold by{" "}
+                  <span className="font-medium text-foreground">{sellerName}</span>
+                </span>
+              </div>
+            ) : null}
 
             <Separator />
 

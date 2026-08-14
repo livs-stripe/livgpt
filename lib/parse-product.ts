@@ -1,4 +1,5 @@
 import type { ProductResult } from "./types"
+import { knownSellerName } from "./seller-names"
 
 const OPEN_TAG = "[PRODUCT_RESULT]"
 const CLOSE_TAG = "[/PRODUCT_RESULT]"
@@ -109,18 +110,53 @@ export function parseProductResult(text: string): {
 // Referenced to keep the closing tag meaningful for prompt/documentation parity.
 export const PRODUCT_RESULT_TAGS = { open: OPEN_TAG, close: CLOSE_TAG }
 
+/** A slug id segment is a plain lowercase word; anything else is a machine token. */
+function isSlugWord(segment: string): boolean {
+  return /^[a-z]+$/.test(segment)
+}
+
 /**
- * Derives a friendly merchant name from a catalog seller id.
+ * Derives a friendly merchant name from a *slug-style* catalog seller id,
  * e.g. "profile_harbor_and_home" -> "Harbor & Home".
+ *
+ * Returns null for a real Stripe seller profile id
+ * ("profile_test_61V4rlJR6SOOGr86bA6V4rlIU4SQJK89xjP3m2SoKQrI"), which holds no
+ * recoverable name: title-casing it produces an unreadable token. Feeds carry
+ * the real name out of band instead (`ProductResult.sellerName`).
  */
-export function sellerNameFromId(sellerId?: string): string {
-  if (!sellerId) return "Store"
-  return sellerId
-    .replace(/^profile_/, "")
-    .split("_")
+export function sellerNameFromId(sellerId?: string): string | null {
+  if (!sellerId) return null
+  const segments = sellerId
+    .replace(/^profile[_-]/, "")
+    .replace(/^(test|live)[_-]/, "")
+    .split(/[_-]/)
     .filter(Boolean)
+  if (segments.length === 0 || !segments.every(isSlugWord)) return null
+  return segments
     .map((w) => (w === "and" ? "&" : w.charAt(0).toUpperCase() + w.slice(1)))
     .join(" ")
+}
+
+/**
+ * The merchant name to display for a product: the name the feed resolved and
+ * carried through, else a known merchant for the seller id, else a name
+ * recoverable from a slug-style id. Returns null when none of those hold, so
+ * callers omit the attribution rather than render an opaque id.
+ */
+export function sellerDisplayName(product?: {
+  sellerId?: string
+  sellerName?: string
+}): string | null {
+  const supplied = product?.sellerName?.trim()
+  // `sellerName` reaches us through a model-generated block, so reject anything
+  // that came back as an id instead of a name (no brand word runs this long).
+  const looksLikeId =
+    !supplied ||
+    supplied.length > 60 ||
+    /^profile[_-]/i.test(supplied) ||
+    /[A-Za-z0-9]{16,}/.test(supplied)
+  if (!looksLikeId) return supplied
+  return knownSellerName(product?.sellerId) ?? sellerNameFromId(product?.sellerId)
 }
 
 /**

@@ -1,6 +1,9 @@
 import "server-only"
 import type { CatalogProduct } from "./types"
 import mockData from "./mock-catalog-data.json"
+import { knownSellerName } from "./seller-names"
+
+let stamped: CatalogProduct[] | null = null
 
 /**
  * Bundled demo catalog: 5 overlapping mock merchants x 150 products (750 total),
@@ -16,7 +19,15 @@ import mockData from "./mock-catalog-data.json"
  * serverless bundle on Vercel.
  */
 export function loadMockCatalog(): CatalogProduct[] {
-  return mockData as CatalogProduct[]
+  // The generated JSON carries only seller ids, so resolve each merchant's
+  // display name here the same way an SFTP feed does.
+  if (!stamped) {
+    stamped = (mockData as CatalogProduct[]).map((p) => ({
+      ...p,
+      sellerName: p.sellerName ?? knownSellerName(p.sellerId),
+    }))
+  }
+  return stamped
 }
 
 /** Whether the bundled demo catalog should be used as a fallback. */

@@ -4,6 +4,7 @@ import { parse as parseCsv } from "csv-parse/sync"
 import SftpClient from "ssh2-sftp-client"
 import type { CatalogProduct } from "./types"
 import { loadMockCatalog, mockCatalogEnabled } from "./mock-catalog"
+import { knownSellerName } from "./seller-names"
 
 type ConnectOptions = Parameters<SftpClient["connect"]>[0]
 
@@ -33,6 +34,8 @@ type ConnectOptions = Parameters<SftpClient["connect"]>[0]
 
 type Manifest = {
   stripe_profile_id?: string
+  /** Optional merchant display name; takes precedence over the CSV `brand`. */
+  seller_name?: string
   batch_timestamp?: string
   feed_type?: string
   total_shards?: number
@@ -172,6 +175,9 @@ function rowToProduct(
   }
 }
 
+/** A feed's seller: the profile id to charge plus its display name, if known. */
+type Seller = { id: string; name?: string }
+
 type RemoteFile = { path: string; modified: number }
 
 /** Recursively lists files under a remote directory (bounded depth). */
@@ -206,14 +212,27 @@ async function getBuffer(sftp: SftpClient, path: string): Promise<Buffer> {
   return Buffer.from(data as unknown as Uint8Array)
 }
 
+/**
+ * The Google Merchant `brand` column names a product's brand, not the store, so
+ * it only identifies the merchant when every row in the feed agrees on it (a
+ * single-brand seller). Merchants shipping sub-brands are named by their
+ * manifest or by lib/seller-names.ts instead.
+ */
+function unanimousBrand(brands: Set<string>): string | undefined {
+  return brands.size === 1 ? [...brands][0] : undefined
+}
+
 /** Downloads + parses CSV shards, stamping each product with the given seller. */
 async function ingestShards(
   sftp: SftpClient,
   shardPaths: string[],
-  sellerProfileId: string,
+  seller: Seller,
   products: CatalogProduct[],
   seen: Set<string>,
 ): Promise<void> {
+  const ingested: CatalogProduct[] = []
+  const brands = new Set<string>()
+
   for (const path of shardPaths) {
     const raw = await getBuffer(sftp, path)
     const csvText = path.endsWith(".gz")
@@ -228,14 +247,24 @@ async function ingestShards(
     }) as Record<string, string>[]
 
     for (const row of rows) {
-      const product = rowToProduct(row, sellerProfileId)
+      const brand = row.brand?.trim()
+      if (brand) brands.add(brand)
+
+      const product = rowToProduct(row, seller.id)
       // Dedupe per seller so two merchants can reuse the same feed id.
       const key = `${product?.sellerId ?? ""}:${product?.id ?? ""}`
       if (product && !seen.has(key)) {
         seen.add(key)
-        products.push(product)
+        ingested.push(product)
       }
     }
+  }
+
+  const sellerName =
+    seller.name || knownSellerName(seller.id) || unanimousBrand(brands)
+  for (const product of ingested) {
+    if (sellerName) product.sellerName = sellerName
+    products.push(product)
   }
 }
 
@@ -321,7 +350,13 @@ async function downloadFeed(config: FeedConfig): Promise<CatalogProduct[]> {
       })
       if (shardPaths.length === 0) continue
 
-      await ingestShards(sftp, shardPaths, sellerId, products, seen)
+      await ingestShards(
+        sftp,
+        shardPaths,
+        { id: sellerId, name: manifest.seller_name?.trim() || undefined },
+        products,
+        seen,
+      )
       if (sellerId) processedSellers.add(sellerId)
       usedManifest = true
     }
@@ -331,7 +366,7 @@ async function downloadFeed(config: FeedConfig): Promise<CatalogProduct[]> {
         .filter((f) => /\.csv\.gz$|\.csv$/i.test(f.path))
         .sort((a, b) => b.modified - a.modified)
         .map((f) => f.path)
-      await ingestShards(sftp, shardPaths, fallbackSellerId, products, seen)
+      await ingestShards(sftp, shardPaths, { id: fallbackSellerId }, products, seen)
     }
 
     return products
@@ -541,7 +576,7 @@ export function selectProductsForPrompt(
  * Pass the latest user message as `query` to include only the most relevant
  * products (bounded by `limit`) instead of the entire feed. Descriptions are
  * truncated to keep the prompt small while preserving the id/price/imageUrl/
- * sellerId fields the [PRODUCT_RESULT] contract depends on.
+ * sellerId/sellerName fields the [PRODUCT_RESULT] contract depends on.
  */
 export function catalogForPrompt(
   products: CatalogProduct[],
@@ -554,7 +589,7 @@ export function catalogForPrompt(
   const selected = selectProductsForPrompt(products, query, limit)
   const lines = selected.map((p) => {
     const description = (p.description ?? "").slice(0, MAX_DESCRIPTION_CHARS)
-    return `- id=${p.id} | name=${p.name} | price=${p.price} ${p.currency} | category=${p.category ?? "general"} | available=${p.available !== false} | imageUrl=${p.imageUrl} | sellerId=${p.sellerId ?? ""} | description=${description}`
+    return `- id=${p.id} | name=${p.name} | price=${p.price} ${p.currency} | category=${p.category ?? "general"} | available=${p.available !== false} | imageUrl=${p.imageUrl} | sellerId=${p.sellerId ?? ""} | sellerName=${p.sellerName ?? ""} | description=${description}`
   })
   const note =
     selected.length < products.length
