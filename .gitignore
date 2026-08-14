@@ -14,5 +14,6 @@ node_modules
 .next/
 .DS_Store
 .vercel
+__pycache__/
 
 # Mock catalog images are generated assets; keep specs/CSVs in git
