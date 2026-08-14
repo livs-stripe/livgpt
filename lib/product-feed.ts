@@ -36,7 +36,12 @@ type Manifest = {
   batch_timestamp?: string
   feed_type?: string
   total_shards?: number
-  files?: { name: string }[]
+  // Stripe's manifest lists each shard with a bare filename (`name`) plus a
+  // `relative_path` (from the manifest's directory) and an `absolute_path`
+  // (from the SFTP root). The real file lives inside a timestamped
+  // `..._export_.../` subfolder, so `name` alone does NOT locate it — per
+  // Stripe's docs we must resolve via absolute_path/relative_path.
+  files?: { name: string; relative_path?: string; absolute_path?: string }[]
 }
 
 type FeedConfig = {
@@ -304,9 +309,16 @@ async function downloadFeed(config: FeedConfig): Promise<CatalogProduct[]> {
       if (sellerId && processedSellers.has(sellerId)) continue
 
       const dir = manifestFile.path.replace(/\/[^/]+$/, "")
-      const shardPaths = (manifest.files ?? []).map((f) =>
-        f.name.includes("/") ? f.name : `${dir}/${f.name}`,
-      )
+      // Resolve each shard's real location. Prefer absolute_path (rooted at the
+      // SFTP root), then relative_path (resolved against the manifest's dir),
+      // and only fall back to `name` for feeds that don't provide paths. The
+      // real file lives in a timestamped `..._export_.../` subfolder, so using
+      // `name` alone would point at a non-existent file.
+      const shardPaths = (manifest.files ?? []).map((f) => {
+        if (f.absolute_path) return f.absolute_path
+        if (f.relative_path) return `${dir}/${f.relative_path}`
+        return f.name.includes("/") ? f.name : `${dir}/${f.name}`
+      })
       if (shardPaths.length === 0) continue
 
       await ingestShards(sftp, shardPaths, sellerId, products, seen)
