@@ -1,7 +1,8 @@
 # Shop with Stripe
 
-A chat-based shopping agent that uses **OpenAI GPT-5** to help users find and
-purchase products through **Stripe's Agentic Commerce (Delegated Checkout)** API.
+A chat-based shopping agent that uses **GPT-5** (served by Stripe's internal
+**LiteLLM proxy**) to help users find and purchase products through **Stripe's
+Agentic Commerce (Delegated Checkout)** API.
 
 Built with the Next.js App Router, the Vercel AI SDK (streaming chat), Stripe
 Elements, and Tailwind CSS + shadcn/ui.
@@ -33,7 +34,13 @@ Elements, and Tailwind CSS + shadcn/ui.
    (Agentic Commerce) API is served under** — set
    `STRIPE_API_VERSION=2026-04-22.preview`. A different preview date makes the
    `requested_sessions` endpoints return "Unrecognized request URL".
-7. For local testing, use the Stripe CLI:
+7. **Chat completions go through Stripe's LiteLLM proxy** (`litellm-srv`), not
+   the OpenAI API directly. It is OpenAI-API compatible, so `app/api/chat/route.ts`
+   uses the standard `@ai-sdk/openai` provider with `baseURL`/`apiKey` pointed at
+   the proxy. `litellm.corp.stripe.com` is **corp-network only** (it requires a
+   client certificate), so a publicly hosted deployment must set
+   `LITELLM_BASE_URL` to an externally reachable OpenAI-compatible endpoint.
+8. For local testing, use the Stripe CLI:
    ```bash
    stripe listen --forward-to localhost:3000/api/webhooks/agent
    ```
@@ -59,7 +66,8 @@ Copy `.env.local.example` to `.env.local` and fill in the values:
 | `SFTP_PASSPHRASE` | Passphrase for `SFTP_PRIVATE_KEY`, only if the key is encrypted (optional) |
 | `SFTP_FEED_PATH` | Remote directory Stripe drops feeds into (default `/`, the SFTP root) |
 | `MOCK_CATALOG` | `on` (default) serves the bundled demo catalog when SFTP is unset/empty; set to `off` in production to force the real feed / empty state |
-| `OPENAI_API_KEY` | OpenAI API key for the chat model (`gpt-5.5` via the AI SDK) |
+| `LITELLM_BASE_URL` | Base URL of the LiteLLM proxy serving the chat model. Optional — defaults to `https://litellm.corp.stripe.com/v1` |
+| `LITELLM_API_KEY` | LiteLLM API key / attribution string. Optional — defaults to `use_case=development&team=aunz-sa` |
 | `NEXT_PUBLIC_BASE_URL` | Public base URL of the deployment |
 
 ## API routes

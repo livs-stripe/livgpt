@@ -1,8 +1,17 @@
+import { createOpenAI } from "@ai-sdk/openai"
 import { convertToModelMessages, streamText, type UIMessage } from "ai"
 import { catalogForPrompt, loadCatalog } from "@/lib/product-feed"
 
 export const maxDuration = 30
 export const runtime = "nodejs"
+
+// Stripe's internal LiteLLM proxy (litellm-srv) speaks the OpenAI API, so the
+// stock OpenAI provider works once its base URL and key point at the proxy.
+// The defaults make the app run without extra config on the corp network.
+const litellm = createOpenAI({
+  baseURL: process.env.LITELLM_BASE_URL || "https://litellm.corp.stripe.com/v1",
+  apiKey: process.env.LITELLM_API_KEY || "use_case=development&team=aunz-sa",
+})
 
 function buildSystemPrompt(catalogText: string, hasProducts: boolean): string {
   return `You are the Stripe shopping assistant, a warm, upbeat, knowledgeable shopping companion, like a stylish, well-read friend with great taste who happens to know the store inside out. Every product you can offer comes from the live Stripe Agentic Commerce product feed of the connected seller (shown below). You help users discover and purchase these products.
@@ -101,9 +110,9 @@ export async function POST(req: Request) {
   )
 
   const result = streamText({
-    // Routed through the Vercel AI Gateway, so it does not depend on a personal
-    // OPENAI_API_KEY / its quota.
-    model: "openai/gpt-5.5",
+    // `.chat()` targets /chat/completions, the route LiteLLM always exposes;
+    // the provider's default callable would use the Responses API instead.
+    model: litellm.chat("gpt-5.5"),
     system: systemPrompt,
     messages: await convertToModelMessages(messages),
   })
