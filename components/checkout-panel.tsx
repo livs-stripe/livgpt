@@ -100,6 +100,9 @@ export function CheckoutPanel({
             mode: "payment" as const,
             amount: subtotal,
             currency,
+            // Required for the Shared Payment Token flow: it lets us create the
+            // PaymentMethod manually via stripe.preparePaymentMethod()/createPaymentMethod().
+            paymentMethodCreation: "manual" as const,
             appearance: {
               theme: theme === "dark" ? ("night" as const) : ("stripe" as const),
             },
@@ -289,7 +292,7 @@ function CheckoutForm({
       // createPaymentMethod if the beta method is unavailable.
       const stripeAny = stripe as unknown as {
         preparePaymentMethod?: (
-          elements: unknown,
+          options: { elements: typeof elements },
         ) => Promise<{ paymentMethod?: { id: string }; error?: { message: string } }>
         createRadarSession?: () => Promise<{
           radarSession?: { id: string }
@@ -299,7 +302,9 @@ function CheckoutForm({
 
       let paymentMethodId: string | undefined
       if (typeof stripeAny.preparePaymentMethod === "function") {
-        const prepared = await stripeAny.preparePaymentMethod(elements)
+        // Pass the live Elements instance (the one that owns the mounted
+        // PaymentElement) inside the options object, not positionally.
+        const prepared = await stripeAny.preparePaymentMethod({ elements })
         if (prepared.error) throw new Error(prepared.error.message)
         paymentMethodId = prepared.paymentMethod?.id
       } else {
