@@ -3,6 +3,7 @@
 import type { UIMessage } from "ai"
 import { Bot, User } from "lucide-react"
 import { ProductCard } from "@/components/product-card"
+import { stripCheckoutSignal } from "@/lib/checkout-signal"
 import { parseProductResult, stripDashes } from "@/lib/parse-product"
 import type { ProductResult } from "@/lib/types"
 
@@ -12,6 +13,22 @@ function getText(message: UIMessage): string {
     .filter((p): p is { type: "text"; text: string } => p.type === "text")
     .map((p) => p.text)
     .join("")
+}
+
+const PRODUCT_TAG = "[PRODUCT_RESULT]"
+
+/**
+ * Hides a half-streamed opening tag. `parseProductResult` only strips from the
+ * first COMPLETE "[PRODUCT_RESULT]", so while the tag is still arriving its
+ * prefix sits at the end of the visible text and flashes as "[PRODUCT" for a
+ * frame. Only a genuine prefix of the tag is removed, so ordinary bracketed
+ * text is left alone.
+ */
+function stripPartialProductTag(text: string): string {
+  const bracket = text.lastIndexOf("[")
+  if (bracket === -1) return text
+  const tail = text.slice(bracket)
+  return PRODUCT_TAG.startsWith(tail) ? text.slice(0, bracket).trimEnd() : text
 }
 
 type ChatMessageProps = {
@@ -25,8 +42,11 @@ export function ChatMessage({ message, onBuyNow }: ChatMessageProps) {
   const { cleanText, products } = isUser
     ? { cleanText: rawText, products: [] as ProductResult[] }
     : parseProductResult(rawText)
-  // Never render em/en dashes in assistant replies (keep the user's own text as-is).
-  const displayText = isUser ? cleanText : stripDashes(cleanText)
+  // Never render em/en dashes in assistant replies (keep the user's own text
+  // as-is), and never render the checkout marker, which is for the client only.
+  const displayText = isUser
+    ? cleanText
+    : stripDashes(stripPartialProductTag(stripCheckoutSignal(cleanText)))
 
   return (
     <div className={`flex w-full gap-3 ${isUser ? "flex-row-reverse" : "flex-row"}`}>
@@ -39,7 +59,7 @@ export function ChatMessage({ message, onBuyNow }: ChatMessageProps) {
         {isUser ? <User className="size-4" /> : <Bot className="size-4" />}
       </div>
       <div className={`flex max-w-[80%] flex-col ${isUser ? "items-end" : "items-start"}`}>
-        {cleanText ? (
+        {displayText ? (
           <div
             className={`whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
               isUser
