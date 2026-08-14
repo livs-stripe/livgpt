@@ -2,11 +2,13 @@
  * Merchant display names for the demo sellers, listed under every seller id a
  * merchant appears as: the bundled demo catalog's placeholder ids and the real
  * Stripe sandbox profile ids their SFTP feeds carry (the same pairing as
- * PROFILE_IDS in sftp-server/build_catalog.py).
+ * SELLER_PROFILE_IDS, and as PROFILE_IDS in sftp-server/build_catalog.py).
  *
- * A Stripe seller profile id is an opaque token with no name to recover from
- * it, and a feed's `brand` column names the product's brand rather than the
- * store, so a merchant that ships sub-brands needs a mapping like this one.
+ * None of the feed's own fields can stand in for these names. A profile id is an
+ * opaque token; the `brand` column names a product's brand rather than the store
+ * (merchants here ship three sub-brands each); and the `display_name` in the
+ * feed's merchant_metadata.json is the sandbox account's label, which reads as
+ * "livs+us+merchant1+harbor_and_home sandbox".
  *
  * Safe to import from the browser: it holds nothing but public brand names
  * against sandbox profile ids, which already reach the client on every product.
@@ -40,8 +42,20 @@ const MERCHANTS: { name: string; sellerIds: string[] }[] = [
       "profile_test_61V4s6BwbaSJ9V7veA6V4s6AU4SQNkjbEkRaK94bYC7E",
     ],
   },
-  { name: "VoltEdge Electronics", sellerIds: ["profile_voltedge_electronics"] },
-  { name: "Meridian Travel Co.", sellerIds: ["profile_meridian_travel"] },
+  {
+    name: "VoltEdge Electronics",
+    sellerIds: [
+      "profile_voltedge_electronics",
+      "profile_test_61V4vc3o6grjwmOtlA6V4vc3U4SQvSWxlfvA4t6ueM24",
+    ],
+  },
+  {
+    name: "Meridian Travel Co.",
+    sellerIds: [
+      "profile_meridian_travel",
+      "profile_test_61V4vzgD9wzjMpz81A6V4vzgU4SQsWNVDeSa83I4OFai",
+    ],
+  },
   { name: "Fern & Field", sellerIds: ["profile_fern_and_field"] },
 ]
 

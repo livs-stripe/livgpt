@@ -5,6 +5,7 @@ import SftpClient from "ssh2-sftp-client"
 import type { CatalogProduct } from "./types"
 import { loadMockCatalog, mockCatalogEnabled } from "./mock-catalog"
 import { knownSellerName } from "./seller-names"
+import { catalogSellerIdForProfileId } from "./stripe-server"
 
 type ConnectOptions = Parameters<SftpClient["connect"]>[0]
 
@@ -261,7 +262,10 @@ async function ingestShards(
   }
 
   const sellerName =
-    seller.name || knownSellerName(seller.id) || unanimousBrand(brands)
+    seller.name ||
+    knownSellerName(seller.id) ||
+    knownSellerName(catalogSellerIdForProfileId(seller.id)) ||
+    unanimousBrand(brands)
   for (const product of ingested) {
     if (sellerName) product.sellerName = sellerName
     products.push(product)

@@ -39,6 +39,20 @@ export function resolveSellerProfileId(catalogSellerId?: string): string {
 }
 
 /**
+ * The inverse: which catalog seller id was configured for a real Stripe profile
+ * id. A live feed identifies its seller only by profile id, so this is how an
+ * ingested product is traced back to the merchant it belongs to (and hence to a
+ * display name) without hardcoding every id.
+ */
+export function catalogSellerIdForProfileId(profileId?: string): string | undefined {
+  if (!profileId) return undefined
+  for (const [catalogSellerId, mapped] of Object.entries(profileIdMap())) {
+    if (mapped === profileId) return catalogSellerId
+  }
+  return undefined
+}
+
+/**
  * Stripe Node SDK instance (used for webhook signature verification and
  * standard API access). The Delegated Checkout preview endpoints are called
  * directly via `stripeFetch` below since they are not yet typed in the SDK.

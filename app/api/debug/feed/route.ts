@@ -14,9 +14,13 @@ export async function GET() {
   const { products, configured, error } = await loadFeedOnly()
 
   const perSeller: Record<string, number> = {}
+  // The display name ingestion resolved for each seller, so an unresolved
+  // merchant is visible here instead of only as a vague "Sold by" line in the UI.
+  const sellerNames: Record<string, string | null> = {}
   for (const p of products) {
     const key = p.sellerId ?? "(none)"
     perSeller[key] = (perSeller[key] ?? 0) + 1
+    if (!(key in sellerNames)) sellerNames[key] = p.sellerName ?? null
   }
   const sellerIds = Object.keys(perSeller)
 
@@ -24,6 +28,7 @@ export async function GET() {
     id: p.id,
     name: p.name,
     sellerId: p.sellerId ?? null,
+    sellerName: p.sellerName ?? null,
     imageUrl: p.imageUrl,
   }))
 
@@ -33,6 +38,7 @@ export async function GET() {
     count: products.length,
     sellerIds,
     perSeller,
+    sellerNames,
     sample,
   })
 }
