@@ -7,6 +7,9 @@ export const maxDuration = 30
 type Body = {
   sessionId?: string
   shippingAddress?: ShippingAddress
+  /** Stripe fulfillment option id chosen for this session (from a prior update's
+   * `fulfillmentOptions`). Persists the buyer's shipping selection on the session. */
+  selectedFulfillmentOption?: string
   /** Update a single line item's quantity. `lineItemKey` is Stripe's line item key. */
   quantity?: number
   lineItemKey?: string
@@ -14,7 +17,13 @@ type Body = {
 
 export async function POST(req: Request) {
   try {
-    const { sessionId, shippingAddress, quantity, lineItemKey }: Body = await req.json()
+    const {
+      sessionId,
+      shippingAddress,
+      selectedFulfillmentOption,
+      quantity,
+      lineItemKey,
+    }: Body = await req.json()
 
     if (!sessionId) {
       return NextResponse.json({ error: "Missing sessionId" }, { status: 400 })
@@ -22,20 +31,26 @@ export async function POST(req: Request) {
 
     const body: Record<string, unknown> = {}
 
-    // Fulfillment address — Stripe returns available fulfillment options in the
-    // updated RequestedSession.
-    if (shippingAddress) {
-      body.fulfillment_details = {
-        name: shippingAddress.name,
-        address: {
+    // Fulfillment address + selected option — Stripe returns available
+    // fulfillment options in the updated RequestedSession, and remembers the
+    // chosen option so it is reflected on the session at confirm time.
+    if (shippingAddress || selectedFulfillmentOption) {
+      const fulfillmentDetails: Record<string, unknown> = {}
+      if (shippingAddress) {
+        fulfillmentDetails.name = shippingAddress.name
+        fulfillmentDetails.address = {
           line1: shippingAddress.line1,
           line2: shippingAddress.line2,
           city: shippingAddress.city,
           state: shippingAddress.state,
           postal_code: shippingAddress.postal_code,
           country: shippingAddress.country,
-        },
+        }
       }
+      if (selectedFulfillmentOption) {
+        fulfillmentDetails.selected_fulfillment_option = selectedFulfillmentOption
+      }
+      body.fulfillment_details = fulfillmentDetails
     }
 
     // Quantity updates target a line item via its Stripe-assigned `key`.

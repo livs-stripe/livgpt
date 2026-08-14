@@ -58,6 +58,26 @@ function handleImageError(event: React.SyntheticEvent<HTMLImageElement>) {
   img.src = PLACEHOLDER_IMG
 }
 
+/** A shipping/fulfillment option returned by Stripe on the RequestedSession.
+ * The exact shape is preview-API dependent, so we read the cost defensively. */
+type FulfillmentOption = {
+  id?: string
+  amount?: number
+  total?: { amount?: number }
+  subtotal?: { amount?: number }
+}
+
+/** Picks the cheapest fulfillment option (falls back to the first when no cost
+ * field is present). Returns undefined for an empty list. */
+function pickCheapestFulfillmentOption(
+  options: FulfillmentOption[],
+): FulfillmentOption | undefined {
+  if (options.length === 0) return undefined
+  const cost = (o: FulfillmentOption) =>
+    o.amount ?? o.total?.amount ?? o.subtotal?.amount ?? Number.POSITIVE_INFINITY
+  return [...options].sort((a, b) => cost(a) - cost(b))[0]
+}
+
 type CheckoutPanelProps = {
   open: boolean
   items: CartItem[]
@@ -288,6 +308,76 @@ function CheckoutForm({
         throw new Error(submitError.message || "Please check your details.")
       }
 
+      // Read the shipping address the buyer entered and attach it to the
+      // RequestedSession before confirming — otherwise fulfillment has no
+      // destination. The address must be complete before we proceed.
+      const addressEl = elements.getElement("address")
+      if (!addressEl) {
+        throw new Error("Shipping address is unavailable. Please try again.")
+      }
+      const { complete, value } = await addressEl.getValue()
+      if (!complete) {
+        setError("Please enter a complete shipping address")
+        setStatus("error")
+        return
+      }
+
+      const shippingAddress = {
+        name: value.name,
+        line1: value.address.line1,
+        line2: value.address.line2 || undefined,
+        city: value.address.city,
+        state: value.address.state,
+        postal_code: value.address.postal_code,
+        country: value.address.country,
+      }
+
+      // Attach the address; Stripe responds with the available fulfillment
+      // options for that destination.
+      const updateRes = await fetch("/api/checkout/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId, shippingAddress }),
+      })
+      const updateData = await updateRes.json()
+      if (!updateRes.ok || updateData.error) {
+        throw new Error(updateData.error || "Could not save your shipping address.")
+      }
+
+      const fulfillmentOptions: FulfillmentOption[] = Array.isArray(
+        updateData.fulfillmentOptions,
+      )
+        ? updateData.fulfillmentOptions
+        : []
+      const chosen = pickCheapestFulfillmentOption(fulfillmentOptions)
+      if (!chosen) {
+        setError(
+          "No shipping option is available for this address. Please try a different address.",
+        )
+        setStatus("error")
+        return
+      }
+
+      // Persist the chosen shipping option on the session so it is reflected at
+      // confirm time. Only sent when the option exposes an id.
+      if (chosen.id) {
+        const selectRes = await fetch("/api/checkout/update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sessionId,
+            shippingAddress,
+            selectedFulfillmentOption: chosen.id,
+          }),
+        })
+        const selectData = await selectRes.json()
+        if (!selectRes.ok || selectData.error) {
+          throw new Error(
+            selectData.error || "Could not select a shipping option.",
+          )
+        }
+      }
+
       // Prepare a PaymentMethod using the beta flow. Falls back to
       // createPaymentMethod if the beta method is unavailable.
       const stripeAny = stripe as unknown as {
@@ -496,7 +586,9 @@ function CheckoutForm({
       {/* Shipping address */}
       <div className="flex flex-col gap-2">
         <span className="text-sm font-medium">Shipping address</span>
-        <AddressElement options={{ mode: "shipping" }} />
+        <AddressElement
+          options={{ mode: "shipping", allowedCountries: ["US"] }}
+        />
       </div>
 
       {/* Card / payment details */}
