@@ -510,7 +510,7 @@ function CheckoutForm({
               rel="noreferrer"
               className={buttonVariants({ size: "lg", className: "w-full" })}
             >
-              Track Order
+              View Receipt
             </a>
           ) : null}
           <Button variant="outline" className="w-full" onClick={onClose}>
