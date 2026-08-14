@@ -16,6 +16,19 @@ function normalizePrivateKey(raw: string): string {
   return key
 }
 
+function parseSellerProfileIds(): Record<string, string> | null {
+  const raw = process.env.SELLER_PROFILE_IDS
+  if (!raw) return null
+  try {
+    const parsed = JSON.parse(raw)
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed)
+      ? (parsed as Record<string, string>)
+      : null
+  } catch {
+    return null
+  }
+}
+
 export async function GET() {
   const host = process.env.SFTP_HOST ?? ""
   const port = Number(process.env.SFTP_PORT ?? "22")
@@ -74,6 +87,10 @@ export async function GET() {
     // manifest.json bodies, to diagnose shard path/name mismatches.
     const tree: Record<string, { name: string; type: string; size?: number }[]> = {}
     const manifestBodies: Record<string, unknown> = {}
+    // Stripe drops a merchant_metadata.json beside each seller's catalog/. It is
+    // the feed's own description of the merchant, so it is the natural source of
+    // a display name for the "Sold by" line.
+    const metadataBodies: Record<string, unknown> = {}
     async function walk(dir: string, depth: number): Promise<void> {
       if (depth > 5) return
       let list: Awaited<ReturnType<typeof sftp.list>>
@@ -88,7 +105,10 @@ export async function GET() {
         const full = dir.replace(/\/$/, "") + "/" + e.name
         if (e.type === "d") {
           await walk(full, depth + 1)
-        } else if (/manifest.*\.json$/i.test(e.name)) {
+        } else if (/manifest.*\.json$|merchant_metadata\.json$/i.test(e.name)) {
+          const into = /merchant_metadata\.json$/i.test(e.name)
+            ? metadataBodies
+            : manifestBodies
           try {
             const buf = await sftp.get(full)
             const text = Buffer.isBuffer(buf)
@@ -96,9 +116,9 @@ export async function GET() {
               : typeof buf === "string"
                 ? buf
                 : Buffer.from(buf as unknown as Uint8Array).toString("utf8")
-            manifestBodies[full] = JSON.parse(text)
+            into[full] = JSON.parse(text)
           } catch (e) {
-            manifestBodies[full] = `<unreadable: ${e instanceof Error ? e.message : String(e)}>`
+            into[full] = `<unreadable: ${e instanceof Error ? e.message : String(e)}>`
           }
         }
       }
@@ -166,6 +186,11 @@ export async function GET() {
       manifestCount,
       tree,
       manifestBodies,
+      metadataBodies,
+      // Catalog seller id -> real Stripe profile id. Neither side is a secret
+      // (the ids are in the repo and in the tree above); surfaced so a delivered
+      // profile id can be attributed to the merchant it was configured for.
+      sellerProfileIds: parseSellerProfileIds(),
     })
   } catch (err) {
     await sftp.end().catch(() => {})
