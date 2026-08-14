@@ -5,7 +5,6 @@ import { loadStripe, type Stripe } from "@stripe/stripe-js"
 import {
   AddressElement,
   Elements,
-  ExpressCheckoutElement,
   PaymentElement,
   useElements,
   useStripe,
@@ -22,9 +21,11 @@ import {
   X,
 } from "lucide-react"
 import { Button, buttonVariants } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { formatPrice, sellerNameFromId } from "@/lib/parse-product"
 import type { CartItem } from "@/lib/types"
+import { isValidEmail } from "@/lib/utils"
 
 // Agentic Commerce / Delegated Checkout: the agent collects the payment method
 // with its OWN publishable key. When the RequestedSession is confirmed, Stripe
@@ -49,6 +50,10 @@ function getStripePromise(publishableKey: string | undefined) {
 }
 
 const PLACEHOLDER_IMG = "/placeholder.svg"
+
+/** Prefilled so the demo can be driven end to end without typing, mirroring the
+ * prefilled shipping address. Editable in the panel. */
+const DEMO_EMAIL = "demo@example.com"
 
 /** Swaps a broken product image for the local placeholder, guarding against a
  * loop if the placeholder itself ever fails to load. */
@@ -123,6 +128,10 @@ export function CheckoutPanel({
             // Required for the Shared Payment Token flow: it lets us create the
             // PaymentMethod manually via stripe.preparePaymentMethod()/createPaymentMethod().
             paymentMethodCreation: "manual" as const,
+            // Card-only keeps every step inside this panel. Dashboard-enabled
+            // dynamic payment methods would otherwise surface redirect-based
+            // options (Link, Klarna, Affirm) that navigate the shopper away.
+            paymentMethodTypes: ["card"],
             appearance: {
               theme: theme === "dark" ? ("night" as const) : ("stripe" as const),
             },
@@ -233,6 +242,8 @@ function CheckoutForm({
 
   const [status, setStatus] = useState<Status>("form")
   const [error, setError] = useState<string | null>(null)
+  const [email, setEmail] = useState(DEMO_EMAIL)
+  const [emailError, setEmailError] = useState<string | null>(null)
   const [order, setOrder] = useState<{
     orderId?: string
     orderStatusUrl?: string
@@ -299,6 +310,18 @@ function CheckoutForm({
       setStatus("error")
       return
     }
+
+    // Stripe requires an email on `fulfillment_details`, so stop here rather
+    // than surfacing a raw missing-param error from the API.
+    const buyerEmail = email.trim()
+    if (!isValidEmail(buyerEmail)) {
+      setEmailError("Enter a valid email address for your order confirmation.")
+      setError(null)
+      setStatus("form")
+      return
+    }
+    setEmailError(null)
+
     setStatus("processing")
     setError(null)
 
@@ -337,7 +360,7 @@ function CheckoutForm({
       const updateRes = await fetch("/api/checkout/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId, shippingAddress }),
+        body: JSON.stringify({ sessionId, shippingAddress, email: buyerEmail }),
       })
       const updateData = await updateRes.json()
       if (!updateRes.ok || updateData.error) {
@@ -367,6 +390,7 @@ function CheckoutForm({
           body: JSON.stringify({
             sessionId,
             shippingAddress,
+            email: buyerEmail,
             selectedFulfillmentOption: chosen.id,
           }),
         })
@@ -569,18 +593,31 @@ function CheckoutForm({
         </div>
       ) : null}
 
-      {/* Express checkout (Apple Pay / Google Pay / Link) */}
-      <div>
-        <ExpressCheckoutElement
-          onConfirm={confirmPurchase}
-          options={{ buttonHeight: 44 }}
+      {/* Contact — also supplies `fulfillment_details.email` on the session */}
+      <div className="flex flex-col gap-2">
+        <label htmlFor="checkout-email" className="text-sm font-medium">
+          Email
+        </label>
+        <Input
+          id="checkout-email"
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          placeholder="you@example.com"
+          value={email}
+          disabled={busy}
+          aria-invalid={emailError ? true : undefined}
+          aria-describedby={emailError ? "checkout-email-error" : undefined}
+          onChange={(event) => {
+            setEmail(event.target.value)
+            if (emailError) setEmailError(null)
+          }}
         />
-      </div>
-
-      <div className="flex items-center gap-3">
-        <Separator className="flex-1" />
-        <span className="text-xs text-muted-foreground">or pay with card</span>
-        <Separator className="flex-1" />
+        {emailError ? (
+          <p id="checkout-email-error" className="text-sm text-destructive">
+            {emailError}
+          </p>
+        ) : null}
       </div>
 
       {/* Shipping address */}
@@ -608,7 +645,15 @@ function CheckoutForm({
       {/* Card / payment details */}
       <div className="flex flex-col gap-2">
         <span className="text-sm font-medium">Payment</span>
-        <PaymentElement options={{ fields: { billingDetails: { phone: "auto" } } }} />
+        {/* Wallets are off so the shopper never leaves this panel: Link hands
+         * off to a Stripe-hosted page rather than rendering inline here, and
+         * Apple/Google Pay open their own sheets. Card fields stay embedded. */}
+        <PaymentElement
+          options={{
+            fields: { billingDetails: { phone: "auto" } },
+            wallets: { applePay: "never", googlePay: "never", link: "never" },
+          }}
+        />
       </div>
 
       {error ? <p className="text-sm text-destructive">{error}</p> : null}

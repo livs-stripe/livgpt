@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server"
 import { stripeFetch } from "@/lib/stripe-server"
 import type { ShippingAddress } from "@/lib/types"
+import { isValidEmail } from "@/lib/utils"
 
 export const maxDuration = 30
 
 type Body = {
   sessionId?: string
   shippingAddress?: ShippingAddress
+  /** Buyer email. Stripe requires it on `fulfillment_details`, so any update
+   * that sets fulfillment details must include it. */
+  email?: string
   /** Stripe fulfillment option id chosen for this session (from a prior update's
    * `fulfillmentOptions`). Persists the buyer's shipping selection on the session. */
   selectedFulfillmentOption?: string
@@ -20,6 +24,7 @@ export async function POST(req: Request) {
     const {
       sessionId,
       shippingAddress,
+      email,
       selectedFulfillmentOption,
       quantity,
       lineItemKey,
@@ -31,11 +36,22 @@ export async function POST(req: Request) {
 
     const body: Record<string, unknown> = {}
 
-    // Fulfillment address + selected option — Stripe returns available
+    // Fulfillment contact + address + selected option — Stripe returns available
     // fulfillment options in the updated RequestedSession, and remembers the
     // chosen option so it is reflected on the session at confirm time.
-    if (shippingAddress || selectedFulfillmentOption) {
-      const fulfillmentDetails: Record<string, unknown> = {}
+    const setsFulfillment = Boolean(
+      shippingAddress || selectedFulfillmentOption || email,
+    )
+    if (setsFulfillment) {
+      const buyerEmail = email?.trim()
+      if (!isValidEmail(buyerEmail)) {
+        return NextResponse.json(
+          { error: "Enter a valid email address to continue." },
+          { status: 400 },
+        )
+      }
+
+      const fulfillmentDetails: Record<string, unknown> = { email: buyerEmail }
       if (shippingAddress) {
         fulfillmentDetails.name = shippingAddress.name
         fulfillmentDetails.address = {
