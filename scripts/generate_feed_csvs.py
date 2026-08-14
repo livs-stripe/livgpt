@@ -8,14 +8,21 @@ Writes: mock-catalog/<slug>/feed.csv        (full Stripe template schema)
 
 Only the 5 existing merchants are processed. image_link is rewritten to an
 absolute public URL so Stripe can fetch the product images.
+
+Pass one or more slugs as arguments to regenerate just those merchants:
+    python3 scripts/generate_feed_csvs.py lumen-beauty
 """
 import csv
 import glob
 import hashlib
 import os
+import re
+import sys
 
-# Public base URL where the /public assets are served. Adjust to your real
-# deployment domain if different (env override wins).
+# Public base URL where the /public assets are served (env override wins).
+# Must be a domain without Vercel Deployment Protection, or Stripe's crawler
+# gets a 401 instead of the image. shopwithstripe.vercel.app is protected;
+# livgpt.vercel.app serves /mock-catalog/images/** publicly.
 IMAGE_BASE_URL = os.environ.get("IMAGE_BASE_URL", "https://livgpt.vercel.app").rstrip("/")
 
 # Full Stripe product-feed template header (column order preserved).
@@ -106,10 +113,12 @@ def dims_for(category_text: str, pid: str):
 
 
 def gender_for(title: str, category_text: str) -> str:
+    # Word-boundary matching: a bare `"men" in t` also fires on "supplements",
+    # "pigment", "treatment" etc. and mislabels unisex products as male.
     t = f"{title} {category_text}".lower()
-    if "women" in t or "women's" in t or " her " in t:
+    if re.search(r"\b(women|women's|womens|her)\b", t):
         return "female"
-    if "men" in t or "men's" in t:
+    if re.search(r"\b(men|men's|mens|his)\b", t):
         return "male"
     return "unisex"
 
@@ -194,8 +203,13 @@ def convert(src: str, dst: str) -> int:
 
 
 def main():
+    selected = sys.argv[1:] or MERCHANTS
+    unknown = [s for s in selected if s not in MERCHANTS]
+    if unknown:
+        raise SystemExit(f"unknown merchant slug(s): {', '.join(unknown)}")
+
     total = 0
-    for slug in MERCHANTS:
+    for slug in selected:
         src = os.path.join("mock-catalog", slug, "products.csv")
         if not os.path.exists(src):
             print(f"SKIP {slug}: no products.csv")
