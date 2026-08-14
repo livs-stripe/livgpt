@@ -8,6 +8,7 @@ import useSWR from "swr"
 import { Button } from "@/components/ui/button"
 import { ChatMessage } from "@/components/chat-message"
 import { ErrorBoundary } from "@/components/error-boundary"
+import { hasCheckoutSignal } from "@/lib/checkout-signal"
 import { parseProductResult } from "@/lib/parse-product"
 import type { ProductResult } from "@/lib/types"
 
@@ -130,6 +131,35 @@ export function ChatThread({
     })
   }, [messages, status])
 
+  // Open the checkout panel when the assistant signals the shopper has settled
+  // on one item, so "I'll take the second one" behaves like it sounds.
+  //
+  // Three guards keep the panel from ever opening on its own:
+  //   - messages restored from storage are recorded at mount and never acted on,
+  //     so replaying a conversation (or switching back to one) opens nothing;
+  //   - every completed assistant message is marked as seen before anything
+  //     else happens, so a re-render, a scroll, or a state update cannot repeat
+  //     an open that already happened;
+  //   - a turn must resolve to exactly one product, which rules out the 2 to 4
+  //     product recommendation turns.
+  const restoredMessageIds = useRef(new Set(initialChatMessages.map((m) => m.id)))
+  const checkoutHandledIds = useRef(new Set<string>())
+
+  useEffect(() => {
+    if (isLoading) return
+    const latest = messages[messages.length - 1]
+    if (!latest || latest.role !== "assistant") return
+    if (restoredMessageIds.current.has(latest.id)) return
+    if (checkoutHandledIds.current.has(latest.id)) return
+    checkoutHandledIds.current.add(latest.id)
+
+    const text = messageText(latest)
+    if (!hasCheckoutSignal(text)) return
+    const { products } = parseProductResult(text)
+    if (products.length !== 1) return
+    onBuyNow(products[0])
+  }, [messages, isLoading, onBuyNow, initialChatMessages])
+
   function submit(text: string) {
     const value = text.trim()
     if (!value || isLoading) return
@@ -189,12 +219,12 @@ export function ChatThread({
           )}
 
           {!isLoading && showsProductChoice(messages[messages.length - 1]) ? (
-            <div className="flex flex-wrap gap-2 pl-11">
+            <div className="mt-3 flex flex-wrap gap-2 pl-11">
               {FOLLOW_UPS.map((f) => (
                 <button
                   key={f}
                   onClick={() => submit(f)}
-                  className="rounded-full border border-border bg-card px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  className="rounded-full border border-border bg-card px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
                   {f}
                 </button>
