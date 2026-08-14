@@ -13,21 +13,63 @@ import { parseProductResult } from "@/lib/parse-product"
 import type { ProductResult } from "@/lib/types"
 
 /**
- * Openers for an empty thread. Hand written, never templated from catalog data:
- * an earlier version interpolated a category from /api/catalog and rendered the
- * raw feed taxonomy path ("What home & garden > household supplies > storage &
- * organization do you have?") straight into the UI.
+ * Openers for an empty thread, three drawn at random per conversation.
  *
- * Each one opens a conversation rather than a single lookup, and each targets a
- * merchant the live feed actually serves: gifting, then Lumen Beauty skincare,
- * then Harbor & Home for the kitchen. Nothing here points at outdoor,
- * electronics, or travel, where the live feed can come back empty.
+ * Hand written, never templated from catalog data: an earlier version
+ * interpolated a category from /api/catalog and rendered the raw feed taxonomy
+ * path ("What home & garden > household supplies > storage & organization do
+ * you have?") straight into the UI.
+ *
+ * Every prompt was sent to the live feed and checked to return sensible
+ * products from the store it targets, so a random draw always demos well. They
+ * cover the behaviours the assistant handles (vague asks that earn a question
+ * back, budgets, occasions, single store needs, cross store gifting, and
+ * problem-first framings) and they only reach for the three merchants the live
+ * feed serves: Harbor & Home, Lumen Beauty, and Northwind Apparel. Nothing here
+ * points at outdoor, electronics, or travel, where the feed returns nothing.
  */
-const SUGGESTIONS = [
+const SUGGESTION_POOL = [
+  "I need a gift and I have no idea where to start",
   "Help me find a birthday gift under $50",
+  "It's my mum's birthday next week and she's impossible to buy for",
+  "I need a Mother's Day gift and I want it to feel thoughtful",
+  "Surprise me with something under $40",
+  "A thank you gift for my neighbour, around $30",
+  "Put together a housewarming gift that isn't just a candle",
+  "I want a cosy night in gift, under $80",
+  "Something for a new mum who never gets time for herself",
+  "I need a birthday gift for my dad, he's into cooking",
+  "It's my friend's 30th and she loves a long bath",
+  "Two gifts for under $60 total, one for my flatmate and one for me",
   "My skin's been really dry lately, what would you recommend?",
+  "I want to start a proper skincare routine, where do I begin?",
+  "My hair keeps getting frizzy, is there something that helps?",
+  "I always forget sunscreen, make it easy for me",
+  "I can never get to sleep, is there anything that would help?",
   "I just moved into a new apartment and need to sort out the kitchen",
+  "My kitchen counter is a mess, help me get it organised",
+  "We need better storage for the hall cupboard",
+  "I want to upgrade my morning coffee setup",
+  "My bedroom feels cold and bare, what would warm it up?",
+  "I need new bedding, ours has seen better days",
+  "I want to make my dinner table look nicer",
+  "I want something soft to lounge around in at home",
+  "I want a hoodie that isn't too casual",
+  "I'm starting at the gym again and need something to train in",
+  "I need a plain tee that will actually last",
+  "I need a cap and sunglasses for a beach weekend",
+  "My backpack is falling apart, what have you got?",
 ]
+
+/** Draws `count` distinct openers from the pool. */
+function drawSuggestions(count = 3): string[] {
+  const remaining = [...SUGGESTION_POOL]
+  const drawn: string[] = []
+  while (drawn.length < count && remaining.length > 0) {
+    drawn.push(...remaining.splice(Math.floor(Math.random() * remaining.length), 1))
+  }
+  return drawn
+}
 
 /**
  * One-tap follow-ups offered under the newest set of product cards. They mirror
@@ -110,6 +152,16 @@ export function ChatThread({
     () => new DefaultChatTransport({ api: "/api/chat" }),
   )
   const [initialChatMessages] = useState(() => initialMessages)
+
+  // Draw the starter prompts once per mount. A lazy initializer cannot cause a
+  // hydration mismatch here because the parent renders a placeholder until it
+  // has hydrated, so this subtree never renders on the server and the first
+  // client render is the only render of it. Holding the draw in state also keeps
+  // it fixed while the shopper types and while a response streams, and the
+  // parent's `key={active.id}` means a new conversation gets a fresh draw
+  // without disturbing the thread it replaces. If this component is ever server
+  // rendered, move the draw into a mount effect.
+  const [suggestions] = useState(() => drawSuggestions())
 
   const { messages, sendMessage, status, error } = useChat({
     id: conversationId,
@@ -198,7 +250,7 @@ export function ChatThread({
                 </div>
               ) : (
                 <div className="flex w-full max-w-md flex-col gap-2">
-                  {SUGGESTIONS.map((s) => (
+                  {suggestions.map((s) => (
                     <button
                       key={s}
                       onClick={() => submit(s)}
