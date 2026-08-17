@@ -5,17 +5,12 @@ import { ShoppingBag, Store, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { formatPrice, sellerDisplayName } from "@/lib/parse-product"
+import {
+  PLACEHOLDER_IMG,
+  handleProductImageError,
+  publicProductImageUrl,
+} from "@/lib/product-image"
 import type { ProductResult } from "@/lib/types"
-
-const PLACEHOLDER_IMG = "/placeholder.svg"
-
-/** Swaps a broken product image for the local placeholder, guarding against a
- * loop if the placeholder itself ever fails to load. */
-function handleImageError(event: React.SyntheticEvent<HTMLImageElement>) {
-  const img = event.currentTarget
-  if (img.src.endsWith(PLACEHOLDER_IMG)) return
-  img.src = PLACEHOLDER_IMG
-}
 
 type ProductCardProps = {
   product: ProductResult
@@ -37,10 +32,10 @@ export function ProductCard({ product, onBuyNow }: ProductCardProps) {
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={product.imageUrl || "/placeholder.svg"}
+            src={publicProductImageUrl(product.imageUrl) || PLACEHOLDER_IMG}
             alt={product.name}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-            onError={handleImageError}
+            onError={handleProductImageError}
           />
         </button>
         <div className="flex flex-1 flex-col gap-2 p-4">
@@ -148,10 +143,10 @@ function ProductDetail({
           <div className="aspect-[4/3] w-full overflow-hidden bg-muted">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={product.imageUrl || "/placeholder.svg"}
+              src={publicProductImageUrl(product.imageUrl) || PLACEHOLDER_IMG}
               alt={product.name}
               className="h-full w-full object-cover"
-              onError={handleImageError}
+              onError={handleProductImageError}
             />
           </div>
 

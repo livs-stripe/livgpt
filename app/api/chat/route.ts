@@ -1,9 +1,14 @@
 import { createOpenAI } from "@ai-sdk/openai"
 import { convertToModelMessages, streamText, type LanguageModel, type UIMessage } from "ai"
-import { buildSystemPrompt, conversationQuery, storeSummary } from "@/lib/chat-prompt"
+import {
+  buildSystemPrompt,
+  compactMessagesForModel,
+  conversationQuery,
+  storeSummary,
+} from "@/lib/chat-prompt"
 import { catalogForPrompt, loadCatalog } from "@/lib/product-feed"
 
-export const maxDuration = 30
+export const maxDuration = 60
 export const runtime = "nodejs"
 
 // The chat model, named once. Provider objects take the bare model id; the
@@ -63,7 +68,7 @@ export async function POST(req: Request) {
   const result = streamText({
     model: resolveModel(),
     system: systemPrompt,
-    messages: await convertToModelMessages(messages),
+    messages: await convertToModelMessages(compactMessagesForModel(messages)),
   })
 
   return result.toUIMessageStreamResponse({

@@ -1,5 +1,6 @@
 import type { ProductResult } from "./types"
 import { CHECKOUT_SIGNAL } from "./checkout-signal"
+import { publicProductImageUrl } from "./product-image"
 
 const OPEN_TAG = "[PRODUCT_RESULT]"
 const CLOSE_TAG = "[/PRODUCT_RESULT]"
@@ -154,11 +155,17 @@ export function parseProductResult(text: string): {
     if (!jsonStr) break // Next block not complete yet (still streaming).
     try {
       const parsed = JSON.parse(jsonStr)
-      const image = typeof parsed?.imageUrl === "string" ? parsed.imageUrl.trim() : ""
+      const image = publicProductImageUrl(
+        typeof parsed?.imageUrl === "string" ? parsed.imageUrl.trim() : "",
+      )
       if (isValidProduct(parsed) && !seen.has(parsed.id) && !(image && seenImages.has(image))) {
         seen.add(parsed.id)
         if (image) seenImages.add(image)
-        products.push({ ...parsed, currency: normalizeCurrency(parsed.currency) })
+        products.push({
+          ...parsed,
+          currency: normalizeCurrency(parsed.currency),
+          imageUrl: image,
+        })
       }
     } catch {
       // Ignore malformed block and continue scanning.

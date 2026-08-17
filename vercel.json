@@ -1,6 +1,7 @@
 {
   "functions": {
     "app/api/webhooks/**": { "maxDuration": 10 },
-    "app/api/checkout/**": { "maxDuration": 30 }
+    "app/api/checkout/**": { "maxDuration": 30 },
+    "app/api/chat/route.ts": { "maxDuration": 60 }
   }
 }

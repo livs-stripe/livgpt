@@ -1,7 +1,7 @@
 import type { UIMessage } from "ai"
 import type { CatalogProduct } from "./types"
 import { CHECKOUT_SIGNAL } from "./checkout-signal"
-import { parseProductResult } from "./parse-product"
+import { parseProductResult, stripMarkers } from "./parse-product"
 
 /**
  * The shopping assistant's system prompt plus the conversation-derived inputs it
@@ -61,6 +61,31 @@ export function conversationQuery(messages: UIMessage[]): string {
   }
 
   return [...userTurns, ...shownNames].join(" ")
+}
+
+/**
+ * Drops the bulky [PRODUCT_RESULT] JSON from prior assistant turns before they
+ * go back to the model. Follow-ups were resending every card as raw JSON, which
+ * blew the context window and made the stream fail after a successful turn.
+ * The shopper still sees the cards; the model just gets the prose plus ids.
+ */
+export function compactMessagesForModel(messages: UIMessage[]): UIMessage[] {
+  return messages.map((message) => {
+    if (message.role !== "assistant" || !message.parts) return message
+    return {
+      ...message,
+      parts: message.parts.map((part) => {
+        if (part.type !== "text") return part
+        const { cleanText, products } = parseProductResult(part.text)
+        const prose = stripMarkers(cleanText).trim()
+        const shown =
+          products.length > 0
+            ? `Shown products: ${products.map((p) => `${p.name} [${p.id}]`).join("; ")}.`
+            : ""
+        return { ...part, text: [prose, shown].filter(Boolean).join("\n") }
+      }),
+    }
+  })
 }
 
 /**

@@ -24,6 +24,11 @@ import { Button, buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { formatPrice, sellerDisplayName } from "@/lib/parse-product"
+import {
+  PLACEHOLDER_IMG,
+  handleProductImageError,
+  publicProductImageUrl,
+} from "@/lib/product-image"
 import type { CartItem } from "@/lib/types"
 import { isValidE164Phone, isValidEmail, toE164Phone } from "@/lib/utils"
 
@@ -49,8 +54,6 @@ function getStripePromise(publishableKey: string | undefined) {
   return promise
 }
 
-const PLACEHOLDER_IMG = "/placeholder.svg"
-
 /** Prefilled so the demo can be driven end to end without typing, mirroring the
  * prefilled shipping address. Editable in the panel. */
 const DEMO_EMAIL = "demouser@example.com"
@@ -58,14 +61,6 @@ const DEMO_EMAIL = "demouser@example.com"
 /** Reserved US fictional-use number, so it is obviously fake but still passes
  * E.164 validation. Prefilled and editable like the address and email. */
 const DEMO_PHONE = "+14155550123"
-
-/** Swaps a broken product image for the local placeholder, guarding against a
- * loop if the placeholder itself ever fails to load. */
-function handleImageError(event: React.SyntheticEvent<HTMLImageElement>) {
-  const img = event.currentTarget
-  if (img.src.endsWith(PLACEHOLDER_IMG)) return
-  img.src = PLACEHOLDER_IMG
-}
 
 /** A shipping/fulfillment option returned by Stripe on the RequestedSession.
  * The exact shape is preview-API dependent, so we read the cost defensively. */
@@ -598,10 +593,10 @@ function CheckoutForm({
             <div className="size-16 shrink-0 overflow-hidden rounded-lg bg-muted">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={product.imageUrl || "/placeholder.svg"}
+                src={publicProductImageUrl(product.imageUrl) || PLACEHOLDER_IMG}
                 alt={product.name}
                 className="h-full w-full object-cover"
-                onError={handleImageError}
+                onError={handleProductImageError}
               />
             </div>
             <div className="flex flex-1 flex-col">
