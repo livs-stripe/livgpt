@@ -27,7 +27,7 @@ import { formatPrice, sellerDisplayName } from "@/lib/parse-product"
 import {
   PLACEHOLDER_IMG,
   handleProductImageError,
-  publicProductImageUrl,
+  imageUrlForProduct,
 } from "@/lib/product-image"
 import type { CartItem } from "@/lib/types"
 import { isValidE164Phone, isValidEmail, toE164Phone } from "@/lib/utils"
@@ -593,10 +593,10 @@ function CheckoutForm({
             <div className="size-16 shrink-0 overflow-hidden rounded-lg bg-muted">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={publicProductImageUrl(product.imageUrl) || PLACEHOLDER_IMG}
+                src={imageUrlForProduct(product) || PLACEHOLDER_IMG}
                 alt={product.name}
                 className="h-full w-full object-cover"
-                onError={handleProductImageError}
+                onError={(event) => handleProductImageError(event, product.id)}
               />
             </div>
             <div className="flex flex-1 flex-col">

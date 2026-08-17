@@ -3,7 +3,7 @@ import { gunzipSync } from "node:zlib"
 import { parse as parseCsv } from "csv-parse/sync"
 import SftpClient from "ssh2-sftp-client"
 import type { CatalogProduct } from "./types"
-import { publicProductImageUrl } from "./product-image"
+import { imageUrlForProduct } from "./product-image"
 import { stripeSellerName } from "./stripe-profiles"
 
 type ConnectOptions = Parameters<SftpClient["connect"]>[0]
@@ -164,7 +164,10 @@ function rowToProduct(
     name,
     price: price.amount,
     currency: price.currency,
-    imageUrl: publicProductImageUrl(row.image_link ?? row.image ?? ""),
+    imageUrl: imageUrlForProduct({
+      id,
+      imageUrl: row.image_link ?? row.image ?? "",
+    }),
     description: row.description ?? "",
     category: row.product_type ?? row.google_product_category ?? "general",
     sellerId: sellerProfileId,

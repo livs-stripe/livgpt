@@ -8,7 +8,7 @@ import { formatPrice, sellerDisplayName } from "@/lib/parse-product"
 import {
   PLACEHOLDER_IMG,
   handleProductImageError,
-  publicProductImageUrl,
+  imageUrlForProduct,
 } from "@/lib/product-image"
 import type { ProductResult } from "@/lib/types"
 
@@ -32,10 +32,10 @@ export function ProductCard({ product, onBuyNow }: ProductCardProps) {
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={publicProductImageUrl(product.imageUrl) || PLACEHOLDER_IMG}
+            src={imageUrlForProduct(product) || PLACEHOLDER_IMG}
             alt={product.name}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-            onError={handleProductImageError}
+            onError={(event) => handleProductImageError(event, product.id)}
           />
         </button>
         <div className="flex flex-1 flex-col gap-2 p-4">
@@ -143,10 +143,10 @@ function ProductDetail({
           <div className="aspect-[4/3] w-full overflow-hidden bg-muted">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={publicProductImageUrl(product.imageUrl) || PLACEHOLDER_IMG}
+              src={imageUrlForProduct(product) || PLACEHOLDER_IMG}
               alt={product.name}
               className="h-full w-full object-cover"
-              onError={handleProductImageError}
+              onError={(event) => handleProductImageError(event, product.id)}
             />
           </div>
 

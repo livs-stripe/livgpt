@@ -1,6 +1,6 @@
 import type { ProductResult } from "./types"
 import { CHECKOUT_SIGNAL } from "./checkout-signal"
-import { publicProductImageUrl } from "./product-image"
+import { imageUrlForProduct } from "./product-image"
 
 const OPEN_TAG = "[PRODUCT_RESULT]"
 const CLOSE_TAG = "[/PRODUCT_RESULT]"
@@ -155,9 +155,10 @@ export function parseProductResult(text: string): {
     if (!jsonStr) break // Next block not complete yet (still streaming).
     try {
       const parsed = JSON.parse(jsonStr)
-      const image = publicProductImageUrl(
-        typeof parsed?.imageUrl === "string" ? parsed.imageUrl.trim() : "",
-      )
+      const image = imageUrlForProduct({
+        id: typeof parsed?.id === "string" ? parsed.id : undefined,
+        imageUrl: typeof parsed?.imageUrl === "string" ? parsed.imageUrl.trim() : "",
+      })
       if (isValidProduct(parsed) && !seen.has(parsed.id) && !(image && seenImages.has(image))) {
         seen.add(parsed.id)
         if (image) seenImages.add(image)
