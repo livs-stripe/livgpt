@@ -2,18 +2,17 @@ import type { SyntheticEvent } from "react"
 
 /**
  * Catalog photos are static files on the public image host. The shopping UI
- * itself sits behind Vercel Deployment Protection, so any image_link that still
- * points at that app (or is a root-relative /mock-catalog path) 401s and the
- * card shows "Image unavailable". Unique-SKU merchants also have a deterministic
- * JPEG per id; prefer that over whatever the model copied, which is often the
- * product page URL or a retired .png path.
+ * sits behind Vercel Deployment Protection, so an image_link aimed at that app
+ * (or a root-relative /mock-catalog path resolved against it) 401s and the card
+ * shows "Image unavailable". Always load from the public host. Unique-SKU
+ * merchants also have a deterministic JPEG per id; prefer that over whatever
+ * the model copied, which is often the product page URL or a retired .png path.
  */
 export const PUBLIC_IMAGE_ORIGIN = "https://livgpt.vercel.app"
 export const PLACEHOLDER_IMG = "/placeholder.svg"
 
 const CATALOG_IMAGE = /\/mock-catalog\/images\/[^\s?#]+/
 
-/** Prefix → folder for merchants with one JPEG per SKU. */
 const SKU_FOLDERS: Record<string, string> = {
   HAH: "harbor-and-home",
   LB: "lumen-beauty",
@@ -23,13 +22,21 @@ const SKU_FOLDERS: Record<string, string> = {
 
 const SKU_RE = /\b((?:HAH|LB|NA|VE)-[A-Z0-9]+-\d+)\b/i
 
-export function catalogImageFromId(id?: string | null): string {
-  const sku = id?.trim().match(SKU_RE)?.[1]?.toUpperCase() ?? ""
+function skuFrom(value?: string | null): string {
+  return value?.trim().match(SKU_RE)?.[1]?.toUpperCase() ?? ""
+}
+
+export function catalogImagePath(id?: string | null): string {
+  const sku = skuFrom(id)
   if (!sku) return ""
-  const prefix = sku.split("-")[0]
-  const folder = SKU_FOLDERS[prefix]
+  const folder = SKU_FOLDERS[sku.split("-")[0]]
   if (!folder) return ""
-  return `${PUBLIC_IMAGE_ORIGIN}/mock-catalog/images/${folder}/${sku}.jpg`
+  return `/mock-catalog/images/${folder}/${sku}.jpg`
+}
+
+export function catalogImageFromId(id?: string | null): string {
+  const path = catalogImagePath(id)
+  return path ? `${PUBLIC_IMAGE_ORIGIN}${path}` : ""
 }
 
 export function publicProductImageUrl(raw?: string | null): string {
@@ -37,14 +44,18 @@ export function publicProductImageUrl(raw?: string | null): string {
   if (!value) return ""
 
   const catalogPath = value.match(CATALOG_IMAGE)?.[0]
-  if (catalogPath) return `${PUBLIC_IMAGE_ORIGIN}${catalogPath}`
+  if (catalogPath) {
+    const path = skuFrom(catalogPath)
+      ? catalogPath.replace(/\.png$/i, ".jpg")
+      : catalogPath
+    return `${PUBLIC_IMAGE_ORIGIN}${path}`
+  }
 
   if (value.startsWith("/")) return `${PUBLIC_IMAGE_ORIGIN}${value}`
 
   return value
 }
 
-/** Best URL for a card: SKU JPEG when we know the merchant, else the rewritten feed URL. */
 export function imageUrlForProduct(product: {
   id?: string
   imageUrl?: string
@@ -56,7 +67,6 @@ export function imageUrlForProduct(product: {
   )
 }
 
-/** On a broken image, try the SKU JPEG / public host, then the local placeholder. */
 export function handleProductImageError(
   event: SyntheticEvent<HTMLImageElement>,
   productId?: string,
@@ -64,13 +74,13 @@ export function handleProductImageError(
   const img = event.currentTarget
   if (img.src.endsWith(PLACEHOLDER_IMG)) return
 
-  const attempts = [
-    catalogImageFromId(productId),
-    publicProductImageUrl(img.getAttribute("src") || img.src).replace(/\.png$/i, ".jpg"),
-  ].filter((url) => url && url !== img.src)
+  const rawSrc = img.getAttribute("src") || img.src
+  const next =
+    catalogImageFromId(productId) ||
+    catalogImageFromId(rawSrc) ||
+    publicProductImageUrl(rawSrc)
 
-  const next = attempts[0]
-  if (next && img.dataset.retried !== "1") {
+  if (next && img.dataset.retried !== "1" && next !== img.src) {
     img.dataset.retried = "1"
     img.src = next
     return
