@@ -191,16 +191,23 @@ def check(slug: str, rows_expected: int, check_urls: bool):
         errors.append(f"{len(zero_qty)} rows have non-positive inventory_quantity, e.g. {zero_qty[:3]}")
 
     if check_urls:
+        import concurrent.futures
         import urllib.request
-        sample = imgs[:: max(1, len(imgs) // 10)][:10] + [rows[0]["link"]]
-        for u in sample:
+
+        def head(url: str) -> tuple[str, object]:
             try:
-                req = urllib.request.Request(u, method="HEAD")
-                code = urllib.request.urlopen(req, timeout=20).status
+                req = urllib.request.Request(url, method="HEAD")
+                with urllib.request.urlopen(req, timeout=20) as resp:
+                    return url, resp.status
             except Exception as exc:  # noqa: BLE001
-                code = getattr(exc, "code", str(exc))
-            if code != 200:
-                errors.append(f"{u} -> HTTP {code}")
+                return url, getattr(exc, "code", str(exc))
+
+        # Live merchants: every image. Shared-photo merchants: unique URLs only.
+        to_check = imgs if slug in LIVE_MERCHANTS else list(dict.fromkeys(imgs))
+        with concurrent.futures.ThreadPoolExecutor(max_workers=20) as pool:
+            for url, code in pool.map(head, to_check):
+                if code != 200:
+                    errors.append(f"{url} -> HTTP {code}")
 
     return errors, warns, len(rows), len(set(ids)), len(set(imgs))
 

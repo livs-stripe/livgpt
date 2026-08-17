@@ -21,8 +21,10 @@ const SKU_FOLDERS: Record<string, string> = {
   VE: "voltedge-electronics",
 }
 
+const SKU_RE = /\b((?:HAH|LB|NA|VE)-[A-Z0-9]+-\d+)\b/i
+
 export function catalogImageFromId(id?: string | null): string {
-  const sku = id?.trim() ?? ""
+  const sku = id?.trim().match(SKU_RE)?.[1]?.toUpperCase() ?? ""
   if (!sku) return ""
   const prefix = sku.split("-")[0]
   const folder = SKU_FOLDERS[prefix]
@@ -47,7 +49,11 @@ export function imageUrlForProduct(product: {
   id?: string
   imageUrl?: string
 }): string {
-  return catalogImageFromId(product.id) || publicProductImageUrl(product.imageUrl)
+  return (
+    catalogImageFromId(product.id) ||
+    catalogImageFromId(product.imageUrl) ||
+    publicProductImageUrl(product.imageUrl)
+  )
 }
 
 /** On a broken image, try the SKU JPEG / public host, then the local placeholder. */

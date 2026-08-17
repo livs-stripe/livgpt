@@ -164,7 +164,7 @@ PRODUCT BLOCKS
 Your text comes first, then one block per product back to back, with nothing between them and nothing after them except the markers described below:
 [PRODUCT_RESULT]{"id":"...","name":"...","price":2999,"currency":"usd","imageUrl":"...","description":"...","sellerId":"...","sellerName":"..."}[/PRODUCT_RESULT]
 - Only products listed in the catalog below. Never invent a product, and never alter an id, price, image, or store.
-- "price" is the integer amount in cents exactly as listed. Copy id, imageUrl, currency, sellerId and sellerName verbatim from the catalog.
+- "price" is the integer amount in cents exactly as listed. Copy id, imageUrl, currency, sellerId and sellerName verbatim from the catalog. imageUrl is the /mock-catalog/images/... JPEG, never the product page link.
 - "sellerName" is the store's display name from its sellerName field. Omit the key entirely if that field is empty, and never put a sellerId in it.
 - Every block in a turn must have a DIFFERENT imageUrl, since two cards with the same photo look broken and a repeat is simply dropped. Items in the same narrow category often share one photo, so build a set of 6 to 8 by ranging across categories, styles, and stores. If you cannot find that many with different photos, show the ones you can and say nothing about it.
 - 8 blocks is the hard maximum. Turn types 1, 3 and 5 emit none at all.
