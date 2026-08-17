@@ -23,6 +23,7 @@ import csv
 import json
 import os
 import random
+import sys
 from datetime import datetime, timezone
 
 SEED = 20260720
@@ -35,16 +36,22 @@ PRODUCTS_PER_MERCHANT = 150
 IMAGES_PER_SUBCAT = 3
 CURRENCY = "USD"
 
-# --- Per-product imagery for the merchants the live SFTP feed actually serves ---
-# These three grow to EXPANDED_TOTAL products and get ONE dedicated image per
-# product (filename = product id) instead of sharing 3 photos per sub-category.
+# --- Per-product imagery for merchants that get a unique photo per SKU ---
+# These grow to the listed totals and get ONE dedicated image per product
+# (filename = product id) instead of sharing 3 photos per sub-category.
 # Two reasons: a shared pool makes most titles describe an item the photo does
 # not show, and lib/parse-product.ts dedupes product cards by imageUrl, so a
 # shared pool caps how many cards a single reply can display.
 #
-# The other four merchants deliver nothing to the live feed and are deliberately
-# left on the old shared-image scheme; main() does not rewrite their files.
-EXPANDED_MERCHANTS = ("harbor-and-home", "lumen-beauty", "northwind-apparel")
+# Merchants not listed here stay on the old shared-image scheme; main() does
+# not rewrite their files unless you pass their slug on the command line.
+EXPANDED_TOTALS = {
+    "harbor-and-home": 250,
+    "lumen-beauty": 250,
+    "northwind-apparel": 250,
+    "voltedge-electronics": 200,
+}
+EXPANDED_MERCHANTS = tuple(EXPANDED_TOTALS)
 EXPANDED_TOTAL = 250
 # Stripe's product feed accepts JPEG or PNG only (no WebP), recommended minimum
 # 800x800. scripts/compress_images.py emits exactly that.
@@ -110,10 +117,10 @@ PROMPT_COLORS = {
 # Nouns naming a MULTI-PIECE product. The old prompts said "a single ..." for
 # every product, which is why a "Stoneware Mug Set" rendered as one lone mug.
 # These switch the prompt to depict a matching group of pieces.
-SET_TOKENS = ("Set", "Pack", "Cups", "Placemats", "Cubes", "Gummies")
+SET_TOKENS = ("Set", "Pack", "Cups", "Placemats", "Cubes", "Gummies", "Combo")
 # Nouns that are grammatically plural but are ONE product (a pair / a garment).
 # Without this they would be mistaken for sets by the SET_TOKENS check.
-PAIR_TOKENS = ("Socks", "Pants", "Shorts", "Sunglasses", "Slippers")
+PAIR_TOKENS = ("Socks", "Pants", "Shorts", "Sunglasses", "Slippers", "Earbuds", "Buds", "Headphones")
 
 
 def item_phrase(noun: str) -> tuple[str, bool]:
@@ -504,7 +511,7 @@ def gen_merchant(m):
             "link": f"https://{m['slug']}.example.com/products/{pid.lower()}",
             "image_link": image_link,
             "additional_image_link": "",
-            "availability": "in_stock" if rng.random() > 0.06 else "out_of_stock",
+            "availability": "in_stock",
             "price": price,
             "sale_price": sale,
             "brand": brand,
@@ -517,7 +524,7 @@ def gen_merchant(m):
             "color": color,
             "size": size,
             "material": material if material not in ("Standard", "Formula", "Blend", "Assorted") else "",
-            "quantity": str(rng.randint(0, 250)),
+            "quantity": str(rng.randint(8, 250)),
         })
 
     # Pass 1: the original PRODUCTS_PER_MERCHANT rows, on the shared global RNG.
@@ -533,7 +540,7 @@ def gen_merchant(m):
     # Pass 2: extra rows for the expanded merchants, drawn from a per-merchant
     # RNG so pass 1 above is unaffected by anything added here.
     if expanded:
-        extra_total = EXPANDED_TOTAL - PRODUCTS_PER_MERCHANT
+        extra_total = EXPANDED_TOTALS.get(m["slug"], EXPANDED_TOTAL) - PRODUCTS_PER_MERCHANT
         extra_per_subcat = extra_total // len(m["subcats"])
         extra_rem = extra_total - extra_per_subcat * len(m["subcats"])
         rng = random.Random(f"{EXPANSION_SEED}:{m['slug']}")
@@ -553,18 +560,21 @@ def main():
     summary = []
     batch_ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    # Only the expanded (live-feed) merchants get their files rewritten. The
-    # other four have hand-corrected CSVs on disk (colour claims stripped) that
-    # a regeneration would silently revert, and they deliver nothing to the live
-    # feed, so leave them byte-identical. Their image specs are still emitted so
-    # image-spec.json stays a complete record.
+    rewrite = set(sys.argv[1:]) if len(sys.argv) > 1 else set(EXPANDED_MERCHANTS)
+    known = {m["slug"] for m in MERCHANTS}
+    unknown = sorted(rewrite - known)
+    if unknown:
+        raise SystemExit(f"unknown merchant slug(s): {', '.join(unknown)}")
+
+    # Only requested merchants get their files rewritten. Image specs for every
+    # merchant are still emitted so image-spec.json stays a complete record.
     for m in MERCHANTS:
         rows, image_specs = gen_merchant(m)
         all_image_specs.extend(image_specs)
         summary.append({"merchant": m["name"], "slug": m["slug"],
                         "profile_id": m["profile_id"], "products": len(rows)})
-        if m["slug"] not in EXPANDED_MERCHANTS:
-            print(f"{m['name']:22s} {len(rows):4d} products (out of scope, files untouched)")
+        if m["slug"] not in rewrite:
+            print(f"{m['name']:22s} {len(rows):4d} products (files untouched)")
             continue
         mdir = os.path.join(OUT_DIR, m["slug"])
         os.makedirs(mdir, exist_ok=True)
@@ -620,10 +630,10 @@ def build_readme(summary, n_images) -> str:
         "",
         f"Images: `image-spec.json` lists {n_images} images to generate.",
         "",
-        "The three merchants the live SFTP feed serves (harbor-and-home,",
-        "lumen-beauty, northwind-apparel) have ONE dedicated image per product,",
-        "named `<product_id>.jpg`, so no image is ever shared between two",
-        "products or between two merchants. The remaining four merchants still",
+        "Merchants in EXPANDED_TOTALS (harbor-and-home, lumen-beauty,",
+        "northwind-apparel, voltedge-electronics) have ONE dedicated image per",
+        "product, named `<product_id>.jpg`, so no image is ever shared between",
+        "two products or between two merchants. The remaining merchants still",
         "share 3-5 photos per sub-category named `<subcategory>-<k>.png`.",
         "",
         "Place generated images under `public/mock-catalog/images/<merchant>/`",

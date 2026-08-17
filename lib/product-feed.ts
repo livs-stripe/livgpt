@@ -3,15 +3,14 @@ import { gunzipSync } from "node:zlib"
 import { parse as parseCsv } from "csv-parse/sync"
 import SftpClient from "ssh2-sftp-client"
 import type { CatalogProduct } from "./types"
-import { knownSellerName } from "./seller-names"
-import { catalogSellerIdForProfileId } from "./stripe-server"
+import { stripeSellerName } from "./stripe-profiles"
 
 type ConnectOptions = Parameters<SftpClient["connect"]>[0]
 
 /**
  * Reads the product catalog from the Stripe Agentic Commerce product feeds that
- * Stripe delivers to your SFTP endpoint. In this repo that endpoint is the
- * SFTPGo server under ./sftp-server (deployed to Fly.io); any SFTP host works.
+ * Stripe delivers to your SFTP endpoint. The endpoint is configured entirely
+ * through the SFTP_* env vars and nothing here is specific to one host.
  *
  * Flow:
  *   Seller publishes catalog -> Stripe -> delivers feed files to your SFTP host.
@@ -122,9 +121,9 @@ function readConfig(): FeedConfig | null {
   }
 }
 
-/** SSH algorithms offered to the host. `ssh-ed25519` matches the SFTPGo host
- * key our sftp-server ships; the rest keep broad compatibility with other
- * SFTP hosts (e.g. AWS Transfer Family security policies). */
+/** SSH algorithms offered to the host. Deliberately broad, so the host key type
+ * the endpoint happens to present (e.g. under an AWS Transfer Family security
+ * policy) is never what breaks the handshake. */
 const SSH_ALGORITHMS: NonNullable<ConnectOptions["algorithms"]> = {
   serverHostKey: [
     "ssh-ed25519",
@@ -215,8 +214,8 @@ async function getBuffer(sftp: SftpClient, path: string): Promise<Buffer> {
 /**
  * The Google Merchant `brand` column names a product's brand, not the store, so
  * it only identifies the merchant when every row in the feed agrees on it (a
- * single-brand seller). Merchants shipping sub-brands are named by their
- * manifest or by lib/seller-names.ts instead.
+ * single-brand seller). It is the last resort behind the seller's own Stripe
+ * profile name, since a merchant shipping sub-brands has no unanimous brand.
  */
 function unanimousBrand(brands: Set<string>): string | undefined {
   return brands.size === 1 ? [...brands][0] : undefined
@@ -260,11 +259,11 @@ async function ingestShards(
     }
   }
 
+  // What the merchant calls themselves in Stripe wins: it is their own current
+  // name rather than a copy of it kept here. The feed's optional seller_name and
+  // a unanimous brand only stand in when no profile name can be read.
   const sellerName =
-    seller.name ||
-    knownSellerName(seller.id) ||
-    knownSellerName(catalogSellerIdForProfileId(seller.id)) ||
-    unanimousBrand(brands)
+    (await stripeSellerName(seller.id)) || seller.name || unanimousBrand(brands)
   for (const product of ingested) {
     if (sellerName) product.sellerName = sellerName
     products.push(product)

@@ -94,6 +94,7 @@ type CheckoutPanelProps = {
   onUpdateQty: (productId: string, qty: number) => void
   onRemove: (productId: string) => void
   onClose: () => void
+  onComplete: () => void
 }
 
 export function CheckoutPanel({
@@ -103,17 +104,28 @@ export function CheckoutPanel({
   onUpdateQty,
   onRemove,
   onClose,
+  onComplete,
 }: CheckoutPanelProps) {
   const stripe = getStripePromise(AGENT_PUBLISHABLE_KEY)
+  const [orderComplete, setOrderComplete] = useState(false)
+
+  function requestClose() {
+    if (orderComplete) onComplete()
+    else onClose()
+  }
+
+  useEffect(() => {
+    setOrderComplete(false)
+  }, [items])
 
   useEffect(() => {
     if (!open) return
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") onClose()
+      if (event.key === "Escape") requestClose()
     }
     document.addEventListener("keydown", onKeyDown)
     return () => document.removeEventListener("keydown", onKeyDown)
-  }, [open, onClose])
+  }, [open, orderComplete, onClose, onComplete])
 
   const subtotal = items.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
@@ -156,7 +168,7 @@ export function CheckoutPanel({
     >
       {/* Backdrop */}
       <div
-        onClick={onClose}
+        onClick={requestClose}
         className={`absolute inset-0 bg-black/60 transition-opacity ${
           open ? "opacity-100" : "opacity-0"
         }`}
@@ -176,7 +188,7 @@ export function CheckoutPanel({
             Checkout
           </h2>
           <button
-            onClick={onClose}
+            onClick={requestClose}
             className="rounded-md p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
             aria-label="Close checkout"
           >
@@ -189,13 +201,16 @@ export function CheckoutPanel({
             stripe && elementsOptions ? (
               <Elements stripe={stripe} options={elementsOptions}>
                 <CheckoutForm
+                  key={items.map((i) => `${i.product.id}:${i.quantity}`).join(",")}
+                  open={open}
                   items={items}
                   sellerName={sellerName}
                   subtotal={subtotal}
                   currency={currency}
                   onUpdateQty={onUpdateQty}
                   onRemove={onRemove}
-                  onClose={onClose}
+                  onComplete={onComplete}
+                  onConfirmed={() => setOrderComplete(true)}
                 />
               </Elements>
             ) : (
@@ -228,21 +243,25 @@ function MissingKeyNotice() {
 type Status = "form" | "processing" | "success" | "error"
 
 function CheckoutForm({
+  open,
   items,
   sellerName,
   subtotal,
   currency,
   onUpdateQty,
   onRemove,
-  onClose,
+  onComplete,
+  onConfirmed,
 }: {
+  open: boolean
   items: CartItem[]
   sellerName: string
   subtotal: number
   currency: string
   onUpdateQty: (productId: string, qty: number) => void
   onRemove: (productId: string) => void
-  onClose: () => void
+  onComplete: () => void
+  onConfirmed: () => void
 }) {
   const stripe = useStripe()
   const elements = useElements()
@@ -268,6 +287,14 @@ function CheckoutForm({
     .join(",")
 
   const latestReq = useRef(0)
+
+  useEffect(() => {
+    if (!open) return
+    setStatus("form")
+    setError(null)
+    setEmailError(null)
+    setOrder(null)
+  }, [open])
 
   useEffect(() => {
     if (items.length === 0) return
@@ -506,6 +533,7 @@ function CheckoutForm({
 
       setOrder({ orderId: data.orderId, orderStatusUrl: data.orderStatusUrl })
       setStatus("success")
+      onConfirmed()
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.")
       setStatus("error")
@@ -543,7 +571,7 @@ function CheckoutForm({
               View Receipt
             </a>
           ) : null}
-          <Button variant="outline" className="w-full" onClick={onClose}>
+          <Button variant="outline" className="w-full" onClick={onComplete}>
             Done
           </Button>
         </div>
@@ -700,6 +728,9 @@ function CheckoutForm({
       {/* Card / payment details */}
       <div className="flex flex-col gap-2">
         <span className="text-sm font-medium">Payment</span>
+        <p className="text-xs text-muted-foreground">
+          Card or Link. A saved Link card can complete this without typing a number.
+        </p>
         <PaymentElement
           options={{
             fields: { billingDetails: { phone: "auto" } },

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { loadFeedOnly } from "@/lib/product-feed"
+import { stripeSellerName } from "@/lib/stripe-profiles"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -24,6 +25,15 @@ export async function GET() {
   }
   const sellerIds = Object.keys(perSeller)
 
+  // The name each seller's Stripe business profile reports, which is where the
+  // "Sold by" line gets its wording. Shown beside the resolved `sellerNames` so
+  // a merchant falling back to a brand (or to nothing) is distinguishable from
+  // one Stripe named, without reading the ingestion code to tell which happened.
+  const stripeProfileNames: Record<string, string | null> = {}
+  for (const id of sellerIds) {
+    stripeProfileNames[id] = await stripeSellerName(id)
+  }
+
   const sample = products.slice(0, 8).map((p) => ({
     id: p.id,
     name: p.name,
@@ -39,6 +49,7 @@ export async function GET() {
     sellerIds,
     perSeller,
     sellerNames,
+    stripeProfileNames,
     sample,
   })
 }

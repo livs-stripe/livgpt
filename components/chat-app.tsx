@@ -46,6 +46,7 @@ export function ChatApp() {
   // Checkout RequestedSession can only span one seller profile.
   const [cart, setCart] = useState<CartItem[]>([])
   const [checkoutOpen, setCheckoutOpen] = useState(false)
+  const [checkoutGeneration, setCheckoutGeneration] = useState(0)
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
 
   const cartCount = useMemo(
@@ -127,6 +128,7 @@ export function ChatApp() {
   // any cross-seller conflict entirely.
   const handleBuyNow = useCallback((product: ProductResult) => {
     setCart([{ product, quantity: 1 }])
+    setCheckoutGeneration((n) => n + 1)
     setCheckoutOpen(true)
   }, [])
 
@@ -150,6 +152,12 @@ export function ChatApp() {
   }
 
   function closeCheckout() {
+    setCheckoutOpen(false)
+    toast.dismiss()
+  }
+
+  function completeCheckout() {
+    setCart([])
     setCheckoutOpen(false)
     toast.dismiss()
   }
@@ -244,7 +252,9 @@ export function ChatApp() {
                 Shop with Stripe
               </span>
               <span className="truncate text-xs text-muted-foreground">
-                {active.title}
+                {active.title === "New chat"
+                  ? "Shop across stores, check out in chat"
+                  : active.title}
               </span>
             </div>
           </div>
@@ -288,12 +298,14 @@ export function ChatApp() {
       </main>
 
       <CheckoutPanel
+        key={checkoutGeneration}
         open={checkoutOpen}
         items={cart}
         theme={theme}
         onUpdateQty={setItemQty}
         onRemove={removeItem}
         onClose={closeCheckout}
+        onComplete={completeCheckout}
       />
     </div>
   )

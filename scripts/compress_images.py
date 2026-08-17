@@ -12,8 +12,8 @@ Idempotent. A file is only rewritten when it is not already a JPEG at or below
 the target edge, so re-running never recompresses (and never degrades) an
 already-processed image.
 
-By default only the three live-feed merchants are processed; the other four
-merchants' `image_link` values still end in `.png` and must keep their PNGs.
+By default only the one-image-per-product merchants are processed; the others
+still use `.png` `image_link` values and must keep their PNGs.
 
 Usage:
     python3 scripts/compress_images.py                  # the 3 live merchants
@@ -28,7 +28,12 @@ from PIL import Image
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMG_ROOT = os.path.join(ROOT, "public", "mock-catalog", "images")
 
-LIVE_MERCHANTS = ("harbor-and-home", "lumen-beauty", "northwind-apparel")
+LIVE_MERCHANTS = (
+    "harbor-and-home",
+    "lumen-beauty",
+    "northwind-apparel",
+    "voltedge-electronics",
+)
 MAX_EDGE = 800
 QUALITY = 82
 SRC_EXTS = (".png", ".webp", ".jpeg", ".jpg")

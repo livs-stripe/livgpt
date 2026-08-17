@@ -15,15 +15,17 @@ Elements, and Tailwind CSS + shadcn/ui.
    `ProductCard`.
 3. Clicking **Buy Now** calls `/api/checkout/create`, which opens a Delegated
    Checkout `RequestedSession`, and the `CheckoutPanel` bottom sheet slides up.
-4. The panel renders Stripe Elements (Express Checkout + Address + Payment).
+4. The panel renders Stripe Elements (Address + Payment, with Link and card).
    On confirm it prepares a PaymentMethod and calls `/api/checkout/confirm`.
 
 ## Architecture notes (important)
 
 1. **The agent (this app)** uses `STRIPE_SECRET_KEY` for the Delegated Checkout API.
 2. **The seller** is a separate Stripe account, identified by `SELLER_PROFILE_ID`.
-3. **Stripe Elements are initialized with the SELLER's publishable key**
-   (`NEXT_PUBLIC_SELLER_PUBLISHABLE_KEY`), **not** the agent's key.
+3. **Stripe Elements are initialized with the AGENT's publishable key**
+   (`NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`). At confirm time Stripe mints a
+   Shared Payment Token scoped to the seller, so no per-merchant publishable
+   key is needed.
 4. The `preparePaymentMethod` **beta flag is required** — Stripe.js is loaded with
    `betas: ['prepare_payment_method_beta_1']`.
 5. **Webhooks must be registered in the Stripe Dashboard** for both the agent and
@@ -55,6 +57,13 @@ Elements, and Tailwind CSS + shadcn/ui.
    ```bash
    stripe listen --forward-to localhost:3000/api/webhooks/agent
    ```
+9. **Merchant names are read from Stripe, not stored here.** A feed identifies its
+   seller only by profile id, so ingestion resolves the "Sold by" name from that
+   seller's Stripe business profile
+   (`GET /v2/network/business_profiles/{profile_id}`) — whatever the merchant
+   calls themselves in the Dashboard. `/api/debug/feed` reports the name resolved
+   per seller, and `/api/debug/version` reports this agent's own profile via the
+   `me` variant of the same endpoint.
 
 ## Environment variables
 
@@ -69,10 +78,10 @@ Copy `.env.local.example` to `.env.local` and fill in the values:
 | `STRIPE_WEBHOOK_SECRET` | Agent webhook signing secret |
 | `STRIPE_SELLER_WEBHOOK_SECRET` | Seller webhook signing secret (optional) |
 | `STRIPE_API_VERSION` | Must be `2026-04-22.preview` |
-| `SFTP_HOST` | SFTP endpoint Stripe delivers feeds to (the SFTPGo server in `sftp-server/`, deployed to Fly.io — use its dedicated IPv4). Any SFTP host works. |
+| `SFTP_HOST` | SFTP endpoint Stripe delivers feeds to, as registered under agent onboarding. Any SFTP host works; the demo uses an AWS Transfer Family server. |
 | `SFTP_PORT` | SFTP port (default `22`) |
-| `SFTP_USERNAME` | Read-only reader user on the SFTP host (the `app` user; `APP_SFTP_USERNAME`) |
-| `SFTP_PRIVATE_KEY` | Private key for the reader user (`sftp-server/app_key`, BEGIN/END included). Provide this **or** `SFTP_PASSWORD`. |
+| `SFTP_USERNAME` | Read-only reader user this app authenticates as on the SFTP host |
+| `SFTP_PRIVATE_KEY` | Private key for the reader user (BEGIN/END included). Provide this **or** `SFTP_PASSWORD`. |
 | `SFTP_PASSWORD` | Password for the reader user (alternative to `SFTP_PRIVATE_KEY`) |
 | `SFTP_PASSPHRASE` | Passphrase for `SFTP_PRIVATE_KEY`, only if the key is encrypted (optional) |
 | `SFTP_FEED_PATH` | Remote directory Stripe drops feeds into (default `/`, the SFTP root) |

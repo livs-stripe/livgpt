@@ -24,21 +24,22 @@ type ProductCardProps = {
 
 export function ProductCard({ product, onBuyNow }: ProductCardProps) {
   const [detailOpen, setDetailOpen] = useState(false)
+  const sellerName = sellerDisplayName(product)
 
   return (
     <>
-      <div className="flex h-full w-full flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm">
+      <div className="flex h-full w-full flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition-shadow hover:shadow-md">
         <button
           type="button"
           onClick={() => setDetailOpen(true)}
-          className="block aspect-[4/3] w-full overflow-hidden bg-muted text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="group block aspect-[4/3] w-full overflow-hidden bg-muted text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           aria-label={`View details for ${product.name}`}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={product.imageUrl || "/placeholder.svg"}
             alt={product.name}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
             onError={handleImageError}
           />
         </button>
@@ -59,6 +60,11 @@ export function ProductCard({ product, onBuyNow }: ProductCardProps) {
                 {formatPrice(product.price, product.currency)}
               </span>
             </div>
+            {sellerName ? (
+              <p className="mt-1 truncate text-xs text-muted-foreground">
+                {sellerName}
+              </p>
+            ) : null}
             <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
               {product.description}
             </p>

@@ -23,7 +23,7 @@ export type CatalogProduct = {
   category?: string
   /** Stripe seller profile id this product is purchased from. */
   sellerId?: string
-  /** Human-readable merchant name resolved from the feed, for display. */
+  /** The seller's Stripe business profile name, resolved at ingestion. */
   sellerName?: string
   available?: boolean
 }

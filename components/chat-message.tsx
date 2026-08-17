@@ -64,7 +64,7 @@ export function ChatMessage({ message, onBuyNow }: ChatMessageProps) {
             className="mt-3 w-full"
           >
             {products.map((p) => (
-              <div key={p.id} className="w-[240px] shrink-0 snap-start">
+              <div key={p.id} className="w-[256px] shrink-0 snap-start">
                 <ProductCard product={p} onBuyNow={onBuyNow} />
               </div>
             ))}

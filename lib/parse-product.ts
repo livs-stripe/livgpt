@@ -1,6 +1,5 @@
 import type { ProductResult } from "./types"
 import { CHECKOUT_SIGNAL } from "./checkout-signal"
-import { knownSellerName } from "./seller-names"
 
 const OPEN_TAG = "[PRODUCT_RESULT]"
 const CLOSE_TAG = "[/PRODUCT_RESULT]"
@@ -8,8 +7,8 @@ const CLOSE_TAG = "[/PRODUCT_RESULT]"
 const FOLLOW_UP_OPEN = "[FOLLOW_UPS]"
 const FOLLOW_UP_CLOSE = "[/FOLLOW_UPS]"
 
-/** Longest a suggested follow-up may be before it stops looking like a chip. */
-const MAX_FOLLOW_UP_CHARS = 40
+/** Longest a suggested follow-up may be before it stops looking like a reply. */
+const MAX_FOLLOW_UP_CHARS = 80
 const MAX_FOLLOW_UPS = 3
 
 /**
@@ -182,10 +181,10 @@ function isSlugWord(segment: string): boolean {
  * Derives a friendly merchant name from a *slug-style* catalog seller id,
  * e.g. "profile_harbor_and_home" -> "Harbor & Home".
  *
- * Returns null for a real Stripe seller profile id
- * ("profile_test_61V4rlJR6SOOGr86bA6V4rlIU4SQJK89xjP3m2SoKQrI"), which holds no
- * recoverable name: title-casing it produces an unreadable token. Feeds carry
- * the real name out of band instead (`ProductResult.sellerName`).
+ * Returns null for a real Stripe seller profile id ("profile_test_61V4rl..."),
+ * which holds no recoverable name: title-casing it produces an unreadable token.
+ * Those merchants are named by their Stripe business profile at ingestion time
+ * and carried through instead (`ProductResult.sellerName`).
  */
 export function sellerNameFromId(sellerId?: string): string | null {
   if (!sellerId) return null
@@ -201,10 +200,10 @@ export function sellerNameFromId(sellerId?: string): string | null {
 }
 
 /**
- * The merchant name to display for a product: the name the feed resolved and
- * carried through, else a known merchant for the seller id, else a name
- * recoverable from a slug-style id. Returns null when none of those hold, so
- * callers omit the attribution rather than render an opaque id.
+ * The merchant name to display for a product: the name ingestion resolved from
+ * the seller's Stripe profile and carried through, else a name recoverable from
+ * a slug-style id. Returns null when neither holds, so callers omit the
+ * attribution rather than render an opaque id.
  */
 export function sellerDisplayName(product?: {
   sellerId?: string
@@ -219,7 +218,7 @@ export function sellerDisplayName(product?: {
     /^profile[_-]/i.test(supplied) ||
     /[A-Za-z0-9]{16,}/.test(supplied)
   if (!looksLikeId) return supplied
-  return knownSellerName(product?.sellerId) ?? sellerNameFromId(product?.sellerId)
+  return sellerNameFromId(product?.sellerId)
 }
 
 /**

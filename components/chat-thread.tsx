@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useChat } from "@ai-sdk/react"
 import { DefaultChatTransport, type UIMessage } from "ai"
-import { ArrowUp, Loader2, ShoppingBag, AlertCircle } from "lucide-react"
+import { ArrowUp, Bot, Loader2, ShoppingBag, AlertCircle } from "lucide-react"
 import useSWR from "swr"
 import { Button } from "@/components/ui/button"
 import { ChatMessage } from "@/components/chat-message"
@@ -240,7 +240,7 @@ export function ChatThread({
               </div>
               {feedEmpty && feedNotice ? (
                 <div
-                  className={`flex max-w-md items-start gap-2 rounded-lg border px-3 py-2.5 text-left text-sm ${
+                  className={`flex max-w-md items-start gap-2 rounded-2xl border px-4 py-3 text-left text-sm ${
                     feedNotice.tone === "error"
                       ? "border-destructive/40 bg-destructive/10 text-destructive"
                       : "border-border bg-card text-muted-foreground"
@@ -254,8 +254,9 @@ export function ChatThread({
                   {suggestions.map((s) => (
                     <button
                       key={s}
+                      type="button"
                       onClick={() => submit(s)}
-                      className="rounded-lg border border-border bg-card px-3 py-2.5 text-left text-sm text-card-foreground transition-colors hover:bg-muted"
+                      className="rounded-2xl bg-muted px-4 py-2.5 text-left text-sm leading-snug text-foreground transition-colors hover:bg-muted/80"
                     >
                       {s}
                     </button>
@@ -272,12 +273,13 @@ export function ChatThread({
           )}
 
           {!isLoading && followUps.length > 0 ? (
-            <div className="mt-3 flex flex-wrap gap-2 pl-11">
+            <div className="mt-1 flex w-full min-w-0 flex-col items-stretch gap-2 pl-11 sm:items-start">
               {followUps.map((f) => (
                 <button
                   key={f}
+                  type="button"
                   onClick={() => submit(f)}
-                  className="rounded-full border border-border bg-card px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  className="w-full max-w-full rounded-2xl bg-muted px-4 py-2.5 text-left text-sm leading-snug text-foreground transition-colors hover:bg-muted/80 sm:w-auto"
                 >
                   {f}
                 </button>
@@ -286,9 +288,16 @@ export function ChatThread({
           ) : null}
 
           {status === "submitted" ? (
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Loader2 className="size-4 animate-spin" />
-              Thinking...
+            <div className="flex gap-3">
+              <div
+                className="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-foreground"
+                aria-hidden="true"
+              >
+                <Bot className="size-4" />
+              </div>
+              <div className="rounded-2xl rounded-tl-sm bg-muted px-4 py-2.5 text-sm text-muted-foreground">
+                Finding options…
+              </div>
             </div>
           ) : null}
         </div>
@@ -313,12 +322,24 @@ export function ChatThread({
           }}
           className="mx-auto flex w-full max-w-2xl items-end gap-2 px-4 py-4"
         >
-          <div className="flex flex-1 items-center rounded-2xl border border-border bg-card px-4 py-1 focus-within:ring-2 focus-within:ring-ring">
-            <input
+          <div className="flex flex-1 items-end rounded-2xl border border-border bg-card px-4 py-1 focus-within:ring-2 focus-within:ring-ring">
+            <textarea
               value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask the shopping assistant…"
-              className="flex-1 bg-transparent py-2.5 text-sm outline-none placeholder:text-muted-foreground"
+              rows={1}
+              onChange={(e) => {
+                setInput(e.target.value)
+                const el = e.currentTarget
+                el.style.height = "auto"
+                el.style.height = `${Math.min(el.scrollHeight, 144)}px`
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault()
+                  submit(input)
+                }
+              }}
+              placeholder="Ask for a gift, a budget, or a store…"
+              className="max-h-36 min-h-11 w-full resize-none bg-transparent py-2.5 text-sm leading-snug outline-none placeholder:text-muted-foreground"
               aria-label="Ask the shopping assistant"
             />
           </div>

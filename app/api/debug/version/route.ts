@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { STRIPE_API_VERSION, stripeFetch } from "@/lib/stripe-server"
+import { agentNetworkProfile } from "@/lib/stripe-profiles"
 
 export const dynamic = "force-dynamic"
 
@@ -8,7 +9,8 @@ export const dynamic = "force-dynamic"
 // LLM provider path the chat route will take, which sensitive env vars are
 // present (booleans only, never values), and the live Stripe *account id* the
 // deployed secret key belongs to (so we can confirm which agent account is
-// actually in use). The account id is an `acct_...` identifier, not a secret.
+// actually in use), plus that account's network profile id and name. Neither the
+// `acct_...` nor the `profile_...` identifier is a secret.
 
 /** Mirrors the provider precedence in `app/api/chat/route.ts`. */
 function llmProvider(): "openai" | "litellm" | "ai-gateway" {
@@ -36,6 +38,10 @@ export async function GET() {
     }
   }
 
+  // This agent's own network business profile: the id and name sellers see when
+  // they connect to us, which is a different identifier from the account id.
+  const profile = process.env.STRIPE_SECRET_KEY ? await agentNetworkProfile() : null
+
   return NextResponse.json({
     effectiveStripeApiVersion: STRIPE_API_VERSION,
     envOverrideSet: Boolean(process.env.STRIPE_API_VERSION),
@@ -50,6 +56,8 @@ export async function GET() {
     liteLlmKeyOverrideSet: Boolean(process.env.LITELLM_API_KEY),
     stripeAccountId,
     accountError,
+    agentProfileId: profile?.id ?? null,
+    agentProfileName: profile?.display_name ?? null,
     commit: process.env.VERCEL_GIT_COMMIT_SHA ?? null,
   })
 }

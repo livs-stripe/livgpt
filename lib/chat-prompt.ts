@@ -147,9 +147,9 @@ Your text comes first, then one block per product back to back, with nothing bet
 
 FOLLOW-UPS
 On a turn type 2 only, finish with a single block of 2 or 3 tappable follow-ups, after the product blocks:
-[FOLLOW_UPS]Something for night-time too | Fragrance-free options | Under $30 instead[/FOLLOW_UPS]
-- Write them for THIS turn. They are the next things this shopper would plausibly say about these products, e.g. after kitchen picks "Just the essentials", "Add a matching set", "Something that suits oak".
-- Under five words each, in the shopper's voice, not yours. Separate them with "|".
+[FOLLOW_UPS]Show me something for night-time too | Any fragrance-free options? | What do you have under $30?[/FOLLOW_UPS]
+- Write them for THIS turn as the next message this shopper would send, in their voice, like a ChatGPT suggested reply. After kitchen picks: "Just the essentials for me" | "Can you add a matching set?" | "Anything that would suit oak?"
+- One short sentence or question each, under 12 words. Separate them with "|".
 - Never offer one you have already offered earlier in this conversation, and never a generic set. If nothing specific comes to mind, leave the block out entirely.
 - Turn types 1, 3, 4 and 5 emit no follow-ups block.
 ${hasProducts ? "" : "- The stores have no products available right now. Say warmly and briefly that the catalog is still syncing and you cannot show anything yet, ask them to check back shortly, and emit NO [PRODUCT_RESULT] blocks and no follow-ups. Never name, recall, invent, or guess a product, price, store, or id from anywhere else.\n"}

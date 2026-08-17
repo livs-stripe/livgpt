@@ -4,17 +4,14 @@
 Reads:  mock-catalog/image-spec.json
 Writes: scripts/image-jobs/slice-<i>-of-<n>.json   (+ index.json)
 
-Only the merchants with one-image-per-product are emitted (the three the live
-SFTP feed serves). The other four still share per-subcategory photos that
-already exist on disk, so they need no generation work.
-
-Each slice is self-contained: a worker takes one file and needs no coordination
-with any other worker. Slices are round-robin by merchant so every worker gets a
-mix of brands rather than one worker owning a whole merchant -- that way a single
-slow or failed worker does not leave one merchant entirely unillustrated.
+Only merchants with one-image-per-product are emitted by default. Pass
+`--merchant <slug>` to emit just that merchant, and `--keep` to leave existing
+slice files in place (so a new merchant can be added without wiping completed
+jobs).
 
 Usage:
     python3 scripts/build_image_jobs.py [n_slices]      # default 6
+    python3 scripts/build_image_jobs.py 8 --merchant voltedge-electronics --keep
 """
 import json
 import os
@@ -26,19 +23,38 @@ OUT_DIR = os.path.join(ROOT, "scripts", "image-jobs")
 
 
 def main():
-    n = int(sys.argv[1]) if len(sys.argv) > 1 else 6
+    args = sys.argv[1:]
+    keep = "--keep" in args
+    merchant = None
+    if "--merchant" in args:
+        i = args.index("--merchant")
+        if i + 1 >= len(args):
+            raise SystemExit("--merchant requires a slug")
+        merchant = args[i + 1]
+    n = 6
+    for a in args:
+        if a.isdigit():
+            n = int(a)
+            break
+
     specs = json.load(open(SPEC))
     jobs = [s for s in specs if "product_id" in s]
+    if merchant:
+        jobs = [j for j in jobs if j["merchant"] == merchant]
+        if not jobs:
+            raise SystemExit(f"no per-product image jobs for merchant {merchant}")
 
     filenames = [j["filename"] for j in jobs]
     if len(set(filenames)) != len(filenames):
         raise SystemExit("filenames are not unique; refusing to write job slices")
 
     os.makedirs(OUT_DIR, exist_ok=True)
-    for stale in os.listdir(OUT_DIR):
-        if stale.endswith(".json"):
-            os.remove(os.path.join(OUT_DIR, stale))
+    if not keep:
+        for stale in os.listdir(OUT_DIR):
+            if stale.endswith(".json"):
+                os.remove(os.path.join(OUT_DIR, stale))
 
+    prefix = f"{merchant}-" if merchant else ""
     slices = [[] for _ in range(n)]
     for i, j in enumerate(jobs):
         slices[i % n].append({
@@ -52,7 +68,7 @@ def main():
 
     index = []
     for i, chunk in enumerate(slices, start=1):
-        name = f"slice-{i}-of-{n}.json"
+        name = f"{prefix}slice-{i}-of-{n}.json"
         with open(os.path.join(OUT_DIR, name), "w") as f:
             json.dump({
                 "slice": i,
@@ -74,8 +90,9 @@ def main():
         index.append({"file": name, "count": len(chunk)})
         print(f"{name}: {len(chunk)} jobs")
 
-    with open(os.path.join(OUT_DIR, "index.json"), "w") as f:
-        json.dump({"total_jobs": len(jobs), "slices": index}, f, indent=2)
+    index_name = f"{prefix}index.json" if merchant else "index.json"
+    with open(os.path.join(OUT_DIR, index_name), "w") as f:
+        json.dump({"total_jobs": len(jobs), "merchant": merchant, "slices": index}, f, indent=2)
 
     by_merchant = {}
     for j in jobs:

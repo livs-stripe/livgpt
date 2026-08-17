@@ -13,14 +13,13 @@ Checks, per merchant:
   - image_link absolute against the expected host, and unique per product
   - referenced image files exist on disk
   - no residual colour claims in title / color / description
-  - cosmetic: out_of_stock rows carrying positive inventory_quantity
+  - every row is `in_stock` with a positive inventory_quantity
 
-Exits non-zero if any hard check fails. Cosmetic findings are reported but do
-not fail the run.
+Exits non-zero if any hard check fails.
 
 Usage:
-    python3 scripts/validate_feeds.py                        # live 3, 250 rows
-    python3 scripts/validate_feeds.py --rows 150 summit-outdoors
+    python3 scripts/validate_feeds.py                        # live merchants
+    python3 scripts/validate_feeds.py --rows 200 voltedge-electronics
     python3 scripts/validate_feeds.py --check-urls           # also HTTP 200
 """
 import csv
@@ -33,7 +32,12 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from generate_feed_csvs import TEMPLATE_HEADER  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LIVE_MERCHANTS = ["harbor-and-home", "lumen-beauty", "northwind-apparel"]
+LIVE_MERCHANTS = {
+    "harbor-and-home": 250,
+    "lumen-beauty": 250,
+    "northwind-apparel": 250,
+    "voltedge-electronics": 200,
+}
 IMAGE_HOST = "https://livgpt.vercel.app"
 
 REQUIRED = [
@@ -103,7 +107,8 @@ def check(slug: str, rows_expected: int, check_urls: bool):
     missing_files, wrong_dir, bad_price, bad_sale, bad_avail, bad_gender = [], [], [], [], [], []
     too_long = Counter()
     colour_claims = []
-    stock_mismatch = 0
+    oos_ids = []
+    zero_qty = []
 
     for r in rows:
         for c in REQUIRED:
@@ -153,9 +158,11 @@ def check(slug: str, rows_expected: int, check_urls: bool):
         if shown and shown.group(1) != claimed:
             colour_claims.append(f"{r['id']}:description-says-{shown.group(1)}-not-{claimed or 'blank'}")
 
-        if r["availability"] == "out_of_stock" and (r["inventory_quantity"] or "0").isdigit() \
-                and int(r["inventory_quantity"] or 0) > 0:
-            stock_mismatch += 1
+        if r["availability"] != "in_stock":
+            oos_ids.append(r["id"])
+        qty = r.get("inventory_quantity") or "0"
+        if qty.isdigit() and int(qty) <= 0:
+            zero_qty.append(r["id"])
 
     for c, n in blanks.items():
         errors.append(f"{n} rows blank in required column `{c}`")
@@ -178,8 +185,10 @@ def check(slug: str, rows_expected: int, check_urls: bool):
         )
     if colour_claims:
         errors.append(f"{len(colour_claims)} colour-claim problems, e.g. {colour_claims[:3]}")
-    if stock_mismatch:
-        warns.append(f"{stock_mismatch} out_of_stock rows carry positive inventory_quantity (cosmetic)")
+    if oos_ids:
+        errors.append(f"{len(oos_ids)} rows are not in_stock, e.g. {oos_ids[:3]}")
+    if zero_qty:
+        errors.append(f"{len(zero_qty)} rows have non-positive inventory_quantity, e.g. {zero_qty[:3]}")
 
     if check_urls:
         import urllib.request
@@ -198,15 +207,20 @@ def check(slug: str, rows_expected: int, check_urls: bool):
 
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    rows_expected = 250
+    rows_override = None
     if "--rows" in sys.argv:
-        rows_expected = int(sys.argv[sys.argv.index("--rows") + 1])
-        args = [a for a in args if a != str(rows_expected)]
+        rows_override = int(sys.argv[sys.argv.index("--rows") + 1])
+        args = [a for a in args if a != str(rows_override)]
     check_urls = "--check-urls" in sys.argv
-    slugs = args or LIVE_MERCHANTS
+    slugs = args or list(LIVE_MERCHANTS)
 
     all_imgs, failed = [], []
     for slug in slugs:
+        rows_expected = (
+            rows_override
+            if rows_override is not None
+            else LIVE_MERCHANTS.get(slug, 150)
+        )
         errors, warns, n, n_ids, n_imgs = check(slug, rows_expected, check_urls)
         status = "PASS" if not errors else "FAIL"
         print(f"\n=== {slug}: {status}  ({n} rows, {n_ids} unique ids, {n_imgs} unique image_links)")
