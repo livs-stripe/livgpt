@@ -48,10 +48,10 @@ export function ProductCard({ product, onBuyNow }: ProductCardProps) {
             <div className="flex items-start justify-between gap-2">
               {/* Clamped so a long feed title cannot push a card in the rail to
                   four lines and knock the row out of alignment. */}
-              <h3 className="line-clamp-2 font-semibold leading-tight text-pretty">
+              <h3 className="line-clamp-2 text-[17px] font-semibold leading-snug text-pretty">
                 {product.name}
               </h3>
-              <span className="shrink-0 text-base font-bold text-emerald-500">
+              <span className="shrink-0 text-lg font-bold text-emerald-500">
                 {formatPrice(product.price, product.currency)}
               </span>
             </div>
@@ -60,7 +60,7 @@ export function ProductCard({ product, onBuyNow }: ProductCardProps) {
                 {sellerName}
               </p>
             ) : null}
-            <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-2 line-clamp-2 text-[15px] leading-relaxed text-muted-foreground">
               {product.description}
             </p>
           </button>

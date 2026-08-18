@@ -33,23 +33,23 @@ export function ChatMessage({ message, onBuyNow }: ChatMessageProps) {
   return (
     <div className={`flex w-full gap-3 ${isUser ? "flex-row-reverse" : "flex-row"}`}>
       <div
-        className={`flex size-8 shrink-0 items-center justify-center rounded-full ${
+        className={`flex size-10 shrink-0 items-center justify-center rounded-full ${
           isUser ? "bg-blue-600 text-white" : "bg-muted text-foreground"
         }`}
         aria-hidden="true"
       >
-        {isUser ? <User className="size-4" /> : <Bot className="size-4" />}
+        {isUser ? <User className="size-5" /> : <Bot className="size-5" />}
       </div>
       {/* Assistant turns take the full column so the product rail can show a
-          card and a half of the next one; user bubbles stay narrow. */}
+          card and a half of the next one; user bubbles stay readable. */}
       <div
         className={`flex min-w-0 flex-col ${
-          isUser ? "max-w-[80%] items-end" : "w-full items-start"
+          isUser ? "max-w-[min(40rem,88%)] items-end" : "w-full items-start"
         }`}
       >
         {displayText ? (
           <div
-            className={`whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+            className={`whitespace-pre-wrap rounded-2xl px-5 py-3.5 text-base leading-7 ${
               isUser
                 ? "rounded-tr-sm bg-blue-600 text-white"
                 : "rounded-tl-sm bg-muted text-foreground"
@@ -61,10 +61,10 @@ export function ChatMessage({ message, onBuyNow }: ChatMessageProps) {
         {products.length > 0 ? (
           <Carousel
             label={`${products.length} product${products.length === 1 ? "" : "s"} to browse`}
-            className="mt-3 w-full"
+            className="mt-4 w-full"
           >
             {products.map((p) => (
-              <div key={p.id} className="w-[256px] shrink-0 snap-start">
+              <div key={p.id} className="w-[300px] shrink-0 snap-start">
                 <ProductCard product={p} onBuyNow={onBuyNow} />
               </div>
             ))}

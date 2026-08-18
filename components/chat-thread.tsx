@@ -223,40 +223,40 @@ export function ChatThread({
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col">
       <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
-        <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-4 py-6">
+        <div className="mx-auto flex w-full max-w-5xl flex-col gap-5 px-6 py-5 sm:px-8">
           {messages.length === 0 ? (
-            <div className="flex flex-col items-center gap-6 py-16 text-center">
-              <div className="flex size-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
-                <ShoppingBag className="size-7" />
+            <div className="flex flex-col items-center gap-6 py-10 text-center sm:py-14">
+              <div className="flex size-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
+                <ShoppingBag className="size-8" />
               </div>
-              <div className="space-y-1">
-                <h1 className="text-2xl font-semibold text-balance">
+              <div className="space-y-2">
+                <h1 className="text-3xl font-semibold tracking-tight text-balance">
                   What are you shopping for?
                 </h1>
-                <p className="text-sm text-muted-foreground text-pretty">
+                <p className="text-base text-muted-foreground text-pretty">
                   Tell me what you&apos;re after and I&apos;ll pull options from the
                   stores I can shop, then help you check out.
                 </p>
               </div>
               {feedEmpty && feedNotice ? (
                 <div
-                  className={`flex max-w-md items-start gap-2 rounded-2xl border px-4 py-3 text-left text-sm ${
+                  className={`flex w-full max-w-xl items-start gap-3 rounded-2xl border px-5 py-4 text-left text-base ${
                     feedNotice.tone === "error"
                       ? "border-destructive/40 bg-destructive/10 text-destructive"
                       : "border-border bg-card text-muted-foreground"
                   }`}
                 >
-                  <AlertCircle className="mt-0.5 size-4 shrink-0" />
+                  <AlertCircle className="mt-0.5 size-5 shrink-0" />
                   <span>{feedNotice.message}</span>
                 </div>
               ) : (
-                <div className="flex w-full max-w-md flex-col gap-2">
+                <div className="flex w-full max-w-xl flex-col gap-2.5">
                   {suggestions.map((s) => (
                     <button
                       key={s}
                       type="button"
                       onClick={() => submit(s)}
-                      className="rounded-2xl bg-muted px-4 py-2.5 text-left text-sm leading-snug text-foreground transition-colors hover:bg-muted/80"
+                      className="rounded-2xl bg-muted px-5 py-3.5 text-left text-base leading-snug text-foreground transition-colors hover:bg-muted/80"
                     >
                       {s}
                     </button>
@@ -273,13 +273,13 @@ export function ChatThread({
           )}
 
           {!isLoading && followUps.length > 0 ? (
-            <div className="mt-1 flex w-full min-w-0 flex-col items-stretch gap-2 pl-11 sm:items-start">
+            <div className="mt-1 flex w-full min-w-0 flex-col items-stretch gap-2.5 pl-[52px] sm:items-start">
               {followUps.map((f) => (
                 <button
                   key={f}
                   type="button"
                   onClick={() => submit(f)}
-                  className="w-full max-w-full rounded-2xl bg-muted px-4 py-2.5 text-left text-sm leading-snug text-foreground transition-colors hover:bg-muted/80 sm:w-auto"
+                  className="w-full max-w-full rounded-2xl bg-muted px-5 py-3 text-left text-base leading-snug text-foreground transition-colors hover:bg-muted/80 sm:w-auto"
                 >
                   {f}
                 </button>
@@ -290,12 +290,12 @@ export function ChatThread({
           {status === "submitted" ? (
             <div className="flex gap-3">
               <div
-                className="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-foreground"
+                className="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-foreground"
                 aria-hidden="true"
               >
-                <Bot className="size-4" />
+                <Bot className="size-5" />
               </div>
-              <div className="rounded-2xl rounded-tl-sm bg-muted px-4 py-2.5 text-sm text-muted-foreground">
+              <div className="rounded-2xl rounded-tl-sm bg-muted px-5 py-3 text-base text-muted-foreground">
                 Finding options…
               </div>
             </div>
@@ -305,8 +305,8 @@ export function ChatThread({
 
       <div className="border-t border-border bg-background/80 backdrop-blur">
         {error ? (
-          <div className="mx-auto flex w-full max-w-2xl items-start gap-2 px-4 pt-3">
-            <div className="flex flex-1 items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+          <div className="mx-auto flex w-full max-w-5xl items-start gap-2 px-6 pt-4 sm:px-8">
+            <div className="flex flex-1 items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/10 px-4 py-3 text-base text-destructive">
               <AlertCircle className="mt-0.5 size-4 shrink-0" />
               <span>
                 Something went wrong generating a response. Please try sending
@@ -320,9 +320,9 @@ export function ChatThread({
             e.preventDefault()
             submit(input)
           }}
-          className="mx-auto flex w-full max-w-2xl items-end gap-2 px-4 py-4"
+          className="mx-auto flex w-full max-w-5xl items-end gap-3 px-6 py-5 sm:px-8"
         >
-          <div className="flex flex-1 items-end rounded-2xl border border-border bg-card px-4 py-1 focus-within:ring-2 focus-within:ring-ring">
+          <div className="flex flex-1 items-end rounded-3xl border border-border bg-card px-5 py-1.5 focus-within:ring-2 focus-within:ring-ring">
             <textarea
               value={input}
               rows={1}
@@ -330,7 +330,7 @@ export function ChatThread({
                 setInput(e.target.value)
                 const el = e.currentTarget
                 el.style.height = "auto"
-                el.style.height = `${Math.min(el.scrollHeight, 144)}px`
+                el.style.height = `${Math.min(el.scrollHeight, 168)}px`
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
@@ -339,7 +339,7 @@ export function ChatThread({
                 }
               }}
               placeholder="Ask for a gift, a budget, or a store…"
-              className="max-h-36 min-h-11 w-full resize-none bg-transparent py-2.5 text-sm leading-snug outline-none placeholder:text-muted-foreground"
+              className="max-h-40 min-h-12 w-full resize-none bg-transparent py-3 text-base leading-snug outline-none placeholder:text-muted-foreground"
               aria-label="Ask the shopping assistant"
             />
           </div>
@@ -347,7 +347,7 @@ export function ChatThread({
             type="submit"
             size="icon"
             disabled={!input.trim() || isLoading}
-            className="size-11 shrink-0 rounded-full"
+            className="size-12 shrink-0 rounded-full"
             aria-label="Send message"
           >
             {isLoading ? (

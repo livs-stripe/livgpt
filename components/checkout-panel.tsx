@@ -90,6 +90,7 @@ type CheckoutPanelProps = {
   onRemove: (productId: string) => void
   onClose: () => void
   onComplete: () => void
+  onPurchaseSuccess?: () => void
 }
 
 export function CheckoutPanel({
@@ -100,6 +101,7 @@ export function CheckoutPanel({
   onRemove,
   onClose,
   onComplete,
+  onPurchaseSuccess,
 }: CheckoutPanelProps) {
   const stripe = getStripePromise(AGENT_PUBLISHABLE_KEY)
   const [orderComplete, setOrderComplete] = useState(false)
@@ -205,7 +207,10 @@ export function CheckoutPanel({
                   onUpdateQty={onUpdateQty}
                   onRemove={onRemove}
                   onComplete={onComplete}
-                  onConfirmed={() => setOrderComplete(true)}
+                  onConfirmed={() => {
+                    setOrderComplete(true)
+                    onPurchaseSuccess?.()
+                  }}
                 />
               </Elements>
             ) : (

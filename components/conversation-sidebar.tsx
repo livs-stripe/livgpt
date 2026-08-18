@@ -22,39 +22,39 @@ export function ConversationSidebar({
   onDelete,
 }: SidebarProps) {
   return (
-    <aside className="flex h-full w-72 shrink-0 flex-col border-r border-border bg-sidebar text-sidebar-foreground">
-      <div className="flex items-center gap-2 px-4 py-4">
-        <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-          <Sparkles className="size-4" />
+    <aside className="flex h-full w-80 shrink-0 flex-col border-r border-border bg-sidebar text-sidebar-foreground">
+      <div className="flex items-center gap-3 px-4 py-5">
+        <div className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+          <Sparkles className="size-5" />
         </div>
         <div className="flex flex-col leading-tight">
-          <span className="flex items-center gap-2 text-sm font-semibold">
+          <span className="flex items-center gap-2 text-base font-semibold">
             Shop with Stripe
           </span>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-sm text-muted-foreground">
             AI shopping assistant
           </span>
         </div>
       </div>
 
-      <div className="px-3 pb-2">
-        <Button onClick={onNew} variant="secondary" className="w-full justify-start">
+      <div className="px-3 pb-3">
+        <Button onClick={onNew} variant="secondary" className="h-10 w-full justify-start text-base">
           <MessageSquarePlus className="size-4" />
           New chat
         </Button>
       </div>
 
       <ScrollArea className="flex-1 px-2">
-        <div className="flex flex-col gap-1 py-2">
+        <div className="flex flex-col gap-0.5 py-1">
           {conversations.length === 0 ? (
-            <p className="px-3 py-6 text-center text-xs text-muted-foreground">
+            <p className="px-3 py-6 text-center text-sm text-muted-foreground">
               No conversations yet.
             </p>
           ) : (
             conversations.map((c) => (
               <div
                 key={c.id}
-                className={`group flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
+                className={`group flex items-center gap-2 rounded-lg px-3 py-2.5 text-[15px] leading-snug transition-colors ${
                   c.id === activeId
                     ? "bg-sidebar-accent text-sidebar-accent-foreground"
                     : "hover:bg-sidebar-accent/50"
@@ -80,10 +80,10 @@ export function ConversationSidebar({
       </ScrollArea>
 
       <div className="border-t border-sidebar-border px-4 py-3">
-        <p className="text-[11px] leading-relaxed text-muted-foreground">
+        <p className="text-xs leading-relaxed text-muted-foreground">
           Powered by Stripe Agentic Commerce
         </p>
-        <nav className="mt-2 flex items-center gap-2 text-[11px] text-muted-foreground">
+        <nav className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
           <Link
             href="/privacy"
             className="transition-colors hover:text-foreground hover:underline underline-offset-2"

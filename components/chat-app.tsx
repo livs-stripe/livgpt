@@ -7,6 +7,7 @@ import { toast } from "sonner"
 import { ConversationSidebar } from "@/components/conversation-sidebar"
 import { ChatThread } from "@/components/chat-thread"
 import { CheckoutPanel } from "@/components/checkout-panel"
+import { ConfettiBurst } from "@/components/confetti-burst"
 import { Button } from "@/components/ui/button"
 import { formatPrice } from "@/lib/parse-product"
 import type { CartItem, Conversation, ProductResult } from "@/lib/types"
@@ -48,6 +49,7 @@ export function ChatApp() {
   const [checkoutOpen, setCheckoutOpen] = useState(false)
   const [checkoutGeneration, setCheckoutGeneration] = useState(0)
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
+  const [confettiKey, setConfettiKey] = useState(0)
 
   const cartCount = useMemo(
     () => cart.reduce((n, item) => n + item.quantity, 0),
@@ -97,7 +99,7 @@ export function ChatApp() {
         if (c.id !== id) return c
         const title =
           c.title === "New chat"
-            ? firstUserText(messages)?.slice(0, 40) || c.title
+            ? firstUserText(messages)?.slice(0, 72) || c.title
             : c.title
         return { ...c, messages, title, updatedAt: Date.now() }
       }),
@@ -233,8 +235,8 @@ export function ChatApp() {
       </div>
 
       <main className="flex h-full min-h-0 flex-1 flex-col">
-        <header className="flex items-center justify-between border-b border-border px-4 py-3">
-          <div className="flex items-center gap-2">
+        <header className="flex items-center justify-between border-b border-border px-5 py-3.5">
+          <div className="flex min-w-0 items-center gap-3">
             <Button
               variant="ghost"
               size="icon"
@@ -244,14 +246,14 @@ export function ChatApp() {
             >
               <Menu className="size-5" />
             </Button>
-            <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <div className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <Sparkles className="size-4" />
             </div>
-            <div className="flex flex-col leading-tight">
-              <span className="flex items-center gap-2 text-sm font-semibold">
+            <div className="flex min-w-0 flex-col leading-tight">
+              <span className="flex items-center gap-2 text-base font-semibold">
                 Shop with Stripe
               </span>
-              <span className="truncate text-xs text-muted-foreground">
+              <span className="truncate text-sm text-muted-foreground">
                 {active.title === "New chat"
                   ? "Shop across stores, check out in chat"
                   : active.title}
@@ -297,6 +299,8 @@ export function ChatApp() {
         />
       </main>
 
+      {confettiKey > 0 ? <ConfettiBurst key={confettiKey} /> : null}
+
       <CheckoutPanel
         key={checkoutGeneration}
         open={checkoutOpen}
@@ -306,6 +310,7 @@ export function ChatApp() {
         onRemove={removeItem}
         onClose={closeCheckout}
         onComplete={completeCheckout}
+        onPurchaseSuccess={() => setConfettiKey((n) => n + 1)}
       />
     </div>
   )
